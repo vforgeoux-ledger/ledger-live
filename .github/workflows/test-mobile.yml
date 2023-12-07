@@ -67,6 +67,14 @@ jobs:
         run: pnpm typecheck --filter="live-mobile" --api="http://127.0.0.1:${{ steps.turborepo-cache-server.outputs.port }}" --token="yolo" --team="foo"
       - name: Run unit tests
         run: pnpm mobile test
+      - name: scan ledger-live-mobile
+        if: ${{ hashFiles('apps/ledger-live-mobile/coverage/lcov.info') != '' }}
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          projectBaseDir: ./apps/ledger-live-mobile
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_LEDGER_LIVE_COMMON }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       - uses: actions/upload-artifact@v3
         name: upload eslint json output
         if: always()
