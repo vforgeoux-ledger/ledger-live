@@ -137,7 +137,7 @@ jobs:
           ram-size: 8192M
           disable-linux-hw-accel: false
           emulator-options: -read-only -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          script: adb logcat -c && pnpm mobile e2e:test -c android.emu.release dexSwap deeplink --loglevel error --record-logs all --take-screenshots all --forceExit --headless --retries 1 && (adb logcat -d > apps/ledger-live-mobile/artifacts/adblogs.txt)
+          script: /usr/local/lib/android/sdk/platform-tools/adb logcat -c && pnpm mobile e2e:test -c android.emu.release dexSwap deeplink --loglevel error --record-logs all --take-screenshots all --forceExit --headless --retries 1 && (  /usr/local/lib/android/sdk/platform-tools/adb logcat -d > apps/ledger-live-mobile/artifacts/adblogs.txt)
       - name: Upload test artifacts
         if: always()
         uses: actions/upload-artifact@v3
