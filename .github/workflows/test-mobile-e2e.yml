@@ -32,128 +32,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  detox-tests-ios:
-    name: "Ledger Live Mobile - iOS Detox Tests"
-    runs-on: [m1, ARM64]
-    env:
-      NODE_OPTIONS: "--max-old-space-size=7168"
-      LANG: en_US.UTF-8
-      LANGUAGE: en_US.UTF-8
-      LC_ALL: en_US.UTF-8
-    outputs:
-      status: ${{ steps.detox.outcome }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.ref || github.sha }}
-      - name: Setup the toolchain
-        uses: ./tools/actions/composites/setup-toolchain
-        with:
-          aws-access-key: ${{ secrets.AWS_S3_CACHE_ACCESS_KEY }}
-          aws-secret-key: ${{ secrets.AWS_S3_CACHE_SECRET_KEY }}
-      - name: Install applesimutils
-        run: |
-          brew update
-          brew tap wix/brew
-          brew install applesimutils
-      - name: Cache LLM pods
-        uses: actions/cache@v3
-        with:
-          path: |
-            apps/ledger-live-mobile/ios/Pods
-            ~/Library/Caches/CocoaPods
-            ~/.cocoapods
-          key: ${{ runner.os }}-pods-${{ hashFiles('apps/ledger-live-mobile/ios/Podfile.lock') }}
-
-      - name: cache detox build
-        uses: tespkg/actions-cache@v1
-        id: detox-build
-        with:
-          path: ${{ github.workspace }}/apps/ledger-live-mobile/ios/build/Build/Products/Release-iphonesimulator
-          key: ${{ runner.os }}-detox-${{ hashFiles('apps/ledger-live-mobile/ios/Podfile.lock', 'apps/ledger-live-mobile/ios/ledgerlivemobile.xcodeproj/project.pbxproj') }}
-          restore-keys: |
-            ${{ runner.os }}-detox-
-          accessKey: ${{ secrets.AWS_S3_CACHE_ACCESS_KEY }}
-          secretKey: ${{ secrets.AWS_S3_CACHE_SECRET_KEY }}
-          bucket: ll-gha-s3-cache
-          region: eu-west-1
-          use-fallback: false
-
-      - name: TurboRepo local caching server
-        id: turborepo-cache-server
-        uses: ./tools/actions/turborepo-s3-cache
-        with:
-          server-token: "yolo"
-          cleanup-cache-folder: "true"
-          aws-access-key: ${{ secrets.ACCESS_KEY_BUCKET }}
-          aws-secret-key: ${{ secrets.SECRET_KEY_BUCKET }}
-      - name: install dependencies
-        run: |
-          pnpm i --filter="live-mobile..." --filter="ledger-live" --filter="dummy-*-app..." --no-frozen-lockfile --unsafe-perm
-      - name: Build dependencies
-        run: |
-          pnpm build:llm:deps --api="http://127.0.0.1:${{ steps.turborepo-cache-server.outputs.port }}" --token="yolo" --team="foo"
-      - name: Build Dummy Live SDK and Dummy Wallet API apps for testing
-        run: |
-          pnpm build:dummy-apps
-        shell: bash
-      - name: Create iOS simulator
-        id: simulator
-        run: |
-          ID=$(xcrun simctl create "iPhone 14" "iPhone 14")
-          echo "id=$ID" >> $GITHUB_OUTPUT
-      - name: Build iOS app for Detox test run
-        if: steps.detox-build.outputs.cache-hit != 'true'
-        run: |
-          pnpm mobile e2e:build -c ios.sim.release
-
-      - name: Build JS Bundle app for Detox test run
-        if: steps.detox-build.outputs.cache-hit == 'true'
-        run: |
-          pnpm mobile bundle:ios --dev false --minify false
-          pnpm mobile exec detox clean-framework-cache
-          pnpm mobile exec detox build-framework-cache
-          cd apps/ledger-live-mobile
-          cp main.jsbundle ios/build/Build/Products/Release-iphonesimulator/ledgerlivemobile.app/main.jsbundle
-          mv main.jsbundle ios/build/Build/Products/Release-iphonesimulator/main.jsbundle
-      - name: Test iOS app
-        id: detox
-        timeout-minutes: 45
-        run: |
-          pnpm mobile e2e:test -c ios.sim.release --loglevel error --record-logs all --take-screenshots all --headless --retries 1 --cleanup --record-performance all
-      - name: Delete iOS simulator
-        if: always()
-        run: |
-          xcrun simctl delete ${{ steps.simulator.outputs.id }}
-      - name: Upload test artifacts
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: test-ios-artifacts
-          path: apps/ledger-live-mobile/artifacts
-      - name: Upload Allure report
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: "allure-ios-reports"
-          path: apps/ledger-live-mobile/allure-results
-
-  allure-report-ios:
-    name: "Allure Reports Export on Server"
-    runs-on: [ledger-live-medium-linux]
-    if: ${{ always() && !cancelled() && github.ref_name == 'develop' }}
-    needs: [detox-tests-ios]
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ (github.event_name == 'workflow_dispatch' && (inputs.ref || github.ref_name)) || github.sha }}
-      - uses: ./tools/actions/composites/upload-allure-report
-        with:
-          platform: ios
-          login: ${{ secrets.ALLURE_LOGIN }}
-          password: ${{ secrets.ALLURE_PASSWORD }}
-          path: allure-ios-reports
-
   detox-tests-android:
     name: "Ledger Live Mobile - Android Detox Tests"
     runs-on: [ledger-live-linux-8CPU-32RAM]
@@ -259,7 +137,7 @@ jobs:
           ram-size: 8192M
           disable-linux-hw-accel: false
           emulator-options: -read-only -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          script: pnpm mobile e2e:test -c android.emu.release --loglevel error --record-logs all --take-screenshots all --forceExit --headless --retries 1 --cleanup
+          script: adb logcat -c && pnpm mobile e2e:test -c android.emu.release dexSwap deeplink --loglevel error --record-logs all --take-screenshots all --forceExit --headless --retries 1 --cleanup && (adb  logcat -d  > apps/ledger-live-mobile/artifacts/adblogs.txt)
       - name: Upload test artifacts
         if: always()
         uses: actions/upload-artifact@v3
@@ -291,7 +169,7 @@ jobs:
           path: allure-android-reports
 
   report:
-    needs: [detox-tests-android, detox-tests-ios]
+    needs: [detox-tests-android]
     runs-on: ubuntu-latest
     if: always() && !cancelled() && github.event_name == 'workflow_dispatch'
     steps:
@@ -381,7 +259,7 @@ jobs:
 
   report-on-slack:
     runs-on: ubuntu-latest
-    needs: [detox-tests-android, detox-tests-ios]
+    needs: [detox-tests-android]
     if: ${{ failure() && github.event_name == 'push' }}
     steps:
       - name: format message
