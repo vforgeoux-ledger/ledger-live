@@ -33,6 +33,7 @@ export async function getCurrencyCache(currency: CryptoCurrency): Promise<unknow
 
   if (res) {
     try {
+      log("bridge/cache", `test remove me`);
       return JSON.parse(res);
     } catch (e) {
       log("bridge/cache", `failure to retrieve cache ${String(e)}`);

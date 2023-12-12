@@ -8,6 +8,7 @@ on:
       - develop
       - release
       - hotfix
+      - support/llm-test-coverage-and-code-scanning
   workflow_dispatch:
     inputs:
       ref:
@@ -73,7 +74,7 @@ jobs:
         with:
           projectBaseDir: ./apps/ledger-live-mobile
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_LEDGER_LIVE_COMMON }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_LEDGER_LIVE_MOBILE }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       - uses: actions/upload-artifact@v3
         name: upload eslint json output
