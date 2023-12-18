@@ -154,7 +154,6 @@ function PortfolioScreen({ navigation }: NavigationProps) {
           locationId={LocationContentCard.Wallet}
           mt={7}
         />
-        ,
       </WalletTabSafeAreaView>,
       showAssets ? (
         <Box background={colors.background.main} px={6} mt={6} key="PortfolioAssets">
