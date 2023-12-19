@@ -14,6 +14,7 @@ import { compareCards, mapAsHorizontalContentCard } from "~/dynamicContent/utils
 import Carousel from "../../contentCards/layouts/carousel";
 import useDynamicContent from "../dynamicContent";
 import { ContentCardsType } from "../types";
+import Grid from "~/contentCards/layouts/grid";
 
 // TODO : Better type to remove any (maybe use AnyContentCard)
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -95,9 +96,8 @@ const Layout = ({ category, cards }: LayoutProps) => {
   switch (category.cardsLayout) {
     case ContentCardsLayout.carousel:
       return <Carousel items={items} />;
-    // TODO
-    // case ContentCardsLayout.grid:
-    // return
+    case ContentCardsLayout.grid:
+      return <Grid items={items} />;
     case ContentCardsLayout.unique:
     default:
       return <Flex mx={6}>{items[0].component(items[0].props)}</Flex>;
