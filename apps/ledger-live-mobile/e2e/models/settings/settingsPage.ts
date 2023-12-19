@@ -7,4 +7,11 @@ export default class SettingsPage {
     await waitForElementById("general-settings-card");
     await tapByElement(this.generalSettingsButton());
   }
+
+  aboutSettingsButton = () => getElementById("about-settings-card");
+
+  async navigateToAboutSettings() {
+    await waitForElementById("about-settings-card");
+    await tapByElement(this.aboutSettingsButton());
+  }
 }

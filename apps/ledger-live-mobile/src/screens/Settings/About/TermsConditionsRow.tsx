@@ -20,6 +20,7 @@ const TermsConditionsRow = () => {
         title={<Trans i18nKey="settings.about.termsConditions" />}
         desc={<Trans i18nKey="settings.about.termsConditionsDesc" />}
         onPress={onClick}
+        testID="terms-conditions"
       >
         <ExternalLinkMedium size={20} color={"neutral.c100"} />
       </SettingsRow>

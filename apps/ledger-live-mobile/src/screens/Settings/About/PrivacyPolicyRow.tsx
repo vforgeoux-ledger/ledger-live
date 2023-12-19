@@ -22,6 +22,7 @@ function PrivacyPolicyRow() {
       title={<Trans i18nKey="settings.about.privacyPolicy" />}
       desc={<Trans i18nKey="settings.about.privacyPolicyDesc" />}
       onPress={onPrivacyLink}
+      testID="privacy-policy"
     >
       <ExternalLinkMedium size={20} color={"neutral.c100"} />
     </SettingsRow>
