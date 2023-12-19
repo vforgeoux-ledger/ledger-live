@@ -57,6 +57,7 @@ const Card = lazy(() => import("~/renderer/screens/card"));
 const Manager = lazy(() => import("~/renderer/screens/manager"));
 const Exchange = lazy(() => import("~/renderer/screens/exchange"));
 const Earn = lazy(() => import("~/renderer/screens/earn"));
+const Refer = lazy(() => import("~/renderer/screens/refer"));
 const SwapWeb = lazy(() => import("~/renderer/screens/swapWeb"));
 const Swap2 = lazy(() => import("~/renderer/screens/exchange/Swap2"));
 
@@ -296,6 +297,7 @@ export default function Default() {
                             <Route path="/platform" render={withSuspense(PlatformCatalog)} exact />
                             <Route path="/platform/:appId?" component={LiveApp} />
                             <Route path="/earn" render={withSuspense(Earn)} />
+                            <Route path="/refer" render={withSuspense(Refer)} />
                             <Route exact path="/exchange/:appId?" render={withSuspense(Exchange)} />
                             <Route
                               exact

@@ -33,6 +33,7 @@ type Props = {
 export default function WebPlatformPlayer({ manifest, inputs, onClose, config, ...props }: Props) {
   const webviewAPIRef = useRef<WebviewAPI>(null);
   const [webviewState, setWebviewState] = useState<WebviewState>(initialWebviewState);
+  const hideTopBar = config?.topBarConfig?.hide;
 
   const customHandlers = useMemo<WalletAPICustomHandlers>(() => {
     return {
@@ -48,13 +49,15 @@ export default function WebPlatformPlayer({ manifest, inputs, onClose, config, .
   return (
     <Container>
       <Wrapper>
-        <TopBar
-          manifest={manifest}
-          onClose={onClose}
-          webviewAPIRef={webviewAPIRef}
-          webviewState={webviewState}
-          config={config?.topBarConfig}
-        />
+        {!hideTopBar && (
+          <TopBar
+            manifest={manifest}
+            onClose={onClose}
+            webviewAPIRef={webviewAPIRef}
+            webviewState={webviewState}
+            config={config?.topBarConfig}
+          />
+        )}
         <Web3AppWebview
           manifest={manifest}
           inputs={inputs}

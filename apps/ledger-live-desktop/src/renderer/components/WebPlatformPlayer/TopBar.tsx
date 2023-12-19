@@ -110,6 +110,7 @@ export const Separator = styled.div`
 `;
 
 export type TopBarConfig = {
+  hide?: boolean;
   shouldDisplayName?: boolean;
   shouldDisplayInfo?: boolean;
   shouldDisplayClose?: boolean;

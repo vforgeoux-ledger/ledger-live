@@ -305,7 +305,9 @@ const MainSideBar = () => {
   }, [push, trackEntry]);
   const handleClickRefer = useCallback(() => {
     if (referralProgramConfig?.enabled && referralProgramConfig?.params?.path) {
-      push(referralProgramConfig?.params.path);
+      // TODO: change referralProgramConfig.params.path to be new path:
+      //    new path: refer
+      push("refer");
       trackEntry("refer-a-friend", referralProgramConfig?.params.isNew);
     }
   }, [push, referralProgramConfig, trackEntry]);
@@ -501,10 +503,11 @@ const MainSideBar = () => {
                     iconSize={20}
                     iconActiveColor="wallet"
                     onClick={handleClickRefer}
-                    isActive={
-                      referralProgramConfig?.params &&
-                      location.pathname.startsWith(referralProgramConfig.params.path)
-                    }
+                    // isActive={
+                    //   referralProgramConfig?.params &&
+                    //   location.pathname.startsWith(referralProgramConfig.params.path)
+                    // }
+                    isActive={location.pathname === "/refer"}
                     collapsed={secondAnim}
                     NotifComponent={
                       referralProgramConfig?.params?.amount ? (
