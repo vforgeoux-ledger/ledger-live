@@ -24,16 +24,10 @@ beforeAll(async () => {
     await settingsPage.navigateToAboutSettings();
   });
 
-  it.skip("should redirect to terms and conditions", async () => {
+  it("should redirect to terms and conditions", async () => {
     await aboutSettingsPage.openTerms();
+    await aboutSettingsPage.expectTerms();
     
 
-    if (isAndroid()) {
-      const url = await web.element(by.web.id("main")).getCurrentUrl();
-      const expectedUrl = "https://shop.ledger.com/";
-
-      jestExpect(url).toContain(expectedUrl);
-    } else {
-      console.warn("Skipping webview check on iOS");
-    }
+  
   });
