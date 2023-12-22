@@ -188,6 +188,7 @@ const AssetScreen = ({ route }: NavigationProps) => {
           keyExtractor={(_: unknown, index: number) => String(index)}
           showsVerticalScrollIndicator={false}
           onScroll={handleScroll}
+          testID={"accounts-list-scrollView"}
         />
         <Header
           currentPositionY={currentPositionY}

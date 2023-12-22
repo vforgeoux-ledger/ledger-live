@@ -60,6 +60,7 @@ const AccountRowLayout = ({
                 numberOfLines={1}
                 flexGrow={0}
                 flexShrink={1}
+                testID={`account-row-${name}`}
               >
                 {name}
               </Text>

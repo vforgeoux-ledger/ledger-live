@@ -19,6 +19,7 @@ function DeleteAccountRow({ onPress }: Props) {
       desc={t("account.settings.delete.desc")}
       onPress={onPress}
       arrowRight
+      testID="account-settings-delete"
     />
   );
 }

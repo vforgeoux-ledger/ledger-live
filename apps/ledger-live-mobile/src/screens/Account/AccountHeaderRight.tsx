@@ -86,6 +86,7 @@ export default function AccountHeaderRight() {
               },
             });
           }}
+          testID="account-settings-button"
         >
           <SettingsMedium size={24} />
         </Touchable>
