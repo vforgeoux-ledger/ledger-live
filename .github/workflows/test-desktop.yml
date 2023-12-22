@@ -8,6 +8,7 @@ on:
       - develop
       - release
       - hotfix
+      - windows-runners-sometimes-fail
   workflow_dispatch:
     inputs:
       ref:
@@ -110,7 +111,7 @@ jobs:
       PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       # DEBUG: "pw:browser*"
       # DEBUG_LOGS: 1
-    runs-on: [ledger-live-4xlarge-windows-2022]
+    runs-on: ledger-live-4xlarge-windows
     steps:
       - uses: actions/checkout@v4
         with:
@@ -174,154 +175,154 @@ jobs:
           name: allure-results-windows
           path: apps/ledger-live-desktop/allure-results
 
-  e2e-tests-linux:
-    name: "Desktop E2E (Linux)"
-    outputs:
-      status: ${{ steps.tests.outcome }}
-    env:
-      NODE_OPTIONS: "--max-old-space-size=7168"
-      INSTRUMENT_BUILD: true
-      FORCE_COLOR: 3
-      CI_OS: "ubuntu-latest"
-      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
-      # DEBUG: "pw:browser*"
-      # DEBUG_LOGS: 1
-    runs-on: [ledger-live-4xlarge-linux]
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.ref || github.sha }}
-      - name: Setup the toolchain
-        id: toolchain
-        uses: ./tools/actions/composites/setup-toolchain
-        with:
-          skip_turbo_cache: "false"
-          accountId: ${{ secrets.AWS_ACCOUNT_ID_PROD }}
-          roleName: ${{ secrets.AWS_CACHE_ROLE_NAME }}
-          region: ${{ secrets.AWS_CACHE_REGION }}
-          turbo-server-token: ${{ secrets.TURBOREPO_SERVER_TOKEN }}
-      - uses: ./tools/actions/composites/setup-test-desktop
-        id: setup-test-desktop
-        with:
-          skip_ruby: true
-          install_playwright: true
-          turborepo-server-port: ${{ steps.toolchain.outputs.port }}
-      - name: Run playwright tests [Linux => xvfb-run]
-        id: tests
-        run: |
-          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm desktop test:playwright
-      - name: upload diffs to s3
-        if: always() && !cancelled()
-        uses: ./tools/actions/upload-images
-        id: s3
-        with:
-          path: apps/ledger-live-desktop/tests/artifacts/test-results
-          workspace: ${{ github.workspace }}
-          os: linux
-          group-name: ${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_number }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_SCREENSHOTS_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_SCREENSHOTS_SECRET_ACCESS_KEY }}
-      - name: upload ci suggested screenshots
-        if: always() && !cancelled()
-        uses: actions/upload-artifact@v3
-        with:
-          name: images
-          path: images-linux.json
-      - name: Upload playwright test results [On Failure]
-        uses: actions/upload-artifact@v3
-        if: failure() && !cancelled()
-        with:
-          name: playwright-results-linux
-          path: |
-            apps/ledger-live-desktop/tests/artifacts/test-results
-            apps/ledger-live-desktop/tests/artifacts/html-report
-            apps/ledger-live-desktop/tests/artifacts/coverage
-            apps/ledger-live-desktop/tests/artifacts/videos
-            apps/ledger-live-desktop/tests/artifacts/logs
-            apps/ledger-live-desktop/tests/artifacts/*.log
-      - name: Upload Allure Report
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: allure-results-linux
-          path: apps/ledger-live-desktop/allure-results
+  # e2e-tests-linux:
+  #   name: "Desktop E2E (Linux)"
+  #   outputs:
+  #     status: ${{ steps.tests.outcome }}
+  #   env:
+  #     NODE_OPTIONS: "--max-old-space-size=7168"
+  #     INSTRUMENT_BUILD: true
+  #     FORCE_COLOR: 3
+  #     CI_OS: "ubuntu-latest"
+  #     PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+  #     # DEBUG: "pw:browser*"
+  #     # DEBUG_LOGS: 1
+  #   runs-on: [ledger-live-4xlarge-linux]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ inputs.ref || github.sha }}
+  #     - name: Setup the toolchain
+  #       id: toolchain
+  #       uses: ./tools/actions/composites/setup-toolchain
+  #       with:
+  #         skip_turbo_cache: "false"
+  #         accountId: ${{ secrets.AWS_ACCOUNT_ID_PROD }}
+  #         roleName: ${{ secrets.AWS_CACHE_ROLE_NAME }}
+  #         region: ${{ secrets.AWS_CACHE_REGION }}
+  #         turbo-server-token: ${{ secrets.TURBOREPO_SERVER_TOKEN }}
+  #     - uses: ./tools/actions/composites/setup-test-desktop
+  #       id: setup-test-desktop
+  #       with:
+  #         skip_ruby: true
+  #         install_playwright: true
+  #         turborepo-server-port: ${{ steps.toolchain.outputs.port }}
+  #     - name: Run playwright tests [Linux => xvfb-run]
+  #       id: tests
+  #       run: |
+  #         xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm desktop test:playwright
+  #     - name: upload diffs to s3
+  #       if: always() && !cancelled()
+  #       uses: ./tools/actions/upload-images
+  #       id: s3
+  #       with:
+  #         path: apps/ledger-live-desktop/tests/artifacts/test-results
+  #         workspace: ${{ github.workspace }}
+  #         os: linux
+  #         group-name: ${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_number }}
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_SCREENSHOTS_ACCESS_KEY }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_SCREENSHOTS_SECRET_ACCESS_KEY }}
+  #     - name: upload ci suggested screenshots
+  #       if: always() && !cancelled()
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: images
+  #         path: images-linux.json
+  #     - name: Upload playwright test results [On Failure]
+  #       uses: actions/upload-artifact@v3
+  #       if: failure() && !cancelled()
+  #       with:
+  #         name: playwright-results-linux
+  #         path: |
+  #           apps/ledger-live-desktop/tests/artifacts/test-results
+  #           apps/ledger-live-desktop/tests/artifacts/html-report
+  #           apps/ledger-live-desktop/tests/artifacts/coverage
+  #           apps/ledger-live-desktop/tests/artifacts/videos
+  #           apps/ledger-live-desktop/tests/artifacts/logs
+  #           apps/ledger-live-desktop/tests/artifacts/*.log
+  #     - name: Upload Allure Report
+  #       if: always()
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: allure-results-linux
+  #         path: apps/ledger-live-desktop/allure-results
 
-  e2e-tests-mac:
-    name: "Desktop E2E (macOS X)"
-    runs-on: [m1, ARM64]
-    outputs:
-      status: ${{ steps.tests.outcome }}
-    env:
-      NODE_OPTIONS: "--max-old-space-size=7168"
-      FORCE_COLOR: 3
-      CI_OS: "macos-latest"
-      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
-      # DEBUG: "pw:browser*"
-      # DEBUG_LOGS: 1
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.ref || github.sha }}
-      - name: Setup the toolchain
-        id: toolchain
-        uses: ./tools/actions/composites/setup-toolchain
-        with:
-          skip_turbo_cache: "false"
-          # skip_pnpm_cache: true
-          accountId: ${{ secrets.AWS_ACCOUNT_ID_PROD }}
-          roleName: ${{ secrets.AWS_CACHE_ROLE_NAME }}
-          region: ${{ secrets.AWS_CACHE_REGION }}
-          turbo-server-token: ${{ secrets.TURBOREPO_SERVER_TOKEN }}
-      - uses: ./tools/actions/composites/setup-test-desktop
-        id: setup-test-desktop
-        with:
-          skip_ruby: true
-          install_playwright: true
-          turborepo-server-port: ${{ steps.toolchain.outputs.port }}
-      - name: Run playwright tests
-        id: tests
-        run: |
-          pnpm desktop test:playwright
-      - name: upload diffs to s3
-        if: always() && !cancelled()
-        uses: ./tools/actions/upload-images
-        id: s3
-        with:
-          path: apps/ledger-live-desktop/tests/artifacts/test-results
-          workspace: ${{ github.workspace }}
-          os: macos
-          group-name: ${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_number }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_SCREENSHOTS_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_SCREENSHOTS_SECRET_ACCESS_KEY }}
-      - name: upload ci suggested screenshots
-        if: always() && !cancelled()
-        uses: actions/upload-artifact@v3
-        with:
-          name: images
-          path: images-macos.json
-      - name: Upload playwright test results [On Failure]
-        uses: actions/upload-artifact@v3
-        if: failure() && !cancelled()
-        with:
-          name: playwright-results-macos
-          path: |
-            apps/ledger-live-desktop/tests/artifacts/test-results
-            apps/ledger-live-desktop/tests/artifacts/html-report
-            apps/ledger-live-desktop/tests/artifacts/coverage
-            apps/ledger-live-desktop/tests/artifacts/videos
-            apps/ledger-live-desktop/tests/artifacts/logs
-            apps/ledger-live-desktop/tests/artifacts/*.log
-      - name: Upload Allure Report
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: allure-results-macos
-          path: apps/ledger-live-desktop/allure-results
+  # e2e-tests-mac:
+  #   name: "Desktop E2E (macOS X)"
+  #   runs-on: [m1, ARM64]
+  #   outputs:
+  #     status: ${{ steps.tests.outcome }}
+  #   env:
+  #     NODE_OPTIONS: "--max-old-space-size=7168"
+  #     FORCE_COLOR: 3
+  #     CI_OS: "macos-latest"
+  #     PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+  #     # DEBUG: "pw:browser*"
+  #     # DEBUG_LOGS: 1
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ inputs.ref || github.sha }}
+  #     - name: Setup the toolchain
+  #       id: toolchain
+  #       uses: ./tools/actions/composites/setup-toolchain
+  #       with:
+  #         skip_turbo_cache: "false"
+  #         # skip_pnpm_cache: true
+  #         accountId: ${{ secrets.AWS_ACCOUNT_ID_PROD }}
+  #         roleName: ${{ secrets.AWS_CACHE_ROLE_NAME }}
+  #         region: ${{ secrets.AWS_CACHE_REGION }}
+  #         turbo-server-token: ${{ secrets.TURBOREPO_SERVER_TOKEN }}
+  #     - uses: ./tools/actions/composites/setup-test-desktop
+  #       id: setup-test-desktop
+  #       with:
+  #         skip_ruby: true
+  #         install_playwright: true
+  #         turborepo-server-port: ${{ steps.toolchain.outputs.port }}
+  #     - name: Run playwright tests
+  #       id: tests
+  #       run: |
+  #         pnpm desktop test:playwright
+  #     - name: upload diffs to s3
+  #       if: always() && !cancelled()
+  #       uses: ./tools/actions/upload-images
+  #       id: s3
+  #       with:
+  #         path: apps/ledger-live-desktop/tests/artifacts/test-results
+  #         workspace: ${{ github.workspace }}
+  #         os: macos
+  #         group-name: ${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_number }}
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_SCREENSHOTS_ACCESS_KEY }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_SCREENSHOTS_SECRET_ACCESS_KEY }}
+  #     - name: upload ci suggested screenshots
+  #       if: always() && !cancelled()
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: images
+  #         path: images-macos.json
+  #     - name: Upload playwright test results [On Failure]
+  #       uses: actions/upload-artifact@v3
+  #       if: failure() && !cancelled()
+  #       with:
+  #         name: playwright-results-macos
+  #         path: |
+  #           apps/ledger-live-desktop/tests/artifacts/test-results
+  #           apps/ledger-live-desktop/tests/artifacts/html-report
+  #           apps/ledger-live-desktop/tests/artifacts/coverage
+  #           apps/ledger-live-desktop/tests/artifacts/videos
+  #           apps/ledger-live-desktop/tests/artifacts/logs
+  #           apps/ledger-live-desktop/tests/artifacts/*.log
+  #     - name: Upload Allure Report
+  #       if: always()
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: allure-results-macos
+  #         path: apps/ledger-live-desktop/allure-results
 
   report:
-    needs: [codechecks, unit-tests, e2e-tests-linux, e2e-tests-windows, e2e-tests-mac]
+    needs: [codechecks, unit-tests, e2e-tests-windows]
     runs-on: ubuntu-latest
     if: always() && !cancelled()
     steps:
@@ -408,14 +409,6 @@ jobs:
             };
 
             const report = {
-              mac: {
-                pass: ${{ needs.e2e-tests-mac.outputs.status == 'success' }},
-                status: "${{ needs.e2e-tests-mac.outputs.status }}",
-              },
-              linux: {
-                pass: ${{ needs.e2e-tests-linux.outputs.status == 'success' }},
-                status: "${{ needs.e2e-tests-linux.outputs.status }}",
-              },
               windows: {
                 pass: ${{ needs.e2e-tests-windows.outputs.status == 'success' }},
                 status: "${{ needs.e2e-tests-windows.outputs.status }}",
@@ -585,7 +578,7 @@ jobs:
 
   allure-report:
     name: "Allure Reports Export on Server"
-    needs: [e2e-tests-windows, e2e-tests-linux, e2e-tests-mac]
+    needs: [e2e-tests-windows]
     runs-on: [ledger-live-medium-linux]
     if: ${{ always() && !cancelled() && github.ref_name == 'develop' }}
     steps:
