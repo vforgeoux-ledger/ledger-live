@@ -76,6 +76,7 @@ export default function Settings({
         Icon={IconsLegacy.BracketsMedium}
         onClick={() => navigation.navigate(ScreenName.AboutSettings)}
         arrowRight
+        settingsCardTestId="about-settings-card"
       />
       <FeatureToggle featureId="brazePushNotifications">
         <SettingsCard
