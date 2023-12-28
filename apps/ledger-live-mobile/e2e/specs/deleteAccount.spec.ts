@@ -4,11 +4,11 @@ import {
   getCryptoCurrencyById,
   setSupportedCurrencies,
 } from "@ledgerhq/live-common/currencies/index";
-import { loadAccounts, loadConfig } from "../../bridge/server";
-import PortfolioPage from "../../models/wallet/portfolioPage";
-import AccountPage from "../../models/accounts/accountPage";
+import { loadAccounts, loadConfig } from "../bridge/server";
+import PortfolioPage from "../models/wallet/portfolioPage";
+import AccountPage from "../models/accounts/accountPage";
 
-import { scrollToId, tapByElement, tapById } from "../../helpers";
+import { scrollToId, tapByElement, tapById } from "../helpers";
 import { Account } from "@ledgerhq/types-live";
 import { CryptoCurrencyId } from "@ledgerhq/types-cryptoassets";
 
@@ -21,7 +21,7 @@ const testAccounts = testedCurrencies.map(currencyId =>
 );
 setSupportedCurrencies(testedCurrencies);
 
-describe("Send flow", () => {
+describe("Load accounts", () => {
   beforeAll(async () => {
     loadConfig("onboardingcompleted", true);
     loadAccounts(testAccounts);
@@ -31,7 +31,7 @@ describe("Send flow", () => {
   });
 
   it.each(testAccounts.map(account => [account.currency.name, account]))(
-    "%s: open send flow, sends half balance and displays the new operation",
+    "%s: delete accounts",
     async (currency, account: Account) => {
       await portfolioPage.openViaDeeplink(); //Same starting state between all currency
       await accountPage.openViaDeeplink(currency);
@@ -44,3 +44,4 @@ describe("Send flow", () => {
     },
   );
 });
+
