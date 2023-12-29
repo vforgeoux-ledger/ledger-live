@@ -28,8 +28,7 @@ describe("Check terms & conditions", () => {
     await portfolioPage.navigateToSettings();
   });
 
-  it("should go navigate to General settings", async () => {
-   // await expect(generalSettingsPage.preferredCurrencyButton()).toBeVisible();
+  it("should navigate to About section", async () => {
     await settingsPage.navigateToAboutSettings();
   });
 });
