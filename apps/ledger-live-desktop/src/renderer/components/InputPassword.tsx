@@ -1,8 +1,7 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { withTranslation } from "react-i18next";
 import { TFunction } from "i18next";
-import zxcvbn from "zxcvbn";
 import debounce from "lodash/debounce";
 import noop from "lodash/noop";
 import Box from "~/renderer/components/Box";
@@ -35,7 +34,7 @@ const Strength = styled(Box).attrs<{
 `;
 
 type WarningProps = {
-  passwordStrength: zxcvbn.ZXCVBNScore;
+  passwordStrength: number;
 };
 
 const Warning = styled(Box).attrs<WarningProps>(p => ({
@@ -45,19 +44,21 @@ const Warning = styled(Box).attrs<WarningProps>(p => ({
   fontSize: 3,
 }))<WarningProps>``;
 
-const getPasswordStrength = (v: string) => zxcvbn(v).score;
-
 type State = {
   inputType: "text" | "password";
-  passwordStrength: zxcvbn.ZXCVBNScore;
+  passwordStrength: number;
 };
 
-type Props = {
+type InnerProps = {
   onChange: (v: string) => void;
   t: TFunction;
   value: string;
   withStrength?: boolean;
 } & InputProps;
+
+type Props = {
+  getPasswordStrength: (v: string) => number;
+} & InnerProps;
 
 class InputPassword extends PureComponent<Props, State> {
   static defaultProps = {
@@ -67,7 +68,7 @@ class InputPassword extends PureComponent<Props, State> {
 
   state: State = {
     inputType: "password",
-    passwordStrength: getPasswordStrength(this.props.value),
+    passwordStrength: this.props.getPasswordStrength(this.props.value),
   };
 
   componentWillUnmount() {
@@ -83,7 +84,7 @@ class InputPassword extends PureComponent<Props, State> {
   debouncePasswordStrength = debounce(v => {
     if (this._isUnmounted) return;
     this.setState({
-      passwordStrength: getPasswordStrength(v),
+      passwordStrength: this.props.getPasswordStrength(v),
     });
   }, 150);
 
@@ -136,4 +137,28 @@ class InputPassword extends PureComponent<Props, State> {
     );
   }
 }
-export default withTranslation()(InputPassword);
+
+function usePromiseResolved<R>(promise: Promise<R>): R | undefined {
+  const [state, setState] = useState<R | undefined>(undefined);
+  useEffect(() => {
+    promise.then(setState);
+  }, [promise]);
+  return state;
+}
+
+// this decorates InputPassword to load zxcvbn asynchronously
+const AsyncComponent = (props: InnerProps) => {
+  const lib = useMemo(() => import("zxcvbn").then(m => m.default), []);
+  const zxcvbn = usePromiseResolved(lib);
+
+  const getPasswordStrength = useMemo(() => {
+    if (!zxcvbn) return undefined;
+    return (v: string): number => zxcvbn(v).score;
+  }, [zxcvbn]);
+
+  return getPasswordStrength ? (
+    <InputPassword {...props} getPasswordStrength={getPasswordStrength} />
+  ) : null;
+};
+
+export default withTranslation()(AsyncComponent);
