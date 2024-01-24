@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import { useFeature } from "@ledgerhq/live-config/featureFlags/index";
 import { isAddressPoisoningOperation } from "@ledgerhq/live-common/operation";
-import Box from "~/renderer/components/Box";
+import Box, { Card } from "~/renderer/components/Box";
 import { accountsSelector, currenciesSelector } from "~/renderer/reducers/accounts";
 import BalanceSummary from "./GlobalSummary";
 import { colors } from "~/renderer/styles/theme";
@@ -15,7 +15,6 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import TrackPage from "~/renderer/analytics/TrackPage";
 import OperationsList from "~/renderer/components/OperationsList";
-import Carousel from "~/renderer/components/Carousel";
 import AssetDistribution from "./AssetDistribution";
 import ClearCacheBanner from "~/renderer/components/ClearCacheBanner";
 import RecoverBanner from "~/renderer/components/RecoverBanner/RecoverBanner";
@@ -30,6 +29,9 @@ import CurrencyDownStatusAlert from "~/renderer/components/CurrencyDownStatusAle
 import PostOnboardingHubBanner from "~/renderer/components/PostOnboardingHub/PostOnboardingHubBanner";
 import FeaturedButtons from "~/renderer/screens/dashboard/FeaturedButtons";
 import { AccountLike, Operation } from "@ledgerhq/types-live";
+import ActionCard from "~/renderer/components/ContentCards/ActionCard";
+import { Carousel } from "@ledgerhq/react-ui";
+import useTheme from "~/renderer/hooks/useTheme";
 
 // This forces only one visible top banner at a time
 export const TopBannerContainer = styled.div`
@@ -43,6 +45,8 @@ export default function DashboardPage() {
   const { t } = useTranslation();
   const accounts = useSelector(accountsSelector);
   const currencies = useSelector(currenciesSelector);
+
+  const theme = useTheme();
 
   const counterValue = useSelector(counterValueCurrencySelector);
   const selectedTimeRange = useSelector(selectedTimeRangeSelector);
@@ -81,7 +85,68 @@ export default function DashboardPage() {
         <ClearCacheBanner />
         <CurrencyDownStatusAlert currencies={currencies} hideStatusIncidents />
       </TopBannerContainer>
-      {showCarousel ? <Carousel /> : null}
+      {showCarousel ? (
+        <div
+          style={{
+            position: "fixed",
+            bottom: "30px",
+            left: "20px",
+            width: "97.5%",
+            zIndex: 10000,
+            backdropFilter: "blur(15px)",
+            borderRadius: "8px",
+            backgroundColor: theme.colors.opacityPurple.c10,
+          }}
+        >
+          <Carousel
+            footerVariant="content-card"
+            slides={[
+              {
+                id: 1,
+                Component: () => (
+                  <ActionCard
+                    img=""
+                    title="You're almost there !"
+                    subtitle="Verify your identity to get your backup secure"
+                    actions={{
+                      cta: { label: "Maybe later", fct: () => {} },
+                      secondary: { label: "Verify now", fct: () => {} },
+                    }}
+                  />
+                ),
+              },
+              {
+                id: 2,
+                Component: () => (
+                  <ActionCard
+                    img=""
+                    title="MyTitle"
+                    subtitle="My Subtitle"
+                    actions={{
+                      cta: { label: "Do Some", fct: () => {} },
+                      secondary: { label: "Do Some", fct: () => {} },
+                    }}
+                  />
+                ),
+              },
+              {
+                id: 3,
+                Component: () => (
+                  <ActionCard
+                    img=""
+                    title="MyTitle"
+                    subtitle="My Subtitle"
+                    actions={{
+                      cta: { label: "Do Some", fct: () => {} },
+                      secondary: { label: "Do Some", fct: () => {} },
+                    }}
+                  />
+                ),
+              },
+            ]}
+          />
+        </div>
+      ) : null}
       <RecoverBanner />
       {isPostOnboardingBannerVisible && <PostOnboardingHubBanner />}
       <FeaturedButtons />
