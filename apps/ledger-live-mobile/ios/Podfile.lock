@@ -15,6 +15,8 @@ PODS:
     - BrazeKit (= 7.0.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
+  - EXApplication (5.3.1):
+    - ExpoModulesCore
   - EXBarCodeScanner (12.5.3):
     - EXImageLoader
     - ExpoModulesCore
@@ -22,15 +24,23 @@ PODS:
     - ZXingObjC/PDF417
   - EXCamera (13.4.4):
     - ExpoModulesCore
+  - EXConstants (14.4.2):
+    - ExpoModulesCore
   - EXFileSystem (15.4.4):
+    - ExpoModulesCore
+  - EXFont (11.4.0):
     - ExpoModulesCore
   - EXImageLoader (4.3.0):
     - ExpoModulesCore
     - React-Core
   - Expo (49.0.13):
     - ExpoModulesCore
+  - ExpoCrypto (10.2.0):
+    - ExpoModulesCore
   - ExpoImageManipulator (11.3.0):
     - EXImageLoader
+    - ExpoModulesCore
+  - ExpoKeepAwake (12.3.0):
     - ExpoModulesCore
   - ExpoModulesCore (1.5.11):
     - RCT-Folly (= 2021.07.22.00)
@@ -38,6 +48,8 @@ PODS:
     - React-NativeModulesApple
     - React-RCTAppDelegate
     - ReactCommon/turbomodule/core
+  - ExpoRandom (12.2.0):
+    - ExpoModulesCore
   - FBLazyVector (0.72.6)
   - FBReactNativeSpec (0.72.6):
     - RCT-Folly (= 2021.07.22.00)
@@ -145,7 +157,7 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
   - glog (0.3.5)
-  - GoogleDataTransport (9.2.5):
+  - GoogleDataTransport (9.3.0):
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
@@ -775,18 +787,24 @@ PODS:
     - ZXingObjC/Core
 
 DEPENDENCIES:
-  - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
-  - "braze-react-native-sdk (from `../node_modules/@braze/react-native-sdk`)"
-  - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
-  - "EXBarCodeScanner (from `../../../node_modules/.pnpm/expo-barcode-scanner@12.5.3_expo-modules-core@1.5.11_expo@49.0.13_react-native@0.72.6_react@18.2.0/node_modules/expo-barcode-scanner/ios`)"
-  - "EXCamera (from `../../../node_modules/.pnpm/expo-camera@13.4.4_expo-modules-core@1.5.11_expo@49.0.13_react-native@0.72.6_react@18.2.0/node_modules/expo-camera/ios`)"
-  - "EXFileSystem (from `../../../node_modules/.pnpm/expo-file-system@15.4.4_expo-modules-core@1.5.11_expo@49.0.13_react-native@0.72.6_react@18.2.0/node_modules/expo-file-system/ios`)"
-  - "EXImageLoader (from `../../../node_modules/.pnpm/expo-image-loader@4.3.0_expo-modules-core@1.5.11_expo@49.0.13_react-native@0.72.6_react@18.2.0/node_modules/expo-image-loader/ios`)"
-  - "Expo (from `../../../node_modules/.pnpm/expo@49.0.13_@babel+core@7.23.2_expo-modules-autolinking@1.5.1_expo-modules-core@1.5.11_react-native@0.72.6_react@18.2.0/node_modules/expo`)"
-  - "ExpoImageManipulator (from `../../../node_modules/.pnpm/expo-image-manipulator@11.3.0_expo-modules-core@1.5.11_expo@49.0.13_react-native@0.72.6_react@18.2.0/node_modules/expo-image-manipulator/ios`)"
-  - "ExpoModulesCore (from `../../../node_modules/.pnpm/expo-modules-core@1.5.11_react-native@0.72.6_react@18.2.0/node_modules/expo-modules-core`)"
-  - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
-  - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
+  - boost (from `../../../node_modules/react-native/third-party-podspecs/boost.podspec`)
+  - "braze-react-native-sdk (from `../../../node_modules/@braze/react-native-sdk`)"
+  - DoubleConversion (from `../../../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - EXApplication (from `../../../node_modules/expo-application/ios`)
+  - EXBarCodeScanner (from `../../../node_modules/expo-barcode-scanner/ios`)
+  - EXCamera (from `../../../node_modules/expo-camera/ios`)
+  - EXConstants (from `../../../node_modules/expo-constants/ios`)
+  - EXFileSystem (from `../../../node_modules/expo-file-system/ios`)
+  - EXFont (from `../../../node_modules/expo-font/ios`)
+  - EXImageLoader (from `../../../node_modules/expo-image-loader/ios`)
+  - Expo (from `../../../node_modules/expo`)
+  - ExpoCrypto (from `../../../node_modules/expo-crypto/ios`)
+  - ExpoImageManipulator (from `../../../node_modules/expo-image-manipulator/ios`)
+  - ExpoKeepAwake (from `../../../node_modules/expo-keep-awake/ios`)
+  - ExpoModulesCore (from `../../../node_modules/expo-modules-core`)
+  - ExpoRandom (from `../../../node_modules/expo-random/ios`)
+  - FBLazyVector (from `../../../node_modules/react-native/Libraries/FBLazyVector`)
+  - FBReactNativeSpec (from `../../../node_modules/react-native/React/FBReactNativeSpec`)
   - Flipper (= 0.182.0)
   - Flipper-Boost-iOSX (= 1.76.0.1.11)
   - Flipper-DoubleConversion (= 3.2.0.1)
@@ -807,93 +825,93 @@ DEPENDENCIES:
   - FlipperKit/FlipperKitReactPlugin (= 0.182.0)
   - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.182.0)
   - FlipperKit/SKIOSNetworkPlugin (= 0.182.0)
-  - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
+  - glog (from `../../../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - hermes-engine (from `../../../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
   - libevent (~> 2.1.12)
-  - lottie-react-native (from `../node_modules/lottie-react-native`)
+  - lottie-react-native (from `../../../node_modules/lottie-react-native`)
   - OpenSSL-Universal (= 1.1.1100)
-  - "PasscodeAuth (from `../node_modules/@ledgerhq/react-native-passcode-auth`)"
-  - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
-  - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
-  - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
-  - React (from `../node_modules/react-native/`)
-  - React-callinvoker (from `../node_modules/react-native/ReactCommon/callinvoker`)
+  - "PasscodeAuth (from `../../../node_modules/@ledgerhq/react-native-passcode-auth`)"
+  - RCT-Folly (from `../../../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
+  - RCTRequired (from `../../../node_modules/react-native/Libraries/RCTRequired`)
+  - RCTTypeSafety (from `../../../node_modules/react-native/Libraries/TypeSafety`)
+  - React (from `../../../node_modules/react-native/`)
+  - React-callinvoker (from `../../../node_modules/react-native/ReactCommon/callinvoker`)
   - React-Codegen (from `build/generated/ios`)
-  - React-Core (from `../node_modules/react-native/`)
-  - React-Core/DevSupport (from `../node_modules/react-native/`)
-  - React-Core/RCTWebSocket (from `../node_modules/react-native/`)
-  - React-CoreModules (from `../node_modules/react-native/React/CoreModules`)
-  - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
-  - React-debug (from `../node_modules/react-native/ReactCommon/react/debug`)
-  - React-hermes (from `../node_modules/react-native/ReactCommon/hermes`)
-  - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
-  - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
-  - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
-  - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
-  - react-native-adjust (from `../node_modules/react-native-adjust`)
-  - react-native-biometrics (from `../node_modules/react-native-biometrics`)
-  - react-native-ble-plx (from `../node_modules/react-native-ble-plx`)
-  - react-native-config (from `../node_modules/react-native-config`)
-  - react-native-fast-crypto (from `../node_modules/react-native-fast-crypto`)
-  - react-native-flipper (from `../node_modules/react-native-flipper`)
-  - react-native-flipper-performance-plugin (from `../node_modules/react-native-flipper-performance-plugin`)
-  - react-native-image-crop-tools (from `../node_modules/react-native-image-crop-tools`)
-  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
-  - react-native-launch-arguments (from `../node_modules/react-native-launch-arguments`)
-  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
-  - react-native-pager-view (from `../node_modules/react-native-pager-view`)
-  - react-native-performance (from `../node_modules/react-native-performance`)
-  - react-native-randombytes (from `../node_modules/react-native-randombytes`)
-  - react-native-restart (from `../node_modules/react-native-restart`)
-  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
-  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
-  - react-native-startup-time (from `../node_modules/react-native-startup-time`)
-  - react-native-tcp-socket (from `../node_modules/react-native-tcp-socket`)
-  - react-native-udp (from `../node_modules/react-native-udp`)
-  - react-native-version-number (from `../node_modules/react-native-version-number`)
-  - react-native-video (from `../node_modules/react-native-video`)
-  - react-native-webview (from `../node_modules/react-native-webview`)
-  - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
-  - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
-  - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
-  - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
-  - React-RCTAppDelegate (from `../node_modules/react-native/Libraries/AppDelegate`)
-  - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
-  - React-RCTImage (from `../node_modules/react-native/Libraries/Image`)
-  - React-RCTLinking (from `../node_modules/react-native/Libraries/LinkingIOS`)
-  - React-RCTNetwork (from `../node_modules/react-native/Libraries/Network`)
-  - React-RCTSettings (from `../node_modules/react-native/Libraries/Settings`)
-  - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
-  - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
-  - React-rncore (from `../node_modules/react-native/ReactCommon`)
-  - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
-  - React-runtimescheduler (from `../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
-  - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
-  - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - "ReactNativePerformance (from `../node_modules/@shopify/react-native-performance`)"
-  - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
-  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
-  - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
-  - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
-  - RNFastImage (from `../node_modules/react-native-fast-image`)
-  - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
-  - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
-  - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
-  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
-  - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
-  - RNKeychain (from `../node_modules/react-native-keychain`)
-  - RNLocalize (from `../node_modules/react-native-localize`)
-  - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
-  - RNReanimated (from `../node_modules/react-native-reanimated`)
-  - RNScreens (from `../node_modules/react-native-screens`)
-  - "RNSentry (from `../node_modules/@sentry/react-native`)"
-  - RNShare (from `../node_modules/react-native-share`)
-  - RNSVG (from `../node_modules/react-native-svg`)
-  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
-  - "segment-analytics-react-native (from `../node_modules/@segment/analytics-react-native`)"
-  - "sovran-react-native (from `../node_modules/@segment/sovran-react-native`)"
-  - storyly-react-native (from `../node_modules/storyly-react-native`)
-  - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
+  - React-Core (from `../../../node_modules/react-native/`)
+  - React-Core/DevSupport (from `../../../node_modules/react-native/`)
+  - React-Core/RCTWebSocket (from `../../../node_modules/react-native/`)
+  - React-CoreModules (from `../../../node_modules/react-native/React/CoreModules`)
+  - React-cxxreact (from `../../../node_modules/react-native/ReactCommon/cxxreact`)
+  - React-debug (from `../../../node_modules/react-native/ReactCommon/react/debug`)
+  - React-hermes (from `../../../node_modules/react-native/ReactCommon/hermes`)
+  - React-jsi (from `../../../node_modules/react-native/ReactCommon/jsi`)
+  - React-jsiexecutor (from `../../../node_modules/react-native/ReactCommon/jsiexecutor`)
+  - React-jsinspector (from `../../../node_modules/react-native/ReactCommon/jsinspector`)
+  - React-logger (from `../../../node_modules/react-native/ReactCommon/logger`)
+  - react-native-adjust (from `../../../node_modules/react-native-adjust`)
+  - react-native-biometrics (from `../../../node_modules/react-native-biometrics`)
+  - react-native-ble-plx (from `../../../node_modules/react-native-ble-plx`)
+  - react-native-config (from `../../../node_modules/react-native-config`)
+  - react-native-fast-crypto (from `../../../node_modules/react-native-fast-crypto`)
+  - react-native-flipper (from `../../../node_modules/react-native-flipper`)
+  - react-native-flipper-performance-plugin (from `../../../node_modules/react-native-flipper-performance-plugin`)
+  - react-native-image-crop-tools (from `../../../node_modules/react-native-image-crop-tools`)
+  - react-native-image-picker (from `../../../node_modules/react-native-image-picker`)
+  - react-native-launch-arguments (from `../../../node_modules/react-native-launch-arguments`)
+  - "react-native-netinfo (from `../../../node_modules/@react-native-community/netinfo`)"
+  - react-native-pager-view (from `../../../node_modules/react-native-pager-view`)
+  - react-native-performance (from `../../../node_modules/react-native-performance`)
+  - react-native-randombytes (from `../../../node_modules/react-native-randombytes`)
+  - react-native-restart (from `../../../node_modules/react-native-restart`)
+  - react-native-safe-area-context (from `../../../node_modules/react-native-safe-area-context`)
+  - react-native-splash-screen (from `../../../node_modules/react-native-splash-screen`)
+  - react-native-startup-time (from `../../../node_modules/react-native-startup-time`)
+  - react-native-tcp-socket (from `../../../node_modules/react-native-tcp-socket`)
+  - react-native-udp (from `../../../node_modules/react-native-udp`)
+  - react-native-version-number (from `../../../node_modules/react-native-version-number`)
+  - react-native-video (from `../../../node_modules/react-native-video`)
+  - react-native-webview (from `../../../node_modules/react-native-webview`)
+  - React-NativeModulesApple (from `../../../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
+  - React-perflogger (from `../../../node_modules/react-native/ReactCommon/reactperflogger`)
+  - React-RCTActionSheet (from `../../../node_modules/react-native/Libraries/ActionSheetIOS`)
+  - React-RCTAnimation (from `../../../node_modules/react-native/Libraries/NativeAnimation`)
+  - React-RCTAppDelegate (from `../../../node_modules/react-native/Libraries/AppDelegate`)
+  - React-RCTBlob (from `../../../node_modules/react-native/Libraries/Blob`)
+  - React-RCTImage (from `../../../node_modules/react-native/Libraries/Image`)
+  - React-RCTLinking (from `../../../node_modules/react-native/Libraries/LinkingIOS`)
+  - React-RCTNetwork (from `../../../node_modules/react-native/Libraries/Network`)
+  - React-RCTSettings (from `../../../node_modules/react-native/Libraries/Settings`)
+  - React-RCTText (from `../../../node_modules/react-native/Libraries/Text`)
+  - React-RCTVibration (from `../../../node_modules/react-native/Libraries/Vibration`)
+  - React-rncore (from `../../../node_modules/react-native/ReactCommon`)
+  - React-runtimeexecutor (from `../../../node_modules/react-native/ReactCommon/runtimeexecutor`)
+  - React-runtimescheduler (from `../../../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
+  - React-utils (from `../../../node_modules/react-native/ReactCommon/react/utils`)
+  - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
+  - "ReactNativePerformance (from `../../../node_modules/@shopify/react-native-performance`)"
+  - rn-fetch-blob (from `../../../node_modules/rn-fetch-blob`)
+  - "RNCAsyncStorage (from `../../../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCClipboard (from `../../../node_modules/@react-native-clipboard/clipboard`)"
+  - "RNCMaskedView (from `../../../node_modules/@react-native-masked-view/masked-view`)"
+  - RNFastImage (from `../../../node_modules/react-native-fast-image`)
+  - "RNFBApp (from `../../../node_modules/@react-native-firebase/app`)"
+  - "RNFBMessaging (from `../../../node_modules/@react-native-firebase/messaging`)"
+  - "RNFBRemoteConfig (from `../../../node_modules/@react-native-firebase/remote-config`)"
+  - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
+  - RNInAppBrowser (from `../../../node_modules/react-native-inappbrowser-reborn`)
+  - RNKeychain (from `../../../node_modules/react-native-keychain`)
+  - RNLocalize (from `../../../node_modules/react-native-localize`)
+  - RNReactNativeHapticFeedback (from `../../../node_modules/react-native-haptic-feedback`)
+  - RNReanimated (from `../../../node_modules/react-native-reanimated`)
+  - RNScreens (from `../../../node_modules/react-native-screens`)
+  - "RNSentry (from `../../../node_modules/@sentry/react-native`)"
+  - RNShare (from `../../../node_modules/react-native-share`)
+  - RNSVG (from `../../../node_modules/react-native-svg`)
+  - RNVectorIcons (from `../../../node_modules/react-native-vector-icons`)
+  - "segment-analytics-react-native (from `../../../node_modules/@segment/analytics-react-native`)"
+  - "sovran-react-native (from `../../../node_modules/@segment/sovran-react-native`)"
+  - storyly-react-native (from `../../../node_modules/storyly-react-native`)
+  - Yoga (from `../../../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
@@ -939,196 +957,208 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   boost:
-    :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
+    :podspec: "../../../node_modules/react-native/third-party-podspecs/boost.podspec"
   braze-react-native-sdk:
-    :path: "../node_modules/@braze/react-native-sdk"
+    :path: "../../../node_modules/@braze/react-native-sdk"
   DoubleConversion:
-    :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+    :podspec: "../../../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  EXApplication:
+    :path: "../../../node_modules/expo-application/ios"
   EXBarCodeScanner:
-    :path: "../../../node_modules/.pnpm/expo-barcode-scanner@12.5.3_expo-modules-core@1.5.11_expo@49.0.13_react-native@0.72.6_react@18.2.0/node_modules/expo-barcode-scanner/ios"
+    :path: "../../../node_modules/expo-barcode-scanner/ios"
   EXCamera:
-    :path: "../../../node_modules/.pnpm/expo-camera@13.4.4_expo-modules-core@1.5.11_expo@49.0.13_react-native@0.72.6_react@18.2.0/node_modules/expo-camera/ios"
+    :path: "../../../node_modules/expo-camera/ios"
+  EXConstants:
+    :path: "../../../node_modules/expo-constants/ios"
   EXFileSystem:
-    :path: "../../../node_modules/.pnpm/expo-file-system@15.4.4_expo-modules-core@1.5.11_expo@49.0.13_react-native@0.72.6_react@18.2.0/node_modules/expo-file-system/ios"
+    :path: "../../../node_modules/expo-file-system/ios"
+  EXFont:
+    :path: "../../../node_modules/expo-font/ios"
   EXImageLoader:
-    :path: "../../../node_modules/.pnpm/expo-image-loader@4.3.0_expo-modules-core@1.5.11_expo@49.0.13_react-native@0.72.6_react@18.2.0/node_modules/expo-image-loader/ios"
+    :path: "../../../node_modules/expo-image-loader/ios"
   Expo:
-    :path: "../../../node_modules/.pnpm/expo@49.0.13_@babel+core@7.23.2_expo-modules-autolinking@1.5.1_expo-modules-core@1.5.11_react-native@0.72.6_react@18.2.0/node_modules/expo"
+    :path: "../../../node_modules/expo"
+  ExpoCrypto:
+    :path: "../../../node_modules/expo-crypto/ios"
   ExpoImageManipulator:
-    :path: "../../../node_modules/.pnpm/expo-image-manipulator@11.3.0_expo-modules-core@1.5.11_expo@49.0.13_react-native@0.72.6_react@18.2.0/node_modules/expo-image-manipulator/ios"
+    :path: "../../../node_modules/expo-image-manipulator/ios"
+  ExpoKeepAwake:
+    :path: "../../../node_modules/expo-keep-awake/ios"
   ExpoModulesCore:
-    :path: "../../../node_modules/.pnpm/expo-modules-core@1.5.11_react-native@0.72.6_react@18.2.0/node_modules/expo-modules-core"
+    :path: "../../../node_modules/expo-modules-core"
+  ExpoRandom:
+    :path: "../../../node_modules/expo-random/ios"
   FBLazyVector:
-    :path: "../node_modules/react-native/Libraries/FBLazyVector"
+    :path: "../../../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
-    :path: "../node_modules/react-native/React/FBReactNativeSpec"
+    :path: "../../../node_modules/react-native/React/FBReactNativeSpec"
   glog:
-    :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+    :podspec: "../../../node_modules/react-native/third-party-podspecs/glog.podspec"
   hermes-engine:
-    :podspec: "../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
+    :podspec: "../../../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
     :tag: hermes-2023-08-07-RNv0.72.4-813b2def12bc9df02654b3e3653ae4a68d0572e0
   lottie-react-native:
-    :path: "../node_modules/lottie-react-native"
+    :path: "../../../node_modules/lottie-react-native"
   PasscodeAuth:
-    :path: "../node_modules/@ledgerhq/react-native-passcode-auth"
+    :path: "../../../node_modules/@ledgerhq/react-native-passcode-auth"
   RCT-Folly:
-    :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
+    :podspec: "../../../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
-    :path: "../node_modules/react-native/Libraries/RCTRequired"
+    :path: "../../../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
-    :path: "../node_modules/react-native/Libraries/TypeSafety"
+    :path: "../../../node_modules/react-native/Libraries/TypeSafety"
   React:
-    :path: "../node_modules/react-native/"
+    :path: "../../../node_modules/react-native/"
   React-callinvoker:
-    :path: "../node_modules/react-native/ReactCommon/callinvoker"
+    :path: "../../../node_modules/react-native/ReactCommon/callinvoker"
   React-Codegen:
     :path: build/generated/ios
   React-Core:
-    :path: "../node_modules/react-native/"
+    :path: "../../../node_modules/react-native/"
   React-CoreModules:
-    :path: "../node_modules/react-native/React/CoreModules"
+    :path: "../../../node_modules/react-native/React/CoreModules"
   React-cxxreact:
-    :path: "../node_modules/react-native/ReactCommon/cxxreact"
+    :path: "../../../node_modules/react-native/ReactCommon/cxxreact"
   React-debug:
-    :path: "../node_modules/react-native/ReactCommon/react/debug"
+    :path: "../../../node_modules/react-native/ReactCommon/react/debug"
   React-hermes:
-    :path: "../node_modules/react-native/ReactCommon/hermes"
+    :path: "../../../node_modules/react-native/ReactCommon/hermes"
   React-jsi:
-    :path: "../node_modules/react-native/ReactCommon/jsi"
+    :path: "../../../node_modules/react-native/ReactCommon/jsi"
   React-jsiexecutor:
-    :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
+    :path: "../../../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
-    :path: "../node_modules/react-native/ReactCommon/jsinspector"
+    :path: "../../../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
-    :path: "../node_modules/react-native/ReactCommon/logger"
+    :path: "../../../node_modules/react-native/ReactCommon/logger"
   react-native-adjust:
-    :path: "../node_modules/react-native-adjust"
+    :path: "../../../node_modules/react-native-adjust"
   react-native-biometrics:
-    :path: "../node_modules/react-native-biometrics"
+    :path: "../../../node_modules/react-native-biometrics"
   react-native-ble-plx:
-    :path: "../node_modules/react-native-ble-plx"
+    :path: "../../../node_modules/react-native-ble-plx"
   react-native-config:
-    :path: "../node_modules/react-native-config"
+    :path: "../../../node_modules/react-native-config"
   react-native-fast-crypto:
-    :path: "../node_modules/react-native-fast-crypto"
+    :path: "../../../node_modules/react-native-fast-crypto"
   react-native-flipper:
-    :path: "../node_modules/react-native-flipper"
+    :path: "../../../node_modules/react-native-flipper"
   react-native-flipper-performance-plugin:
-    :path: "../node_modules/react-native-flipper-performance-plugin"
+    :path: "../../../node_modules/react-native-flipper-performance-plugin"
   react-native-image-crop-tools:
-    :path: "../node_modules/react-native-image-crop-tools"
+    :path: "../../../node_modules/react-native-image-crop-tools"
   react-native-image-picker:
-    :path: "../node_modules/react-native-image-picker"
+    :path: "../../../node_modules/react-native-image-picker"
   react-native-launch-arguments:
-    :path: "../node_modules/react-native-launch-arguments"
+    :path: "../../../node_modules/react-native-launch-arguments"
   react-native-netinfo:
-    :path: "../node_modules/@react-native-community/netinfo"
+    :path: "../../../node_modules/@react-native-community/netinfo"
   react-native-pager-view:
-    :path: "../node_modules/react-native-pager-view"
+    :path: "../../../node_modules/react-native-pager-view"
   react-native-performance:
-    :path: "../node_modules/react-native-performance"
+    :path: "../../../node_modules/react-native-performance"
   react-native-randombytes:
-    :path: "../node_modules/react-native-randombytes"
+    :path: "../../../node_modules/react-native-randombytes"
   react-native-restart:
-    :path: "../node_modules/react-native-restart"
+    :path: "../../../node_modules/react-native-restart"
   react-native-safe-area-context:
-    :path: "../node_modules/react-native-safe-area-context"
+    :path: "../../../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
-    :path: "../node_modules/react-native-splash-screen"
+    :path: "../../../node_modules/react-native-splash-screen"
   react-native-startup-time:
-    :path: "../node_modules/react-native-startup-time"
+    :path: "../../../node_modules/react-native-startup-time"
   react-native-tcp-socket:
-    :path: "../node_modules/react-native-tcp-socket"
+    :path: "../../../node_modules/react-native-tcp-socket"
   react-native-udp:
-    :path: "../node_modules/react-native-udp"
+    :path: "../../../node_modules/react-native-udp"
   react-native-version-number:
-    :path: "../node_modules/react-native-version-number"
+    :path: "../../../node_modules/react-native-version-number"
   react-native-video:
-    :path: "../node_modules/react-native-video"
+    :path: "../../../node_modules/react-native-video"
   react-native-webview:
-    :path: "../node_modules/react-native-webview"
+    :path: "../../../node_modules/react-native-webview"
   React-NativeModulesApple:
-    :path: "../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
+    :path: "../../../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
   React-perflogger:
-    :path: "../node_modules/react-native/ReactCommon/reactperflogger"
+    :path: "../../../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
-    :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
+    :path: "../../../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
-    :path: "../node_modules/react-native/Libraries/NativeAnimation"
+    :path: "../../../node_modules/react-native/Libraries/NativeAnimation"
   React-RCTAppDelegate:
-    :path: "../node_modules/react-native/Libraries/AppDelegate"
+    :path: "../../../node_modules/react-native/Libraries/AppDelegate"
   React-RCTBlob:
-    :path: "../node_modules/react-native/Libraries/Blob"
+    :path: "../../../node_modules/react-native/Libraries/Blob"
   React-RCTImage:
-    :path: "../node_modules/react-native/Libraries/Image"
+    :path: "../../../node_modules/react-native/Libraries/Image"
   React-RCTLinking:
-    :path: "../node_modules/react-native/Libraries/LinkingIOS"
+    :path: "../../../node_modules/react-native/Libraries/LinkingIOS"
   React-RCTNetwork:
-    :path: "../node_modules/react-native/Libraries/Network"
+    :path: "../../../node_modules/react-native/Libraries/Network"
   React-RCTSettings:
-    :path: "../node_modules/react-native/Libraries/Settings"
+    :path: "../../../node_modules/react-native/Libraries/Settings"
   React-RCTText:
-    :path: "../node_modules/react-native/Libraries/Text"
+    :path: "../../../node_modules/react-native/Libraries/Text"
   React-RCTVibration:
-    :path: "../node_modules/react-native/Libraries/Vibration"
+    :path: "../../../node_modules/react-native/Libraries/Vibration"
   React-rncore:
-    :path: "../node_modules/react-native/ReactCommon"
+    :path: "../../../node_modules/react-native/ReactCommon"
   React-runtimeexecutor:
-    :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
+    :path: "../../../node_modules/react-native/ReactCommon/runtimeexecutor"
   React-runtimescheduler:
-    :path: "../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler"
+    :path: "../../../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler"
   React-utils:
-    :path: "../node_modules/react-native/ReactCommon/react/utils"
+    :path: "../../../node_modules/react-native/ReactCommon/react/utils"
   ReactCommon:
-    :path: "../node_modules/react-native/ReactCommon"
+    :path: "../../../node_modules/react-native/ReactCommon"
   ReactNativePerformance:
-    :path: "../node_modules/@shopify/react-native-performance"
+    :path: "../../../node_modules/@shopify/react-native-performance"
   rn-fetch-blob:
-    :path: "../node_modules/rn-fetch-blob"
+    :path: "../../../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
-    :path: "../node_modules/@react-native-async-storage/async-storage"
+    :path: "../../../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
-    :path: "../node_modules/@react-native-clipboard/clipboard"
+    :path: "../../../node_modules/@react-native-clipboard/clipboard"
   RNCMaskedView:
-    :path: "../node_modules/@react-native-masked-view/masked-view"
+    :path: "../../../node_modules/@react-native-masked-view/masked-view"
   RNFastImage:
-    :path: "../node_modules/react-native-fast-image"
+    :path: "../../../node_modules/react-native-fast-image"
   RNFBApp:
-    :path: "../node_modules/@react-native-firebase/app"
+    :path: "../../../node_modules/@react-native-firebase/app"
   RNFBMessaging:
-    :path: "../node_modules/@react-native-firebase/messaging"
+    :path: "../../../node_modules/@react-native-firebase/messaging"
   RNFBRemoteConfig:
-    :path: "../node_modules/@react-native-firebase/remote-config"
+    :path: "../../../node_modules/@react-native-firebase/remote-config"
   RNGestureHandler:
-    :path: "../node_modules/react-native-gesture-handler"
+    :path: "../../../node_modules/react-native-gesture-handler"
   RNInAppBrowser:
-    :path: "../node_modules/react-native-inappbrowser-reborn"
+    :path: "../../../node_modules/react-native-inappbrowser-reborn"
   RNKeychain:
-    :path: "../node_modules/react-native-keychain"
+    :path: "../../../node_modules/react-native-keychain"
   RNLocalize:
-    :path: "../node_modules/react-native-localize"
+    :path: "../../../node_modules/react-native-localize"
   RNReactNativeHapticFeedback:
-    :path: "../node_modules/react-native-haptic-feedback"
+    :path: "../../../node_modules/react-native-haptic-feedback"
   RNReanimated:
-    :path: "../node_modules/react-native-reanimated"
+    :path: "../../../node_modules/react-native-reanimated"
   RNScreens:
-    :path: "../node_modules/react-native-screens"
+    :path: "../../../node_modules/react-native-screens"
   RNSentry:
-    :path: "../node_modules/@sentry/react-native"
+    :path: "../../../node_modules/@sentry/react-native"
   RNShare:
-    :path: "../node_modules/react-native-share"
+    :path: "../../../node_modules/react-native-share"
   RNSVG:
-    :path: "../node_modules/react-native-svg"
+    :path: "../../../node_modules/react-native-svg"
   RNVectorIcons:
-    :path: "../node_modules/react-native-vector-icons"
+    :path: "../../../node_modules/react-native-vector-icons"
   segment-analytics-react-native:
-    :path: "../node_modules/@segment/analytics-react-native"
+    :path: "../../../node_modules/@segment/analytics-react-native"
   sovran-react-native:
-    :path: "../node_modules/@segment/sovran-react-native"
+    :path: "../../../node_modules/@segment/sovran-react-native"
   storyly-react-native:
-    :path: "../node_modules/storyly-react-native"
+    :path: "../../../node_modules/storyly-react-native"
   Yoga:
-    :path: "../node_modules/react-native/ReactCommon/yoga"
+    :path: "../../../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
   Adjust: 41d0d5c031409aebe7fb1f5703ff0d3306133439
@@ -1139,15 +1169,21 @@ SPEC CHECKSUMS:
   BrazeUI: 305d8386fee0ecf95d62d514154fe71ad16c55d5
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
+  EXApplication: 042aa2e3f05258a16962ea1a9914bf288db9c9a1
   EXBarCodeScanner: 44783bf0be375ab18a838dcfef29dd648397000a
   EXCamera: 6e6e79bf01a2b8190268d93297d8e79a843d5ede
+  EXConstants: ce5bbea779da8031ac818c36bea41b10e14d04e1
   EXFileSystem: 2b826a3bf1071a4b80a8457e97124783d1ac860e
+  EXFont: 738c44c390953ebcbab075a4848bfbef025fd9ee
   EXImageLoader: 34b214f9387e98f3c73989f15d8d5b399c9ab3f7
   Expo: e7d2116b947e2e6fdeb09ee4f2754f819426d1b6
+  ExpoCrypto: d0d0f3e20875dc450b4ec88f0fb608da5c2c6c17
   ExpoImageManipulator: 851be0965dd9f78019771b140282f1816dcc25ea
+  ExpoKeepAwake: be4cbd52d9b177cde0fd66daa1913afa3161fc1d
   ExpoModulesCore: 51cb2e7ab4c8da14be3f40b66d54c1781002e99d
+  ExpoRandom: 14df0976aa363a71a730ceb7655250f3047c0e42
   FBLazyVector: 748c0ef74f2bf4b36cfcccf37916806940a64c32
-  FBReactNativeSpec: 32d6a753b515035a2a6d1e8339d47eae6bcd62fe
+  FBReactNativeSpec: a91ecb0e8b80b51e1d3329755b90b590ffdc13d3
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
   FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseCore: 5743c5785c074a794d35f2fff7ecc254a91e08b1
@@ -1165,7 +1201,7 @@ SPEC CHECKSUMS:
   FlipperKit: 2efad7007d6745a3f95e4034d547be637f89d3f6
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
-  GoogleDataTransport: 54dee9d48d14580407f8f5fbf2f496e92437a2f2
+  GoogleDataTransport: 57c22343ab29bc686febbf7cbb13bad167c2d8fe
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
   hermes-engine: 8057e75cfc1437b178ac86c8654b24e7fead7f60
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
@@ -1227,7 +1263,7 @@ SPEC CHECKSUMS:
   React-RCTSettings: 4f3a29a6d23ffa639db9701bc29af43f30781058
   React-RCTText: adde32164a243103aaba0b1dc7b0a2599733873e
   React-RCTVibration: 6bd85328388ac2e82ae0ca11afe48ad5555b483a
-  React-rncore: 5f6c56d06948e2844e19664e407ed92bd4f1f713
+  React-rncore: 5be5d2ad428e6d3b36d98a3bf03464ae0b7d1e89
   React-runtimeexecutor: 57d85d942862b08f6d15441a0badff2542fd233c
   React-runtimescheduler: f23e337008403341177fc52ee4ca94e442c17ede
   React-utils: fa59c9a3375fb6f4aeb66714fd3f7f76b43a9f16
@@ -1246,7 +1282,7 @@ SPEC CHECKSUMS:
   RNKeychain: f75b8c8b2f17d3b2aa1f25b4a0ac5b83d947ff8f
   RNLocalize: cbcb55d0e19c78086ea4eea20e03fe8000bbbced
   RNReactNativeHapticFeedback: afa5bf2794aecbb2dba2525329253da0d66656df
-  RNReanimated: f63db1d32b7411c173784b38f659e08dbb4dd92a
+  RNReanimated: 11ef210bd11e80668ed3708f7a9dd846ae29e99c
   RNScreens: 3c2d122f5e08c192e254c510b212306da97d2581
   RNSentry: 22ec5cbcdfffeea7fae88695467a3af5f8d94790
   RNShare: bed7c4fbe615f3d977f22feb0902af9a790c1660
