@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { StyledComponent, DefaultTheme } from "styled-components";
 import { getLinkColors } from "./getLinkStyle";
 import { ctaIconSize, ctaTextType } from "../getCtaStyle";
 import { Text } from "../../asorted";
@@ -54,7 +54,7 @@ const IconContainer = styled.div<{
   justify-content: center;
 `;
 
-export const Base = baseStyled.a<LinkProps>`
+export const Base: StyledComponent<"a", DefaultTheme, LinkProps, never> = baseStyled.a<LinkProps>`
   color: ${({ color, theme, disabled, type = "main" }) =>
     color || getLinkColors(theme.colors)[disabled ? "disabled" : type]["default"]};
   cursor: pointer;

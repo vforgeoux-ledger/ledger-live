@@ -1,4 +1,5 @@
 import React from "react";
+import { StyledComponent, DefaultTheme } from "styled-components";
 import styled, { keyframes } from "styled-components";
 import { system, size, SizeProps } from "styled-system";
 
@@ -11,7 +12,7 @@ const rotate = keyframes`
   }
 `;
 
-const Loader = styled.svg<SizeProps>`
+const Loader: StyledComponent<"svg", DefaultTheme, SizeProps, never> = styled.svg<SizeProps>`
   animation: ${rotate} 1s linear infinite;
   ${size}
   ${system({

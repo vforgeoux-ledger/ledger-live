@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css, StyledComponent, DefaultTheme } from "styled-components";
 import { typography, TypographyProps } from "styled-system";
 import React, { InputHTMLAttributes, useState, useMemo, useCallback } from "react";
 import CircledCrossSolidMedium from "@ledgerhq/icons-ui/reactLegacy/CircledCrossSolidMedium";
@@ -146,15 +146,29 @@ export const InputInfoContainer = styled(Text)`
   margin-left: 12px;
 `;
 
-export const InputRenderLeftContainer = styled(FlexBox).attrs(() => ({
+export const InputRenderLeftContainer: StyledComponent<
+  "div",
+  DefaultTheme,
+  { children: React.ReactNode },
+  never
+> = styled(FlexBox).attrs(() => ({
   alignItems: "center",
   pl: "16px",
-}))``;
+}))<{
+  children: React.ReactNode;
+}>``;
 
-export const InputRenderRightContainer = styled(FlexBox).attrs(() => ({
+export const InputRenderRightContainer: StyledComponent<
+  "div",
+  DefaultTheme,
+  { children: React.ReactNode },
+  never
+> = styled(FlexBox).attrs(() => ({
   alignItems: "center",
   pr: "16px",
-}))``;
+}))<{
+  children: React.ReactNode;
+}>``;
 
 export const ClearableButtonUnstyled = styled(ButtonUnstyled)`
   display: flex;
