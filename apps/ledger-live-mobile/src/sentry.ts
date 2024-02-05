@@ -84,6 +84,8 @@ const excludedErrorDescription = [
 
 const sentryEnabled = Config.SENTRY_DSN && (!__DEV__ || Config.FORCE_SENTRY) && !Config.MOCK;
 
+
+
 export function withSentry(App: React.ComponentType) {
   if (sentryEnabled) {
     Sentry.init({

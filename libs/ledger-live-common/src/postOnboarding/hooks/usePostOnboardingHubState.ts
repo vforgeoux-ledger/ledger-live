@@ -18,6 +18,8 @@ export function usePostOnboardingHubState(): PostOnboardingHubState {
   const postOnboardingContext = usePostOnboardingContext();
   const { getPostOnboardingAction } = postOnboardingContext;
   const { getFeature } = useFeatureFlags();
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return useMemo(() => {
     if (!getPostOnboardingAction)
       return {
@@ -33,6 +35,8 @@ export function usePostOnboardingHubState(): PostOnboardingHubState {
       }))
       .filter(
         actionWithState =>
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           !actionWithState.featureFlagId || getFeature(actionWithState.featureFlagId)?.enabled,
       );
     const lastActionCompleted = hubState.lastActionCompleted

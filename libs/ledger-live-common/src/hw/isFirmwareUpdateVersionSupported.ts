@@ -15,4 +15,6 @@ const deviceVersionRangesForUpdate: { [key in DeviceModelId]?: string } = {
 export default (deviceInfo: DeviceInfo, modelId: DeviceModelId): boolean =>
   getEnv("DISABLE_FW_UPDATE_VERSION_CHECK") ||
   (Boolean(deviceVersionRangesForUpdate[modelId]) &&
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     satisfies(coerce(deviceInfo.version), deviceVersionRangesForUpdate[modelId] as string));

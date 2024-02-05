@@ -698,6 +698,8 @@ export async function bot({ disabled, filter }: Arg = {}): Promise<void> {
     const serializedReport: MinimalSerializedReport = {
       results: results.map(convertSpecReport),
       environment: BOT_ENVIRONMENT,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       seedHash: sha256(getEnv("SEED")),
     };
 

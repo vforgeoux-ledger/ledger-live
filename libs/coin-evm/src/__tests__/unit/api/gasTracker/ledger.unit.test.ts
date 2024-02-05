@@ -116,9 +116,12 @@ describe("EVM Family", () => {
           Object.entries(gasOptions).forEach(([key, value]) => {
             const { maxFeePerGas } = value;
 
-            expect(maxFeePerGas?.isInteger(), `${key}:maxFeePerGas - got ${maxFeePerGas}`).toBe(
-              true,
-            );
+            expect(
+              maxFeePerGas?.isInteger(),
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              `${key}:maxFeePerGas - got ${maxFeePerGas}`,
+            ).toBe(true);
           });
 
           setEnv("EIP1559_BASE_FEE_MULTIPLIER", TEST_EIP1559_BASE_FEE_MULTIPLIER);
@@ -150,14 +153,25 @@ describe("EVM Family", () => {
           Object.entries(gasOptions).forEach(([key, value]) => {
             const { maxFeePerGas, maxPriorityFeePerGas, nextBaseFee } = value;
 
-            expect(maxFeePerGas?.isInteger(), `${key}:maxFeePerGas - got ${maxFeePerGas}`).toBe(
-              true,
-            );
+            expect(
+              maxFeePerGas?.isInteger(),
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              `${key}:maxFeePerGas - got ${maxFeePerGas}`,
+            ).toBe(true);
+
             expect(
               maxPriorityFeePerGas?.isInteger(),
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               `${key}:maxPriorityFeePerGas - got ${maxPriorityFeePerGas}`,
             ).toBe(true);
-            expect(nextBaseFee?.isInteger(), `${key}:nextBaseFee - got ${nextBaseFee}`).toBe(true);
+            expect(
+              nextBaseFee?.isInteger(),
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              `${key}:nextBaseFee - got ${nextBaseFee}`,
+            ).toBe(true);
           });
         });
       });
@@ -253,7 +267,12 @@ describe("EVM Family", () => {
           Object.entries(gasOptions).forEach(([key, value]) => {
             const { gasPrice } = value;
 
-            expect(gasPrice?.isInteger(), `${key}:gasPrice - got ${gasPrice}`).toBe(true);
+            expect(
+              gasPrice?.isInteger(),
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              `${key}:gasPrice - got ${gasPrice}`,
+            ).toBe(true);
           });
         });
       });

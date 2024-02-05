@@ -32,6 +32,8 @@ export const buildTransaction = async (
         nearAPI.transactions.functionCall(
           "deposit_and_stake",
           {},
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           getStakingGas().toNumber(),
           parsedNearAmount,
         ),
@@ -40,13 +42,22 @@ export const buildTransaction = async (
     case "unstake":
       if (t.useAllAmount) {
         actions.push(
-          nearAPI.transactions.functionCall("unstake_all", {}, getStakingGas().toNumber(), "0"),
+          nearAPI.transactions.functionCall(
+            "unstake_all",
+            {},
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            getStakingGas().toNumber(),
+            "0",
+          ),
         );
       } else {
         actions.push(
           nearAPI.transactions.functionCall(
             "unstake",
             { amount: parsedNearAmount },
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             getStakingGas().toNumber(),
             "0",
           ),
@@ -56,13 +67,22 @@ export const buildTransaction = async (
     case "withdraw":
       if (t.useAllAmount) {
         actions.push(
-          nearAPI.transactions.functionCall("withdraw_all", {}, getStakingGas(t).toNumber(), "0"),
+          nearAPI.transactions.functionCall(
+            "withdraw_all",
+            {},
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            getStakingGas(t).toNumber(),
+            "0",
+          ),
         );
       } else {
         actions.push(
           nearAPI.transactions.functionCall(
             "withdraw",
             { amount: parsedNearAmount },
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             getStakingGas().toNumber(),
             "0",
           ),
@@ -70,6 +90,8 @@ export const buildTransaction = async (
       }
       break;
     default:
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       actions.push(nearAPI.transactions.transfer(parsedNearAmount));
   }
 

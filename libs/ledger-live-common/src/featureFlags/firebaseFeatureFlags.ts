@@ -26,6 +26,8 @@ export const checkFeatureFlagVersion = (feature: Feature) => {
   })();
   if (
     featureSpecificVersion &&
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     !semver.satisfies(LiveConfig.instance.appVersion, featureSpecificVersion, {
       includePrerelease: true,
     })

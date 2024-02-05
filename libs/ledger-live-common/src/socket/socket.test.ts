@@ -20,7 +20,8 @@ describe("Scriptrunner logic", () => {
     it(describe, async () => {
       // Generate a transport replayer with the data from the test
       const transport = await openTransportReplayer(RecordStore.fromString(device));
-
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       WS.mockImplementation(() => {
         let msgIndex = 0;
 

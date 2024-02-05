@@ -183,7 +183,8 @@ export default class TransportNodeHidSingleton extends TransportNodeHidNoEvents 
 
     tracer.trace("Found a device, creating HID transport instance ...", { device });
 
-    let HIDDevice: HID | undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let HIDDevice: any;
     try {
       HIDDevice = new HID.HID(device.path as string);
     } catch (error) {

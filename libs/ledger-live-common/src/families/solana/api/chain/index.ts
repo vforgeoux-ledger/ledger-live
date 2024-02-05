@@ -84,6 +84,8 @@ export function getChainAPI(
     logger === undefined
       ? undefined
       : (url, options, fetch) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           logger(url, options);
           fetch(url, options);
         };

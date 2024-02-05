@@ -7,7 +7,6 @@
     "isolatedModules": true,
     "strict": true,
     "baseUrl": ".",
-    "preserveSymlinks": true
   },
   "include": ["src/**/*", "storybook/**/*"],
   "exclude": [

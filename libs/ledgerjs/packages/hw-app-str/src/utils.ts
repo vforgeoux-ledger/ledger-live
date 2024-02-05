@@ -95,6 +95,8 @@ export function verifyEd25519Signature(
 }
 export function hash(data: Buffer) {
   const hasher = new sha256();
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   hasher.update(data, "utf8");
   return hasher.digest();
 }

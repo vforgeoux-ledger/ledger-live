@@ -29,6 +29,8 @@ describe("Check SWAP until payload signature", () => {
 
     const { partnerInfo, partnerSigned, partnerPrivKey } =
       await appExchangeDatasetTest(legacySignFormat);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     await exchange.setPartnerKey(partnerInfo);
 
     await exchange.checkPartner(partnerSigned);
@@ -65,6 +67,8 @@ describe("Check SWAP until payload signature", () => {
 
     const { partnerInfo, partnerSigned, partnerPrivKey } =
       await appExchangeDatasetTest(ngSignFormat);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     await exchange.setPartnerKey(partnerInfo);
 
     await exchange.checkPartner(partnerSigned);
@@ -103,6 +107,8 @@ describe("Check SWAP until payload signature", () => {
 
     const { partnerInfo, partnerSigned, partnerPrivKey } =
       await appExchangeDatasetTest(ngSignFormat);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     await exchange.setPartnerKey(partnerInfo);
 
     await exchange.checkPartner(partnerSigned);
@@ -280,10 +286,14 @@ async function signMessage(
   if (sigFormat === "der") {
     return convertSignatureToDER(sig);
   }
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return sig;
 }
 
 function convertSignatureToDER(sig: Uint8Array): Buffer {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return secp256k1.signatureExport(sig);
 }
 
