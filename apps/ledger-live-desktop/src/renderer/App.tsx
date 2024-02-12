@@ -31,6 +31,7 @@ import { useBraze } from "./hooks/useBraze";
 import { StorylyProvider } from "~/storyly/StorylyProvider";
 import { CounterValuesStateRaw } from "@ledgerhq/live-countervalues/types";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { CryptoIconsProvider } from "@ledgerhq/react-ui/components/asorted/Icon";
 
 const reloadApp = (event: KeyboardEvent) => {
   if ((event.ctrlKey || event.metaKey) && event.key === "r") {
@@ -86,7 +87,9 @@ const InnerApp = ({ initialCountervalues }: { initialCountervalues: CounterValue
                               <MarketDataProvider>
                                 <StorylyProvider>
                                   <QueryClientProvider client={queryClient}>
-                                    <Default />
+                                    <CryptoIconsProvider>
+                                      <Default />
+                                    </CryptoIconsProvider>
                                   </QueryClientProvider>
                                 </StorylyProvider>
                               </MarketDataProvider>

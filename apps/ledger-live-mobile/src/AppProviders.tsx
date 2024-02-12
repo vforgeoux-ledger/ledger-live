@@ -14,6 +14,7 @@ import OldMarketDataProvider from "~/screens/Market/MarketDataProviderWrapper";
 import PostOnboardingProviderWrapped from "~/logic/postOnboarding/PostOnboardingProviderWrapped";
 import { CounterValuesStateRaw } from "@ledgerhq/live-countervalues/types";
 import useFeature from "@ledgerhq/live-common/featureFlags/useFeature";
+import { CryptoIconsProvider } from "@ledgerhq/native-ui/components/Icon/CryptoIconPOC";
 
 type AppProvidersProps = {
   initialCountervalues?: CounterValuesStateRaw;
@@ -36,7 +37,9 @@ function AppProviders({ initialCountervalues, children }: AppProvidersProps) {
                   <NotificationsProvider>
                     <SnackbarContainer />
                     <NftMetadataProvider getCurrencyBridge={getCurrencyBridge}>
-                      <MarketDataProvider>{children}</MarketDataProvider>
+                      <MarketDataProvider>
+                        <CryptoIconsProvider>{children}</CryptoIconsProvider>
+                      </MarketDataProvider>
                     </NftMetadataProvider>
                   </NotificationsProvider>
                 </ToastProvider>
