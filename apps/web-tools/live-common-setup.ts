@@ -66,4 +66,5 @@ setSupportedCurrencies([
   "near",
   "coreum",
   "vechain",
+  "celestia",
 ]);

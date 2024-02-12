@@ -1000,6 +1000,35 @@ export const cryptocurrenciesById: Record<CryptoCurrencyId, CryptoCurrency> = {
       },
     ],
   },
+  celestia: {
+    type: "CryptoCurrency",
+    id: "celestia",
+    coinType: CoinType.ATOM,
+    name: "Celestia",
+    managerAppName: "Cosmos",
+    ticker: "TIA",
+    scheme: "celestia",
+    color: "#6666FF",
+    family: "cosmos",
+    units: [
+      {
+        name: "TIA",
+        code: "TIA",
+        magnitude: 6,
+      },
+      {
+        name: "Micro-TIA",
+        code: "utia",
+        magnitude: 0,
+      },
+    ],
+    explorerViews: [
+      {
+        tx: "https://www.mintscan.io/celestia/txs/$hash",
+        address: "https://www.mintscan.io/celestia/validators/$address",
+      },
+    ],
+  },
   elastos: {
     type: "CryptoCurrency",
     id: "elastos",

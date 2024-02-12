@@ -126,6 +126,7 @@ setSupportedCurrencies([
   "lukso",
   "linea",
   "linea_goerli",
+  "celestia",
 ]);
 
 if (Config.BLE_LOG_LEVEL) BluetoothTransport.setLogLevel(Config.BLE_LOG_LEVEL);

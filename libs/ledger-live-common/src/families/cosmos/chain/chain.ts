@@ -16,6 +16,7 @@ import BinanceBeaconChain from "./BinanceBeaconChain";
 import Coreum from "./Coreum";
 import Injective from "./Injective";
 import Dydx from "./Dydx";
+import Celestia from "./Celestia";
 
 const cosmosChainParams: { [key: string]: CosmosBase } = {};
 export default function cryptoFactory(currencyId: string): CosmosBase {
@@ -40,6 +41,9 @@ export default function cryptoFactory(currencyId: string): CosmosBase {
         break;
       case "dydx":
         cosmosChainParams[currencyId] = new Dydx();
+        break;
+      case "celestia":
+        cosmosChainParams[currencyId] = new Celestia();
         break;
       case "nyx":
         cosmosChainParams[currencyId] = new Nyx();

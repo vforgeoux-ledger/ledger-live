@@ -30,6 +30,13 @@ export default {
       ledgerValidator: "dydxvaloper1gffkd68xcnfpzcsplf0fsuetxkysunud6a900w",
     },
   },
+  config_currency_celestia: {
+    type: "object",
+    default: {
+      lcd: "https://api.celestia.nodestake.top:443",
+      minGasPrice: 0.002,
+    },
+  },
   config_currency_nyx: {
     type: "object",
     default: {
