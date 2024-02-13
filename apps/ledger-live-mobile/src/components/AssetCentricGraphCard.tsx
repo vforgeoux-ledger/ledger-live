@@ -3,7 +3,7 @@ import styled, { useTheme } from "styled-components/native";
 import { Flex, Text, GraphTabs } from "@ledgerhq/native-ui";
 import { getCurrencyColor } from "@ledgerhq/live-common/currencies/index";
 import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
-import { Currency } from "@ledgerhq/types-cryptoassets";
+import { CryptoOrTokenCurrency, Currency } from "@ledgerhq/types-cryptoassets";
 import { Portfolio } from "@ledgerhq/types-live";
 import { useTimeRange } from "~/actions/settings";
 import Delta from "./Delta";
@@ -20,6 +20,7 @@ import { Item } from "./Graph/types";
 import { Merge } from "~/types/helpers";
 import { GraphPlaceholder } from "./Graph/Placeholder";
 import { tokensWithUnsupportedGraph } from "./Graph/tokensWithUnsupportedGraph";
+import CryptoIconPOC, { useCryptoIcons } from "@ledgerhq/native-ui/components/Icon/CryptoIconPOC";
 
 const Placeholder = styled(Flex).attrs({
   backgroundColor: "neutral.c40",
@@ -42,7 +43,7 @@ type Props = {
   counterValueCurrency: Currency;
   currentPositionY: Animated.SharedValue<number>;
   graphCardEndPosition: number;
-  currency: Currency;
+  currency: CryptoOrTokenCurrency;
   accountsEmpty?: boolean;
   currencyBalance: number;
 };
@@ -129,6 +130,9 @@ function AssetCentricGraphCard({
     });
   }, [range]);
 
+  const { cryptoIcons } = useCryptoIcons();
+  const currencyId = currency?.id;
+
   return (
     <Flex flexDirection="column">
       <Flex
@@ -141,7 +145,15 @@ function AssetCentricGraphCard({
       >
         <Animated.View style={[BalanceOpacity]}>
           <Flex alignItems="center">
-            <ParentCurrencyIcon size={32} currency={currency} />
+            {currencyId && cryptoIcons?.[currencyId] ? (
+              <CryptoIconPOC
+                size={40}
+                iconURL={cryptoIcons?.[currencyId] || undefined}
+                circleIcon
+              />
+            ) : (
+              <ParentCurrencyIcon size={32} currency={currency} />
+            )}
             <Flex alignItems="center">
               <Flex>
                 {!balanceHistory ? (

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import styled, { useTheme } from "styled-components/native";
 
 import Text from "../Text/index";
@@ -38,46 +38,36 @@ export const CryptoIconsProvider: React.FC<CryptoIconsProviderProps> = ({ childr
 
 interface UseCryptoIcons {
   cryptoIcons: CryptoIcons;
-  getCryptoIcon: (ids: string | string[]) => Promise<void>;
 }
 
 export const useCryptoIcons = (): UseCryptoIcons => {
   const { cryptoIcons, setCryptoIcons } = useCryptoIconsContext();
 
-  const getCryptoIcon = async (ids: string | string[]) => {
-    try {
-      const idArray = Array.isArray(ids) ? ids : [ids];
+  useEffect(() => {
+    getIconsUrls();
+  }, []);
 
-      const promises = idArray.map(async (id) => {
-        if (cryptoIcons[id]) {
-          return;
-        }
+  const getIconsUrls = async () => {
+    if (Object.keys(cryptoIcons).length === 0) {
+      try {
+        const response = await fetch(
+          "https://mapping-service.api.ledger.com/v1/coingecko/mapped-assets",
+        );
 
-        try {
-          const response = await fetch(
-            `https://api.coingecko.com/api/v3/coins/${id}?tickers=false&market_data=false&community_data=false&developer_data=true`,
-            // { mode: "no-cors" },
-          );
+        const data = await response.json();
+        const urlById: { [key: string]: string } = {};
+        data.forEach((item: { ledgerId: string | number; data: { img: string } }) => {
+          urlById[item.ledgerId] = item.data.img;
+        });
 
-          if (!response.ok) {
-            throw new Error(`Failed to fetch data for ID: ${id}`);
-          }
-
-          const data = await response.json();
-          const icon = data.image?.large || null;
-          setCryptoIcons((prevIcons) => ({ ...prevIcons, [id]: icon }));
-        } catch (error) {
-          console.error("Error fetching crypto icons:", error);
-        }
-      });
-
-      await Promise.all(promises);
-    } catch (error) {
-      console.error("Error fetching crypto icons:", error);
+        setCryptoIcons(urlById);
+      } catch (error) {
+        console.error("Error fetching crypto icons:", error);
+      }
     }
   };
 
-  return { getCryptoIcon, cryptoIcons };
+  return { cryptoIcons };
 };
 
 export type Props = {
@@ -111,7 +101,7 @@ const Circle = styled(Flex).attrs((p: { size: number; backgroundColor: string })
   alignItems: "center",
   justifyContent: "center",
   position: "relative",
-  borderRadius: "50%",
+  borderRadius: 50.0,
   backgroundColor: p.backgroundColor,
 }))<{ size: number }>``;
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { useTheme } from "styled-components/native";
 import { BigNumber } from "bignumber.js";
-import { CryptoOrTokenCurrency, Currency, Unit } from "@ledgerhq/types-cryptoassets";
+import { CryptoOrTokenCurrency, Unit } from "@ledgerhq/types-cryptoassets";
 import { Flex, Text, Tag } from "@ledgerhq/native-ui";
 import { ValueChange } from "@ledgerhq/types-live";
 import isEqual from "lodash/isEqual";
@@ -41,7 +41,6 @@ const AssetRowLayout = ({
 }: Props) => {
   const { colors, space } = useTheme();
   const { cryptoIcons } = useCryptoIcons();
-
   const currencyId = currency?.id;
 
   return (

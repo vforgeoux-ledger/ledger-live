@@ -29,17 +29,14 @@ const availableTokens = [
 const Template: ComponentStory<typeof CryptoIconPOC> = ({
   size = 32,
   circleIcon = true,
-  iconURL = "bitcoin",
-  tokenIconURL = "ethereum",
+  iconId = "",
+  tokenIconId = "",
   backgroundColor = "dark_blue",
 }) => {
-  const { getCryptoIcon, cryptoIcons } = useCryptoIcons();
+  const { cryptoIcons } = useCryptoIcons();
 
-  const selectedIconUrl = iconURL || availableTokens[0];
-  const selectedTokenIconUrl = tokenIconURL || availableTokens[1];
-
-  // Use an array of IDs to ensure getCryptoIcon is called with the correct data
-  getCryptoIcon([selectedIconUrl, selectedTokenIconUrl]);
+  const selectedIconUrl = iconId || availableTokens[0];
+  const selectedTokenIconUrl = tokenIconId || availableTokens[1];
 
   return (
     <CryptoIconPOC
@@ -56,7 +53,7 @@ export const Default: ComponentStory<typeof CryptoIconPOC> = Template.bind({});
 Default.args = {
   size: 32,
   circleIcon: true,
-  iconURL: "bitcoin",
-  tokenIconURL: "ethereum",
+  iconId: "",
+  tokenIconId: "",
   backgroundColor: "dark_blue",
 };

@@ -31,20 +31,15 @@ const availableTokens = [
 
 const Template: Story<TemplateProps> = ({
   size = 32,
-  circleIcon = false,
-  iconURL = "bitcoin",
-  tokenIconURL = "ethereum",
+  circleIcon = true,
+  iconId = "",
+  tokenIconId = "",
   backgroundColor = "dark_blue",
 }) => {
-  const { getCryptoIcon, cryptoIcons } = useCryptoIcons();
+  const { cryptoIcons } = useCryptoIcons();
 
-  const selectedIconUrl = iconURL || availableTokens[0];
-  const selectedTokenIconUrl = tokenIconURL || availableTokens[1];
-
-  // Use an array of IDs to ensure getCryptoIcon is called with the correct data
-  getCryptoIcon([selectedIconUrl, selectedTokenIconUrl]);
-
-  console.log("sbCryptoIcons", cryptoIcons);
+  const selectedIconUrl = iconId || availableTokens[0];
+  const selectedTokenIconUrl = tokenIconId || availableTokens[1];
 
   return (
     <CryptoIconPOC
@@ -60,8 +55,8 @@ const Template: Story<TemplateProps> = ({
 export const Default: Story<TemplateProps> = Template.bind({});
 Default.args = {
   size: 32,
-  circleIcon: false,
-  iconURL: "bitcoin",
-  tokenIconURL: "ethereum",
+  circleIcon: true,
+  iconId: "",
+  tokenIconId: "",
   backgroundColor: "dark_blue",
 };
