@@ -10,6 +10,8 @@ import DeviceAction from "../../models/DeviceAction";
 import { knownDevice } from "../../models/devices";
 import { BigNumber } from "bignumber.js";
 import { formattedAmount } from "../../models/common";
+import { tapById } from "../../helpers";
+
 
 let portfolioPage: PortfolioPage;
 let stakePage: StakePage;
@@ -61,6 +63,13 @@ describe("Cosmos delegate flow", () => {
     expect(assestsRemaining).toEqual(formattedAmount(testedAccount.unit, remainingAmount));
     expect(assestsDelagated).toEqual(formattedAmount(testedAccount.unit, delegatedAmount, true));
 
+  });
+
+  it("Check the presence of figment validator", async () => {
+    await tapById(stakePage.cosmosDelegationSummaryValidatorId);
+    await stakePage.searchValidator("Figment");
+    await stakePage.selectValidator("Figment");
+    expect(await stakePage.cosmosDelegationSummaryValidator()).toEqual("Figment");
     await stakePage.summaryContinue();
     await deviceAction.selectMockDevice();
     await deviceAction.openApp();

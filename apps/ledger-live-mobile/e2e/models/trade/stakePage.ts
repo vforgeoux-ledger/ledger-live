@@ -1,4 +1,4 @@
-import { getTextOfElement, tapById, waitForElementById } from "../../helpers";
+import { getTextOfElement, tapById, typeTextById, waitForElementById } from "../../helpers";
 
 export default class StakePage {
   cosmosDelegationSummaryValidatorId = "cosmos-delegation-summary-validator";
@@ -9,7 +9,9 @@ export default class StakePage {
   cosmosDelegatedRatioId = (delegatedPercent: number) => `delegate-ratio-${delegatedPercent}%`;
   cosmosAllAssestsUsedText = "cosmos-all-assets-used-text";
   summaryContinueButtonId = "cosmos-summary-continue-button";
-
+  delegationSearchBox="common_searchBox_validator";
+  cosmosValidatorRowId = (validator: string) => `cosmos_validator_${validator}`;
+  
   async selectCurrency(currencyId: string) {
     const id = "currency-row-" + currencyId;
     await waitForElementById(id);
@@ -48,5 +50,13 @@ export default class StakePage {
   async successClose() {
     await waitForElementById("success-close-button");
     await tapById("success-close-button");
+  }
+
+  async searchValidator(validator: string) {
+    await typeTextById(this.delegationSearchBox,validator);
+  }
+
+  async selectValidator(validator: string) {
+    await tapById(this.cosmosValidatorRowId(validator));
   }
 }

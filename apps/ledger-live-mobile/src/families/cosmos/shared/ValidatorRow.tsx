@@ -30,6 +30,7 @@ const ValidatorRow = ({
         validatorName: validator.name || validator.validatorAddress,
       }}
       onPress={onPressT}
+      testID={`cosmos_validator_${validator.name}`}
     >
       <View style={styles.validator}>
         <ValidatorImage
