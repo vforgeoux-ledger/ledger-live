@@ -198,7 +198,7 @@ function MarketRowItem({
     currency?.internalCurrency && (availableOnBuy || availableOnSwap || availableOnStake);
   return (
     <div style={{ ...style }}>
-      {loading || !currency ? (
+      {loading && !currency ? (
         <TableRow disabled>
           <TableCell loading />
           <TableCell loading />

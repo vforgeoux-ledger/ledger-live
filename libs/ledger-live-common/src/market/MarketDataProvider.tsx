@@ -101,9 +101,18 @@ function marketDataReducer(state, action) {
       const newData = action.payload.marketData;
       const page = action.payload.page || state.requestParams.page;
       const marketData = [...state.marketData.map(data => ({ ...data }))];
-      if (!newData.length || marketData.some(({ id }) => id === newData[0].id))
-        return { ...state, loading: false };
-
+      if (!newData.length) return { ...state, loading: false };
+      //has fetch the same page
+      if (marketData.some(({ id }) => id === newData[0].id)) {
+        return {
+          ...state,
+          marketData: marketData.map(currentMarketData => {
+            const newCurrencyData = newData.find(({ id }) => currentMarketData.id === id);
+            return newCurrencyData ? newCurrencyData : currentMarketData;
+          }),
+          loading: false,
+        };
+      }
       return {
         ...state,
         marketData: marketData.concat(newData),
@@ -142,7 +151,6 @@ function marketDataReducer(state, action) {
       };
       return {
         ...state,
-        marketData: [],
         requestParams,
         loading: true,
         page: 1,
@@ -208,8 +216,7 @@ function marketDataReducer(state, action) {
   }
 }
 
-// 300000 milliseconds = 5 minutes
-const REFRESH_TIMEOUT = 300000;
+const REFRESH_TIMEOUT = 45 * 1000;
 
 export const MarketDataProvider = ({
   children,

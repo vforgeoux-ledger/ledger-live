@@ -178,6 +178,7 @@ async function listPaginated({
       atl: any;
       ["atl_date"]: any;
       ["sparkline_in_7d"]: { price: any };
+      ["last_updated"]: string;
     }) => ({
       id: currency.id,
       name: currency.name,
@@ -206,6 +207,7 @@ async function listPaginated({
         ? sparklineAsSvgData(distributedCopy(currency.sparkline_in_7d.price, 6 * 7)) // keep 6 points per day
         : null,
       chartData: [],
+      lastUpdated: currency.last_updated,
     }),
   );
 }
