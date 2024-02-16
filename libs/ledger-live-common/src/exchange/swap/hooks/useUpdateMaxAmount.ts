@@ -56,13 +56,31 @@ export const useUpdateMaxAmount = ({
         if (!account) return;
         const bridge = getAccountBridge(account, parentAccount);
         setIsMaxLoading(true);
-        const amount = await bridge.estimateMaxSpendable({
-          account,
-          parentAccount,
-          transaction,
-        });
-        setIsMaxLoading(false);
-        setFromAmount(amount);
+        if (account.type === "Account") {
+          switch (account.unit.code) {
+            case "ETH":
+              const eth_min_removed = 10000000000000000;
+              setIsMaxLoading(false);
+              setFromAmount(account.balance.minus(eth_min_removed));
+              break;
+            default:
+              const amount = await bridge.estimateMaxSpendable({
+                account,
+                parentAccount,
+                transaction,
+              });
+              setIsMaxLoading(false);
+              setFromAmount(amount);
+          }
+        } else {
+          const amount = await bridge.estimateMaxSpendable({
+            account,
+            parentAccount,
+            transaction,
+          });
+          setIsMaxLoading(false);
+          setFromAmount(amount);
+        }
       };
 
       if (isMaxEnabled) {

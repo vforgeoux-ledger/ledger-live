@@ -356,7 +356,21 @@ const SwapForm = () => {
       redirectToProviderApp(provider);
     } else {
       // Fix LIVE-9064, prevent the transaction from being updated when using useAllAmount
+      if (
+        swapTransaction?.transaction?.useAllAmount &&
+        swapTransaction?.account?.type === "Account"
+      ) {
+        switch (swapTransaction.account.unit.code) {
+          case "ETH":
+            const eth_min_removed = 10000000000000000;
+            swapTransaction.transaction
+              ? (swapTransaction.transaction.amount =
+                  swapTransaction.account.balance.minus(eth_min_removed))
+              : null;
+        }
+      }
       swapTransaction.transaction ? (swapTransaction.transaction.useAllAmount = false) : null;
+
       setDrawer(
         ExchangeDrawer,
         {

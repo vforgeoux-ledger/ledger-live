@@ -170,6 +170,12 @@ function FromRow({
     toggleMax();
   };
 
+  const maxUsingEthWarningCheck =
+    isMaxEnabled && fromAccount?.type === "Account" && fromAccount.unit.code === "ETH";
+  const maxEthWarning = new Error(
+    "To make using max with ETH more reliable we deduct 0,01 eth to account for fees",
+  );
+  maxEthWarning.name = "maxWarning";
   return (
     <>
       <Box
@@ -226,11 +232,11 @@ function FromRow({
         </InputSection>
       </Box>
 
-      {(!!fromAmountError || !!fromAmountWarning) && (
+      {(!!fromAmountError || !!fromAmountWarning || !!maxUsingEthWarningCheck) && (
         <SwapStatusContainer isError={!!fromAmountError}>
           <WarningSolidMedium size={16} />
           <SwapStatusText fontWeight={500} fontFamily="Inter" fontSize={12} lineHeight="14px">
-            <TranslatedError error={fromAmountError || fromAmountWarning} />
+            <TranslatedError error={fromAmountError || fromAmountWarning || maxEthWarning} />
           </SwapStatusText>
         </SwapStatusContainer>
       )}
