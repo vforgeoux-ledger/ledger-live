@@ -65,11 +65,17 @@ describe("Cosmos delegate flow", () => {
 
   });
 
-  it("Check the presence of figment validator", async () => {
+  it("Check the presence of Figment validator", async () => {
     await tapById(stakePage.cosmosDelegationSummaryValidatorId);
     await stakePage.searchValidator("Figment");
+  });
+
+  it("Select Figment validator", async () => {  
     await stakePage.selectValidator("Figment");
     expect(await stakePage.cosmosDelegationSummaryValidator()).toEqual("Figment");
+  }); 
+
+  it("Close the app", async () => { 
     await stakePage.summaryContinue();
     await deviceAction.selectMockDevice();
     await deviceAction.openApp();
