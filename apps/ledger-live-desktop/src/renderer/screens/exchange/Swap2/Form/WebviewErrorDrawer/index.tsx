@@ -48,6 +48,9 @@ export type SwapLiveError = {
   cause: {
     message?: string;
     swapCode?: string;
+    response: {
+      data: { error: { message: string } };
+    };
   };
 };
 
@@ -68,6 +71,13 @@ export default function WebviewErrorDrawer(error?: SwapLiveError) {
     case "User refused":
       titleKey = "errors.TransactionRefusedOnDevice.title";
       descriptionKey = "errors.TransactionRefusedOnDevice.description";
+      errorCodeSection = null;
+      break;
+  }
+  switch (error?.cause?.response?.data?.error?.message) {
+    case "Rate expired or already used.":
+      titleKey = "errors.RateAlreadyUsed.title";
+      descriptionKey = "errors.RateAlreadyUsed.description";
       errorCodeSection = null;
       break;
   }
