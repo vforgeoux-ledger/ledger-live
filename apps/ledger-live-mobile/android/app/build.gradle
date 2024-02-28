@@ -226,6 +226,8 @@ dependencies {
     // Adjust
     implementation 'com.google.android.gms:play-services-analytics:10.0.1'
     implementation 'com.android.installreferrer:installreferrer:1.0'
+
+    implementation project(':@sprinklr-chat-native-client')
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

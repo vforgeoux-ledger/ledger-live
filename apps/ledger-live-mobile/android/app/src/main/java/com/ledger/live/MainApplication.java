@@ -23,6 +23,8 @@ import expo.modules.ApplicationLifecycleDispatcher;
 import expo.modules.ExpoModulesPackage;
 import expo.modules.ReactNativeHostWrapper;
 
+import com.sprinklr.messenger.SPRMessengerPackagesProvider
+
 public class MainApplication extends Application implements ReactApplication {
   
   public static int FW_UPDATE_NOTIFICATION_PROGRESS = 1;
@@ -44,6 +46,7 @@ public class MainApplication extends Application implements ReactApplication {
           packages.add(new ReactVideoPackage());
           packages.add(new BackgroundRunnerPackager());
           packages.add(new ExpoModulesPackage());
+          packages.addAll(SPRMessengerPackagesProvider.getPackages());
           return packages;
         }
 

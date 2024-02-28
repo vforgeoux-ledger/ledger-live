@@ -78,10 +78,10 @@ export type NavigationType = "navigate" | "replace" | "push";
 
 export type BaseNavigatorStackParamList = {
   [NavigatorName.Main]:
-    | (NavigatorScreenParams<MainNavigatorParamList> & {
-        hideTabNavigation?: boolean;
-      })
-    | undefined;
+  | (NavigatorScreenParams<MainNavigatorParamList> & {
+    hideTabNavigation?: boolean;
+  })
+  | undefined;
   [NavigatorName.BuyDevice]: NavigatorScreenParams<BuyDeviceNavigatorParamList> | undefined;
   [ScreenName.NoDeviceWallScreen]: undefined;
   [ScreenName.PostBuyDeviceSetupNanoWallScreen]: undefined;
@@ -192,15 +192,15 @@ export type BaseNavigatorStackParamList = {
   [NavigatorName.Unfreeze]: NavigatorScreenParams<UnfreezeNavigatorParamList>;
   [NavigatorName.ClaimRewards]: NavigatorScreenParams<ClaimRewardsNavigatorParamList>;
   [NavigatorName.AddAccounts]:
-    | (Partial<NavigatorScreenParams<AddAccountsNavigatorParamList>> & {
-        currency?: CryptoCurrency | TokenCurrency | null;
-        token?: TokenCurrency;
-        returnToSwap?: boolean;
-        analyticsPropertyFlow?: string;
-        onSuccess?: (account: AccountLike, parentAccount?: Account) => void;
-        onError?: (_: Error) => void;
-      })
-    | undefined;
+  | (Partial<NavigatorScreenParams<AddAccountsNavigatorParamList>> & {
+    currency?: CryptoCurrency | TokenCurrency | null;
+    token?: TokenCurrency;
+    returnToSwap?: boolean;
+    analyticsPropertyFlow?: string;
+    onSuccess?: (account: AccountLike, parentAccount?: Account) => void;
+    onError?: (_: Error) => void;
+  })
+  | undefined;
   [NavigatorName.RequestAccount]: NavigatorScreenParams<RequestAccountNavigatorParamList> & {
     onClose?: () => void;
   };
@@ -211,12 +211,12 @@ export type BaseNavigatorStackParamList = {
   [NavigatorName.PlatformExchange]: NavigatorScreenParams<PlatformExchangeNavigatorParamList>;
   [NavigatorName.AccountSettings]: NavigatorScreenParams<AccountSettingsNavigatorParamList>;
   [NavigatorName.ImportAccounts]:
-    | NavigatorScreenParams<ImportAccountsNavigatorParamList>
-    | undefined;
+  | NavigatorScreenParams<ImportAccountsNavigatorParamList>
+  | undefined;
   [NavigatorName.PasswordAddFlow]: NavigatorScreenParams<PasswordAddFlowParamList> | undefined;
   [NavigatorName.PasswordModifyFlow]:
-    | NavigatorScreenParams<PasswordModifyFlowParamList>
-    | undefined;
+  | NavigatorScreenParams<PasswordModifyFlowParamList>
+  | undefined;
   [NavigatorName.NotificationCenter]: NavigatorScreenParams<NotificationCenterNavigatorParamList>;
   [NavigatorName.NftNavigator]: NavigatorScreenParams<NftNavigatorParamList>;
   [NavigatorName.Accounts]: NavigatorScreenParams<AccountsNavigatorParamList>;
@@ -246,14 +246,14 @@ export type BaseNavigatorStackParamList = {
   [NavigatorName.CeloRegistrationFlow]: NavigatorScreenParams<CeloRegistrationFlowParamList>;
   // This is not a navigator
   [NavigatorName.CeloManageAssetsNavigator]:
-    | {
-        params?: {
-          account?: AccountLike;
-          accountId?: string | null;
-          parentId?: string | null;
-        };
-      }
-    | undefined;
+  | {
+    params?: {
+      account?: AccountLike;
+      accountId?: string | null;
+      parentId?: string | null;
+    };
+  }
+  | undefined;
 
   // Cosmos
   [NavigatorName.CosmosDelegationFlow]: NavigatorScreenParams<CosmosDelegationFlowParamList>;
@@ -289,4 +289,5 @@ export type BaseNavigatorStackParamList = {
   [ScreenName.RedirectToOnboardingRecoverFlow]: undefined;
 
   [NavigatorName.AnalyticsOptInPrompt]: NavigatorScreenParams<AnalyticsOptInPromptNavigatorParamList>;
+  [ScreenName.Chat]: { launchOptions: object } | undefined;
 };

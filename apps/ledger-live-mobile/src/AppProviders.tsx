@@ -15,6 +15,9 @@ import PostOnboardingProviderWrapped from "~/logic/postOnboarding/PostOnboarding
 import { CounterValuesStateRaw } from "@ledgerhq/live-countervalues/types";
 import useFeature from "@ledgerhq/live-common/featureFlags/useFeature";
 import { CountervaluesMarketcap } from "@ledgerhq/live-countervalues-react/index";
+import { MessengerNotificationBanner } from '@sprinklr/chat-native-client';
+import { useNavigation } from "@react-navigation/core";
+import { ScreenName } from "./const";
 
 type AppProvidersProps = {
   initialCountervalues?: CounterValuesStateRaw;
@@ -24,8 +27,17 @@ type AppProvidersProps = {
 const queryClient = new QueryClient();
 
 function AppProviders({ initialCountervalues, children }: AppProvidersProps) {
+  const navigation = useNavigation();
   const marketNewArch = useFeature("llmMarketNewArch");
   const MarketDataProvider = marketNewArch?.enabled ? NewMarketDataProvider : OldMarketDataProvider;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function onTapNotificationBanner(notification: any) {
+    // open sprinklr messenger view with launch options
+    const launchOptions = { type: "NOTIFICATION", data: notification };
+    navigation.navigate(ScreenName.Chat, { launchOptions });
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <BridgeSyncProvider>
@@ -37,6 +49,7 @@ function AppProviders({ initialCountervalues, children }: AppProvidersProps) {
                   <ToastProvider>
                     <NotificationsProvider>
                       <SnackbarContainer />
+                      <MessengerNotificationBanner onTapBanner={onTapNotificationBanner} />
                       <NftMetadataProvider getCurrencyBridge={getCurrencyBridge}>
                         <MarketDataProvider>{children}</MarketDataProvider>
                       </NftMetadataProvider>

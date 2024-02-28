@@ -1,7 +1,12 @@
 import React, { useCallback, useMemo } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Flex, Text } from "@ledgerhq/native-ui";
-import { CardMedium, SettingsMedium, WalletConnectMedium } from "@ledgerhq/native-ui/assets/icons";
+import {
+  SupportMedium,
+  CardMedium,
+  SettingsMedium,
+  WalletConnectMedium,
+} from "@ledgerhq/native-ui/assets/icons";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "styled-components/native";
 import useFeature from "@ledgerhq/live-common/featureFlags/useFeature";
@@ -70,6 +75,11 @@ function PortfolioHeader({ hidePortfolio }: { hidePortfolio: boolean }) {
     [onNavigate],
   );
 
+  const onSupportPress = () => {
+    console.log("onSupportPress");
+    navigation.navigate(ScreenName.Chat);
+  };
+
   const onSettingsButtonPress = useCallback(() => {
     track("button_clicked", {
       button: "Settings",
@@ -103,6 +113,11 @@ function PortfolioHeader({ hidePortfolio }: { hidePortfolio: boolean }) {
         {!hidePortfolio && <DiscreetModeButton size={20} />}
       </Flex>
       <Flex flexDirection="row">
+        <Flex mr={7}>
+          <Touchable onPress={onSupportPress}>
+            <SupportMedium size={24} color={"neutral.c100"} />
+          </Touchable>
+        </Flex>
         <Flex mr={7}>
           <Touchable
             onPress={onSideImageCardButtonPress}

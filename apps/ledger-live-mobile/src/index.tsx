@@ -77,6 +77,7 @@ import { getFeature } from "@ledgerhq/live-common/featureFlags/index";
 import { StorylyProvider } from "./components/StorylyStories/StorylyProvider";
 import { useSettings } from "~/hooks";
 import AppProviders from "./AppProviders";
+import SprinklrSetup from "./analytics/SprinklrSetup";
 
 if (Config.DISABLE_YELLOW_BOX) {
   LogBox.ignoreAllLogs();
@@ -111,8 +112,8 @@ function App() {
       newState: State,
     ):
       | {
-          changed: string[];
-        }
+        changed: string[];
+      }
       | null
       | undefined => {
       if (oldState.accounts !== newState.accounts) {
@@ -271,6 +272,7 @@ export default class Root extends Component {
                 <HookSentry />
                 <AdjustSetup />
                 <SegmentSetup />
+                <SprinklrSetup />
                 <HookNotifications />
                 <HookDynamicContentCards />
                 <TermsAndConditionMigrateLegacyData />

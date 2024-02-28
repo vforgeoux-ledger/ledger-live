@@ -508,6 +508,7 @@ export enum ScreenName {
 
   AnalyticsOptInPromptMain = "AnalyticsOptInPromptMain",
   AnalyticsOptInPromptDetails = "AnalyticsOptInPromptDetails",
+  Chat = "Chat",
 }
 
 export enum NavigatorName {
