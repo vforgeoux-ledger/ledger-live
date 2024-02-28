@@ -1485,6 +1485,12 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
     devDependencies:
+      '@types/invariant':
+        specifier: ^2.2.37
+        version: 2.2.37
+      '@types/lodash':
+        specifier: ^4.14.202
+        version: 4.14.202
       '@types/node':
         specifier: ^20
         version: 20.8.10
@@ -1494,6 +1500,15 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.2.13(@types/react@18.2.28)
+      '@types/react-inspector':
+        specifier: ^4.0.6
+        version: 4.0.6(@types/react@18.2.28)
+      '@types/react-table':
+        specifier: ^7.7.19
+        version: 7.7.19(@types/react@18.2.28)
+      '@types/semver':
+        specifier: ^7.3.9
+        version: 7.5.4
       autoprefixer:
         specifier: ^10.0.1
         version: 10.4.16(postcss@8.4.32)
@@ -24069,6 +24084,10 @@ packages:
     resolution: {integrity: sha512-WdRjvN2y1PiXCmCIEBbe+eoHGylBQa2oIBGEQsfKMJzqff7fwv2OhyXcGQn70+dWII6a5W8Y3ipYwVnhf+IXig==}
     dev: true
 
+  /@types/invariant@2.2.37:
+    resolution: {integrity: sha512-IwpIMieE55oGWiXkQPSBY1nw1nFs6bsKXTFskNY8sdS17K24vyEBRQZEwlRS7ZmXCWnJcQtbxWzly+cODWGs2A==}
+    dev: true
+
   /@types/ioredis@4.28.10:
     resolution: {integrity: sha512-69LyhUgrXdgcNDv7ogs1qXZomnfOEnSmrmMFqKgt1XMJxmoOSG/u3wYy13yACIfKuMJ8IhKgHafDO3sx19zVQQ==}
     dependencies:
@@ -24407,6 +24426,18 @@ packages:
     dependencies:
       '@types/react': 18.2.28
 
+  /@types/react-inspector@4.0.6(@types/react@18.2.28):
+    resolution: {integrity: sha512-fTOzxjP+Cve6TVfmmslm+qoD5x0L9aaeX23RONHSWr8pkMFNl5xadXH0oS3S0t3up8lCxmdb9FUCgesCndxn1A==}
+    peerDependencies:
+      '@types/react': '*'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.2.28
+      csstype: 3.1.2
+    dev: true
+
   /@types/react-is@17.0.3(@types/react@18.2.28):
     resolution: {integrity: sha512-aBTIWg1emtu95bLTLx0cpkxwGW3ueZv71nE2YFBpL8k/z5czEW8yYpOo8Dp+UUAFAtKwNaOsh/ioSeQnWlZcfw==}
     peerDependencies:
@@ -24615,6 +24646,17 @@ packages:
     dependencies:
       '@types/react': 18.2.28
     dev: false
+
+  /@types/react-table@7.7.19(@types/react@18.2.28):
+    resolution: {integrity: sha512-47jMa1Pai7ily6BXJCW33IL5ghqmCWs2VM9s+h1D4mCaK5P4uNkZOW3RMMg8MCXBvAJ0v9+sPqKjhid0PaJPQA==}
+    peerDependencies:
+      '@types/react': '*'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.2.28
+    dev: true
 
   /@types/react-test-renderer@18.0.5(@types/react@18.2.28):
     resolution: {integrity: sha512-PsnmF4Hpi61PTRX+dTxkjgDdtZ09kFFgPXczoF+yBfOVxn7xBLPvKP1BUrSasYHmerj33rhoJuvpIMsJuyRqHw==}

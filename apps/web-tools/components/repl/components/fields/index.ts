@@ -20,7 +20,7 @@ export type DataType =
   | DataTypeApplication
   | DataTypeDerivationMode;
 
-export default {
+const Fields = {
   checkbox: CheckboxField,
   token: TokenSelect,
   cryptocurrency: CryptoCurrencySelect,
@@ -29,3 +29,5 @@ export default {
   application: ApplicationField,
   derivationMode: DerivationModeField,
 };
+
+export default Fields;

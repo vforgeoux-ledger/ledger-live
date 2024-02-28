@@ -608,9 +608,9 @@ const App = () => {
                     ? Object.keys(selectedCommand.dependencies || {}).map(key =>
                         // @ts-ignore
                         dependencies && dependencies[key] ? (
-                          <strong key={key}>'{key}' dependency resolved.</strong>
+                          <strong key={key}>{key} dependency resolved.</strong>
                         ) : (
-                          <em key={key}>'{key}' dependency loading...</em>
+                          <em key={key}>{key} dependency loading...</em>
                         ),
                       )
                     : null}
