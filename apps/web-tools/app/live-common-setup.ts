@@ -32,7 +32,7 @@ setSupportedCurrencies([
   "dogecoin",
   "cosmos",
   "dash",
-  "tron",
+  // "tron", unsolvable SSR issues
   "tezos",
   "elrond",
   "ethereum_classic",
