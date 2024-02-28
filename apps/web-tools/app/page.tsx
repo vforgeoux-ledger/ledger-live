@@ -31,6 +31,9 @@ export default function Home() {
         <li>
           <Link href="/portfolio">Portfolio</Link>
         </li>
+        <li>
+          <Link href="/portfolio-debugger">Portfolio Debugger</Link>
+        </li>
       </ul>
     </main>
   );
