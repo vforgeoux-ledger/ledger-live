@@ -1,3 +1,5 @@
+"use client";
+
 import editDeviceName from "@ledgerhq/live-common/hw/editDeviceName";
 import { getDeviceName } from "@ledgerhq/live-common/device/use-cases/getDeviceNameUseCase";
 import getDeviceInfo from "@ledgerhq/live-common/hw/getDeviceInfo";

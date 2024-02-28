@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useReducer, useCallback, useRef, Dispatch } from "react";
 import styled from "styled-components";
 import Select from "react-select";
