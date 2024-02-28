@@ -19,6 +19,9 @@ const config = {
       },
     },
     extend: {
+      width: {
+        content: "518px",
+      },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
