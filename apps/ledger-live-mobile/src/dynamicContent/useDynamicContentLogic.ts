@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setDynamicContentWalletCards,
   setDynamicContentAssetsCards,
@@ -21,15 +21,20 @@ import {
   compareCards,
 } from "./utils";
 import { ContentCardLocation, ContentCardsType, BrazeContentCard } from "./types";
+import { dismissedBannersSelector } from "~/reducers/settings";
 
 export const useDynamicContentLogic = () => {
   const dispatch = useDispatch();
   const { Braze, refreshDynamicContent } = useBrazeContentCard();
+  const dismissedBanners = useSelector(dismissedBannersSelector);
 
   const fetchData = useCallback(async () => {
     // Fetch data from Braze
     const contentCards: BrazeContentCard[] = await Braze.getContentCards();
-    const mobileContentCards = getMobileContentCards(contentCards);
+    const filteredCards = contentCards.filter(card => !dismissedBanners.includes(card.id));
+    // eslint-disable-next-line no-console
+    console.log("filteredCards", JSON.stringify(filteredCards, null, 2));
+    const mobileContentCards = getMobileContentCards(filteredCards);
     // Filtering v0
     const walletCards = filterByPage(mobileContentCards, ContentCardLocation.Wallet)
       .map(card => mapAsWalletContentCard(card))
@@ -60,7 +65,7 @@ export const useDynamicContentLogic = () => {
     dispatch(setDynamicContentAssetsCards(assetCards));
     dispatch(setDynamicContentNotificationCards(notificationCards));
     dispatch(setDynamicContentLearnCards(learnCards));
-  }, [Braze, dispatch]);
+  }, [Braze, dismissedBanners, dispatch]);
 
   return {
     refreshDynamicContent,

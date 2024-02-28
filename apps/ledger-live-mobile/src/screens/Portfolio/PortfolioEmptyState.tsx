@@ -45,6 +45,7 @@ const PortfolioEmptyState = ({ openAddAccountModal }: { openAddAccountModal: () 
         key="contentCardsLocationPortfolio"
         locationId={ContentCardLocation.TopWallet}
         mt={7}
+      // style={{ width: "100%" }}
       />
       <Flex flexGrow={1} flexDirection="row" mt={9}>
         <Button

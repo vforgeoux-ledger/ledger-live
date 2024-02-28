@@ -1,10 +1,10 @@
 import Braze from "@braze/react-native-sdk";
-import getOrCreateUser from "../user";
+// import getOrCreateUser from "../user";
 import { NotificationsSettings } from "../reducers/types";
 
 export const start = async () => {
-  const { user } = await getOrCreateUser();
-  Braze.changeUser(user.id);
+  // const { user } = await getOrCreateUser();
+  Braze.changeUser("test-local-dismissal");
 };
 
 export const updateUserPreferences = (notificationsPreferences: NotificationsSettings) => {

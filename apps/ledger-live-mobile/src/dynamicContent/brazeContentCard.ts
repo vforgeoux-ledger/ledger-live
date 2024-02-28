@@ -1,8 +1,17 @@
 import { useCallback } from "react";
 import Braze from "@braze/react-native-sdk";
+import { useDispatch } from "react-redux";
+import { dismissBanner } from "~/actions/settings";
 
 export const useBrazeContentCard = () => {
-  const logDismissCard = useCallback((cardId: string) => Braze.logContentCardDismissed(cardId), []);
+  const dispatch = useDispatch();
+
+  const logDismissCard = useCallback(
+    (cardId: string) => {
+      dispatch(dismissBanner(cardId));
+    },
+    [dispatch],
+  );
 
   const logClickCard = useCallback((cardId: string) => Braze.logContentCardClicked(cardId), []);
 
