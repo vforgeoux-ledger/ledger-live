@@ -1,3 +1,5 @@
+import "./live-common-setup";
+
 import { useStore } from "@/client/store";
 import { AccountItem } from "@/components/system/AccountItem";
 import Box from "@/components/system/box";
@@ -79,7 +81,7 @@ function Portfolio() {
   const userSettings = useMemo(() => ({ trackingPairs, autofillGaps: true }), [trackingPairs]);
 
   return (
-    <Box className="flex flex-col gap-6 w-content h-full p-0">
+    <Box className="flex flex-col gap-6">
       <Countervalues userSettings={userSettings}>
         <Balance />
       </Countervalues>

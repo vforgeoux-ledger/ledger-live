@@ -8,7 +8,7 @@ export type BoxProps = {
 } & PropsWithChildren;
 
 const Box = ({ children, className, full }: BoxProps) => (
-  <div className={cn(!full && "mx-auto max-w-4xl px-5", className)}>{children}</div>
+  <div className={cn(!full && "mx-auto max-w-xl px-5", className)}>{children}</div>
 );
 
 export default Box;
