@@ -1,0 +1,129 @@
+name: "[Release] Publish packages and apps"
+on:
+  # workflow_dispatch:
+  #   inputs:
+  #     app:
+  #       description: "which app to release (libraries are always published, chose NONE to release libs only)"
+  #       required: true
+  #       type: choice
+  #       default: NONE
+  #       options:
+  #         - NONE
+  #         - LLD
+  #         - LLM
+  #         - ALL
+
+  workflow_run:
+    workflows:
+      - \[Release\] Prepare for releasing
+      - \[Release\](Hotfix) Prepare for releasing
+    types:
+      - "completed"
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: "--max-old-space-size=7168"
+    steps:
+      - name: generate token
+        id: generate-token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.GH_BOT_APP_ID }}
+          private_key: ${{ secrets.GH_BOT_PRIVATE_KEY }}
+      - uses: actions/checkout@v4
+        with:
+          ref: m4in
+          fetch-depth: 2
+          token: ${{ steps.generate-token.outputs.token }}
+      - name: Setup git user
+        uses: ./tools/actions/composites/setup-git-user
+      - name: Setup the toolchain
+        uses: ./tools/actions/composites/setup-toolchain
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2
+      - name: Cache LLM pods
+        uses: actions/cache@v3
+        with:
+          path: |
+            apps/ledger-live-mobile/ios/Pods
+            ~/Library/Caches/CocoaPods
+            ~/.cocoapods
+          key: ${{ runner.os }}-pods-${{ hashFiles('apps/ledger-live-mobile/ios/Podfile.lock') }}
+      - name: Install dependencies
+        run: pnpm i -F "ledger-live" -F "{libs/**}..." -F "@ledgerhq/live-cli"
+      - name: Build libs
+        run: pnpm run build:libs
+
+      # ⬇️⬇️⬇️⬇️⬇️ Current branch: release ⬇️⬇️⬇️⬇️⬇️
+      # Publish to NPM
+      - name: Publish release
+        run: |
+          echo "[🎒TRAINING🎒] Publish packages to NPM"
+      # Check versions
+      - name: check if desktop versions are different
+        if: ${{ github.event_name == 'workflow_run' }}
+        id: desktop-changed
+        run: |
+          echo "status=$(git diff HEAD HEAD~1 ./apps/ledger-live-desktop/package.json | grep '"version": "' | wc -l)" >> $GITHUB_OUTPUT
+      # Check versions
+      - name: check if mobile versions are different
+        if: ${{ github.event_name == 'workflow_run' }}
+        id: mobile-changed
+        run: |
+          echo "status=$(git diff HEAD HEAD~1 ./apps/ledger-live-mobile/package.json | grep '"version": "' | wc -l)" >> $GITHUB_OUTPUT
+      # Get package information
+      - id: desktop-version
+        run: |
+          echo "version=TRAINING_DESKTOP_VERSION" >> $GITHUB_OUTPUT
+      # Get package information
+      - id: mobile-version
+        run: |
+          echo "version=TRAINING_MOBILE_VERSION" >> $GITHUB_OUTPUT
+      # Generate changelog
+      - name: Generate desktop changelog
+        id: desktop-changelog
+        run: |
+          echo "path=TRAINING_DESKTOP_CHANGELOG_PATH" >> $GITHUB_OUTPUT
+          echo "[🎒TRAINING🎒] Generate desktop changelog"
+      # Tag release version
+      - name: Tag desktop
+        run: |
+          git tag TR@ledgerhq/live-desktop@${{ steps.desktop-version.outputs.version }}
+      # Generate changelog
+      - name: Generate mobile changelog
+        id: mobile-changelog
+        run: |
+          echo "path=TRAINING_MOBILE_CHANGELOG_PATH" >> $GITHUB_OUTPUT
+          echo "[🎒TRAINING🎒] Generate mobile changelog"
+      # Tag release version
+      - name: Tag mobile
+        run: |
+          git tag live-mobile@${{ steps.mobile-version.outputs.version }}
+      # Push tags (#todo)
+      - name: push changes
+        run: |
+          git push origin m4in --tags
+      # Create release
+      - name: create desktop github release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create @ledgerhq/live-desktop@${{ steps.desktop-version.outputs.version }} -F ${{ steps.desktop-changelog.outputs.path }}
+      # Create release
+      - name: create mobile github release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create live-mobile@${{ steps.mobile-version.outputs.version }} -F ${{ steps.mobile-changelog.outputs.path }}
+      # Launch release workflow
+      - name: Trigger release build for desktop
+        run: |
+          echo "[🎒TRAINING🎒] Desktop release triggered!"
+      # Launch release workflow
+      - name: Trigger release build for mobile
+        run: |
+          echo "[🎒TRAINING🎒] Mobile release triggered!"

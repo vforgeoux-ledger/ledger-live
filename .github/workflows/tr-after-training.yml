@@ -1,0 +1,21 @@
+name: After training
+
+on: workflow_dispatch
+
+jobs:
+  before-training:
+    name: After training
+    runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: "--max-old-space-size=7168"
+    steps:
+      - name: Generate token
+        id: Generate-token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.GH_BOT_APP_ID }}
+          private_key: ${{ secrets.GH_BOT_PRIVATE_KEY }}
+      - name: Create training branches
+        run: |
+          git push --delete origin devel0p
+          git push --delete origin m4in

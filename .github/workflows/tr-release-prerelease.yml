@@ -1,0 +1,103 @@
+name: "[Release](Prerelease) Publish packages and apps"
+on:
+  push:
+    branches:
+      - relea5e
+
+jobs:
+  prerelease:
+    name: Prerelease
+    runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: "--max-old-space-size=7168"
+    steps:
+      - name: generate token
+        id: generate-token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.GH_BOT_APP_ID }}
+          private_key: ${{ secrets.GH_BOT_PRIVATE_KEY }}
+      - uses: actions/checkout@v4
+        if: ${{ github.event_name == 'push' }}
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+      - name: Setup git user
+        uses: ./tools/actions/composites/setup-git-user
+      - name: Setup the toolchain
+        uses: ./tools/actions/composites/setup-toolchain
+      - uses: ./tools/actions/get-package-infos
+        id: desktop-version
+        with:
+          path: ${{ github.workspace }}/apps/ledger-live-desktop
+      - uses: ./tools/actions/get-package-infos
+        id: mobile-version
+        with:
+          path: ${{ github.workspace }}/apps/ledger-live-mobile
+      - name: install dependencies
+        run: pnpm i -F "ledger-live" -F "{libs/**}..." -F "@ledgerhq/live-cli"
+      - name: build libs
+        run: pnpm run build:libs
+      - name: versioning
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pnpm changeset version
+      - uses: ./tools/actions/get-package-infos
+        id: post-desktop-version
+        with:
+          path: ${{ github.workspace }}/apps/ledger-live-desktop
+      - uses: ./tools/actions/get-package-infos
+        id: post-mobile-version
+        with:
+          path: ${{ github.workspace }}/apps/ledger-live-mobile
+      - name: commit (from release branch)
+        if: ${{ startsWith(github.ref_name, 'relea5e') }}
+        env:
+          LLD: LLD(${{ steps.post-desktop-version.outputs.version }})
+          LLM: LLM(${{ steps.post-mobile-version.outputs.version }})
+        run: |
+          git add . &&
+          git commit -m "chore(prerelease): :rocket: release prerelease [${{ env.LLD }}, ${{ env.LLM }}]" ||
+          echo ""
+      # - name: commit (from hotfix branch)
+      #   if: ${{ startsWith(github.ref_name, 'hotfix') }}
+      #   env:
+      #     LLD: LLD(${{ steps.post-desktop-version.outputs.version }})
+      #     LLM: LLM(${{ steps.post-mobile-version.outputs.version }})
+      #   run: |
+      #     git add . &&
+      #     git commit -m "chore(hotfix): :fire: hotfix prerelease [${{ env.LLD }}, ${{ env.LLM }}]" ||
+      #     echo ""
+      # - name: commit (from ${{ inputs.ref }} branch) workflow dispatch
+      #   if: ${{ github.event_name == 'workflow_dispatch' }}
+      #   run: |
+      #     git add .
+      #     git commit -m "chore(prerelease): :rocket: ${{ inputs.ref }} prerelease [LLD(${{ steps.post-desktop-version.outputs.version }}), LLM(${{ steps.post-mobile-version.outputs.version }})]" ||
+      #     echo ""
+      - name: publish prerelease
+        # WHY ??
+        run: |
+          echo "[🎒TRAINING🎒] Publish packages to NPM (prerelease)"
+      - name: tag desktop
+        if: ${{ steps.desktop-version.outputs.version != steps.post-desktop-version.outputs.version }}
+        run: |
+          git tag @ledgerhq/live-desktop@${{ steps.post-desktop-version.outputs.version }}
+      - name: tag mobile
+        if: ${{ steps.mobile-version.outputs.version != steps.post-mobile-version.outputs.version }}
+        run: |
+          git tag live-mobile@${{ steps.post-mobile-version.outputs.version }}
+      - name: push changes (push event)
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          git pull --rebase
+          git push origin ${{ github.ref_name }} --follow-tags
+      # - name: push changes (other events)
+      #   if: ${{ github.event_name == 'workflow_dispatch' }}
+      #   run: |
+      #     git pull --rebase
+      #     git push origin ${{ inputs.ref }} --follow-tags
+      - name: Trigger prerelease build for desktop
+        run: |
+          echo "[🎒TRAINING🎒] Trigger prerelease build of mobile"
+      - name: Trigger prerelease build of mobile
+        run: |
+          echo "[🎒TRAINING🎒] Trigger prerelease build of mobile"
