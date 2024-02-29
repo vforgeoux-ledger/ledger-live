@@ -30,7 +30,7 @@ const countervalue = getFiatCurrencyByTicker("EUR");
 const locale = "en";
 
 const EmptyPortfolio = () => {
-  const { addAccount } = useStore();
+  const { addAccount, accounts } = useStore();
 
   const [network, setNetwork] = useState("");
 
@@ -43,19 +43,18 @@ const EmptyPortfolio = () => {
   };
 
   return (
-    <Box>
-      <Card className="p-4 space-y-4">
-        <H4 className="font-semibold">You don't have any account yet.</H4>
-        <Combobox
-          className="self-center"
-          items={listSupportedCurrencies().map(item => ({ value: item.id, label: item.id }))}
-          searching="Network"
-          value={network}
-          onChange={setNetwork}
-        />
-        <Button onClick={() => addAccountToStore()}>Add account</Button>
-      </Card>
+    <Box className="p-0">
+      <H4 className="font-semibold">You don't have any account yet.</H4>
+      <Combobox
+        className="self-center"
+        items={listSupportedCurrencies().map(item => ({ value: item.id, label: item.id }))}
+        searching="Network"
+        value={network}
+        onChange={setNetwork}
+      />
+      <Button onClick={() => addAccountToStore()}>Add account</Button>
     </Box>
+  
   );
 };
 
@@ -66,7 +65,7 @@ const Balance = () => {
   const assets = getAssetsDistribution(accounts, cvState, countervalue);
 
   return (
-    <Card className="p-4 space-y-2">
+    <Card className="p-4">
       <Subtitle className="text-muted-foreground">Balance</Subtitle>
       <H2 className="font-bold">
         {formatCurrencyUnit(countervalue.units[0], BigNumber(assets.sum), { showCode: true })}
@@ -82,13 +81,13 @@ const Portfolio2 = () => {
   const userSettings = useMemo(() => ({ trackingPairs, autofillGaps: true }), [trackingPairs]);
 
   return (
-    <Box className="space-y-10">
+    <Box className="flex flex-col gap-6 w-content h-full p-0">
       <Countervalues userSettings={userSettings}>
         <Balance />
       </Countervalues>
 
       <Card className="p-4">
-        {accounts.map(account => (
+        {!accounts.length ? <EmptyPortfolio/> : accounts.map(account => (
           <div key={account.id}>
             <strong>{getAccountName(account)}</strong>
             <code>{account.freshAddress}</code>
@@ -101,9 +100,6 @@ const Portfolio2 = () => {
 };
 
 function Portfolio() {
-  const { accounts } = useStore();
-
-  if (!accounts.length) return <EmptyPortfolio />;
   return <Portfolio2 />;
 }
 
