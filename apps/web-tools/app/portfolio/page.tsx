@@ -2,6 +2,7 @@
 import "../live-common-setup";
 
 import { useStore } from "@/client/store";
+import { AccountItem } from "@/components/system/AccountItem";
 import Box from "@/components/system/box";
 import { Combobox } from "@/components/system/combobox";
 import { H2, H4, Subtitle } from "@/components/system/typography";
@@ -74,7 +75,7 @@ const Balance = () => {
   );
 };
 
-const Portfolio2 = () => {
+function Portfolio() {
   const { accounts } = useStore();
 
   const trackingPairs = useTrackingPairForAccounts(accounts, countervalue);
@@ -88,20 +89,12 @@ const Portfolio2 = () => {
 
       <Card className="p-4">
         {!accounts.length ? <EmptyPortfolio/> : accounts.map(account => (
-          <div key={account.id}>
-            <strong>{getAccountName(account)}</strong>
-            <code>{account.freshAddress}</code>
-            <span>{formatCurrencyUnit(account.unit, account.balance, { showCode: true })}</span>
-          </div>
+          <AccountItem key={account.id} account={account} />
         ))}
       </Card>
     </Box>
   );
 };
-
-function Portfolio() {
-  return <Portfolio2 />;
-}
 
 const retrieveAccount = async (networkId: string): Promise<Account | undefined> => {
   const currency = getCryptoCurrencyById(String(networkId));
