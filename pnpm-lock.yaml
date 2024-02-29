@@ -1442,6 +1442,9 @@ importers:
       next:
         specifier: 14.1.0
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
+      next-themes:
+        specifier: 0.2.1
+        version: 0.2.1(next@14.1.0)(react-dom@18.2.0)(react@18.2.0)
       prop-types:
         specifier: ^15.8.1
         version: 15.8.1
@@ -22641,7 +22644,7 @@ packages:
       react-docgen-typescript: 2.2.2(typescript@5.1.3)
       tslib: 2.6.2
       typescript: 5.1.3
-      webpack: 5.89.0(metro@0.80.0)
+      webpack: 5.89.0(esbuild@0.19.3)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -27690,7 +27693,7 @@ packages:
       '@babel/core': 7.23.2
       find-cache-dir: 4.0.0
       schema-utils: 4.2.0
-      webpack: 5.89.0(@swc/core@1.3.95)(metro@0.80.0)
+      webpack: 5.89.0(@swc/core@1.3.95)(esbuild@0.19.3)
     dev: true
 
   /babel-plugin-add-react-displayname@0.0.5:
@@ -34875,7 +34878,6 @@ packages:
       is-hex-prefixed: 1.0.0
       strip-hex-prefix: 1.0.0
     dev: false
-    bundledDependencies: false
 
   /ev-emitter@1.1.1:
     resolution: {integrity: sha512-ipiDYhdQSCZ4hSbX4rMW+XzNKMD1prg/sTvoVmSLkuQ1MVlwjJQQA+sW8tMYR3BLUr9KjodFV4pvzunvRhd33Q==}
@@ -36496,7 +36498,7 @@ packages:
       semver: 7.6.0
       tapable: 2.2.1
       typescript: 5.1.3
-      webpack: 5.89.0(@swc/core@1.3.95)(metro@0.80.0)
+      webpack: 5.89.0(@swc/core@1.3.95)(esbuild@0.19.3)
     dev: true
 
   /form-data@2.3.3:
@@ -45427,6 +45429,18 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /next-themes@0.2.1(next@14.1.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==}
+    peerDependencies:
+      next: '*'
+      react: '*'
+      react-dom: '*'
+    dependencies:
+      next: 14.1.0(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /next-tick@1.1.0:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}
     dev: false
@@ -53270,7 +53284,7 @@ packages:
       webpack: '>=2'
     dependencies:
       '@swc/core': 1.3.95
-      webpack: 5.89.0(@swc/core@1.3.95)(metro@0.80.0)
+      webpack: 5.89.0(@swc/core@1.3.95)(esbuild@0.19.3)
     dev: true
 
   /swiper@7.4.1:
@@ -57499,7 +57513,7 @@ packages:
       mime-types: 2.1.35
       range-parser: 1.2.1
       schema-utils: 4.2.0
-      webpack: 5.89.0(@swc/core@1.3.95)(metro@0.80.0)
+      webpack: 5.89.0(@swc/core@1.3.95)(esbuild@0.19.3)
     dev: true
 
   /webpack-dev-server@4.12.0(webpack@5.76.1):
@@ -59109,6 +59123,7 @@ packages:
     resolution: {directory: libs/ui/packages/crypto-icons, type: directory}
     id: file:libs/ui/packages/crypto-icons
     name: '@ledgerhq/crypto-icons-ui'
+    version: 1.0.2
     peerDependencies:
       '@types/react': '*'
       react: '*'
@@ -59128,6 +59143,7 @@ packages:
     resolution: {directory: libs/ui/packages/icons, type: directory}
     id: file:libs/ui/packages/icons
     name: '@ledgerhq/icons-ui'
+    version: 0.6.2
     peerDependencies:
       '@types/react': '*'
       react: '*'
