@@ -1,10 +1,10 @@
-import { AccordionContent, AccordionItem, AccordionTrigger } from "@radix-ui/react-accordion";
+import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card } from "@/components/ui/card";
 import { Accordion } from "@/components/ui/accordion";
 
 export const AssetItem = ({ asset }: any) => {
   return (
-    <Card>
+    <Card className="p-3">
       <Accordion type="single" collapsible>
         <AccordionItem key={asset.id} value={asset.id}>
           <AccordionTrigger>{asset.name}</AccordionTrigger>
