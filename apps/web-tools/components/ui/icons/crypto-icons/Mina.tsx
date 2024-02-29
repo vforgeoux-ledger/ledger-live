@@ -3,9 +3,10 @@ import type { SVGProps } from "react";
 const SvgMina = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={56}
-    height={56}
+    width={32}
+    height={32}
     fill="none"
+    viewBox="0 0 56 56"
     {...props}
   >
     <g clipPath="url(#MINA_svg__a)">

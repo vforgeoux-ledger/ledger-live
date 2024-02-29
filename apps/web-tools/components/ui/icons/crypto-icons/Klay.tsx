@@ -3,16 +3,17 @@ import type { SVGProps } from "react";
 const SvgKlay = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={56}
-    height={56}
+    width={32}
+    height={32}
     fill="none"
+    viewBox="0 0 56 56"
     {...props}
   >
     <rect width={56} height={56} fill="#fff" rx={28} />
     <mask
       id="KLAY_svg__a"
-      width={56}
-      height={56}
+      width={32}
+      height={32}
       x={0}
       y={0}
       maskUnits="userSpaceOnUse"
