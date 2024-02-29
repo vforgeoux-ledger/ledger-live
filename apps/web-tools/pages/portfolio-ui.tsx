@@ -1,4 +1,4 @@
-import Portfolio from "../portfolio";
+import Portfolio from "../portfolio-ui";
 
 export const getStaticProps = async () => ({ props: {} });
 

@@ -39,6 +39,8 @@
     "@radix-ui/react-slot": "^1.0.2",
     "bignumber.js": "^9.1.2",
     "bufferutil": "^4.0.7",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
     "encoding": "^0.1.13",
     "eslint-config-next": "13.5.6",
@@ -54,11 +56,15 @@
     "react-inspector": "^4.0.1",
     "react-select": "^5.7.4",
     "react-table": "^6.11.4",
+    "react-tracked": "^1.7.11",
     "rxjs": "^7.8.1",
+    "scheduler": "^0.23.0",
     "semver": "^7.5.4",
     "styled-components": "^6.0.7",
+    "tailwind-merge": "^2.2.1",
     "typescript": "5.2.2",
-    "utf-8-validate": "^6.0.3"
+    "utf-8-validate": "^6.0.3",
+    "zustand": "^4.5.1"
   },
   "devDependencies": {
     "@types/invariant": "^2.2.35",
