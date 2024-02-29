@@ -5,6 +5,7 @@ import { Combobox } from "@/components/system/combobox";
 import { H2, H4, Subtitle } from "@/components/system/typography";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import Footer from "@/portfolio-ui/nav/footer";
 import Header from "@/portfolio-ui/nav/header";
 import {
   formatCurrencyUnit,
