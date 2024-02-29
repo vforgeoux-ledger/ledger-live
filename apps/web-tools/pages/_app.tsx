@@ -9,7 +9,7 @@ export const inter = Inter({
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <main className={inter.variable}>
+    <main className={inter.className}>
       <Component {...pageProps} />
     </main>
   );

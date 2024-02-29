@@ -7,6 +7,8 @@ import { Combobox } from "@/components/system/combobox";
 import { H2, H4, Subtitle } from "@/components/system/typography";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import Footer from "@/portfolio-ui/nav/footer";
+import Header from "@/portfolio-ui/nav/header";
 import { getAccountName } from "@ledgerhq/coin-framework/lib-es/account/helpers";
 import {
   formatCurrencyUnit,
@@ -61,32 +63,23 @@ const EmptyPortfolio = () => {
   );
 };
 
-const Balance = () => {
-  const { accounts } = useStore();
-
-  const cvState = useCountervaluesState();
-  const assets = getAssetsDistribution(accounts, cvState, countervalue);
-
-  return (
-    <Card className="p-4 space-y-2">
-      <Subtitle className="text-muted-foreground">Balance</Subtitle>
-      <H2 className="font-bold">
-        {formatCurrencyUnit(countervalue.units[0], BigNumber(assets.sum), { showCode: true })}
-      </H2>
-    </Card>
-  );
-};
-
 const Portfolio2 = () => {
   const { accounts } = useStore();
 
   const trackingPairs = useTrackingPairForAccounts(accounts, countervalue);
   const userSettings = useMemo(() => ({ trackingPairs, autofillGaps: true }), [trackingPairs]);
+  const cvState = useCountervaluesState();
+  const assets = getAssetsDistribution(accounts, cvState, countervalue);
 
   return (
     <Box className="space-y-10">
       <Countervalues userSettings={userSettings}>
-        <Balance />
+        <Card className="p-4 space-y-2">
+          <Subtitle className="text-muted-foreground">Balance</Subtitle>
+          <H2 className="font-bold">
+            {formatCurrencyUnit(countervalue.units[0], BigNumber(assets.sum), { showCode: true })}
+          </H2>
+        </Card>
       </Countervalues>
 
       <Card className="p-4">
@@ -131,4 +124,18 @@ const retrieveAccount = async (networkId: string): Promise<Account | undefined> 
   return undefined;
 };
 
-export default Portfolio;
+const PortfolioPage = () => {
+  return (
+    <div className={"flex min-h-screen flex-col font-inter antialiased"}>
+      <Header />
+
+      <div className="mb-auto">
+        <Portfolio />
+      </div>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default PortfolioPage;
