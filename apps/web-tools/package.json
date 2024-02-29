@@ -15,8 +15,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ledgerhq/crypto-icons-ui": "workspace:^",
     "@ledgerhq/coin-framework": "workspace:^",
+    "@ledgerhq/crypto-icons-ui": "workspace:^",
     "@ledgerhq/domain-service": "workspace:^",
     "@ledgerhq/errors": "workspace:^",
     "@ledgerhq/hw-app-eth": "workspace:^",
@@ -37,6 +37,7 @@
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-slot": "^1.0.2",
+    "autoprefixer": "^10.4.17",
     "bignumber.js": "^9.1.2",
     "bufferutil": "^4.0.7",
     "class-variance-authority": "^0.7.0",
@@ -48,6 +49,7 @@
     "lodash": "^4.17.21",
     "lucide-react": "^0.343.0",
     "next": "13.5.6",
+    "postcss": "^8.4.35",
     "prop-types": "^15.8.1",
     "re-resizable": "^6.9.11",
     "react": "^18.2.0",
@@ -62,6 +64,8 @@
     "semver": "^7.5.4",
     "styled-components": "^6.0.7",
     "tailwind-merge": "^2.2.1",
+    "tailwindcss": "^3.4.1",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2",
     "utf-8-validate": "^6.0.3",
     "zustand": "^4.5.1"

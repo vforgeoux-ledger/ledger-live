@@ -1,5 +1,5 @@
 "use client";
-import "../live-common-setup";
+import "../portfolio/live-common-setup";
 
 import { useStore } from "@/client/store";
 import Box from "@/components/system/box";
@@ -28,6 +28,8 @@ import { useMemo, useState } from "react";
 const deviceId = "webhid";
 const countervalue = getFiatCurrencyByTicker("EUR");
 const locale = "en";
+
+export const getStaticProps = async () => ({ props: {} });
 
 const EmptyPortfolio = () => {
   const { addAccount } = useStore();
