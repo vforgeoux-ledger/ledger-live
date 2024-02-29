@@ -29,8 +29,9 @@ const deviceId = "webhid";
 const countervalue = getFiatCurrencyByTicker("EUR");
 const locale = "en";
 
-const EmptyPortfolio = () => {
-  const { addAccount, accounts } = useStore();
+const NoAccount = () => {
+  const { addAccount, accounts, addAssets } = useStore();
+  const cvState = useCountervaluesState();
 
   const [network, setNetwork] = useState("");
 
@@ -38,6 +39,8 @@ const EmptyPortfolio = () => {
     const retrievedAccount = await retrieveAccount(network);
 
     if (retrievedAccount) {
+      const assets = getAssetsDistribution(accounts, cvState, countervalue);
+      addAssets(assets);
       addAccount(retrievedAccount);
     }
   };
@@ -57,35 +60,37 @@ const EmptyPortfolio = () => {
   );
 };
 
-const Balance = () => {
-  const { accounts } = useStore();
-
-  const cvState = useCountervaluesState();
-  const assets = getAssetsDistribution(accounts, cvState, countervalue);
-
+const NoAssets = () => {
   return (
-    <Card className="p-3 space-y-1">
-      <Subtitle className="text-muted-foreground">Balance</Subtitle>
-      <H2 className="font-bold">
-        {formatCurrencyUnit(countervalue.units[0], BigNumber(assets.sum), { showCode: true })}
-      </H2>
-    </Card>
+    <Box full className="space-y-2">
+      <H4 className="font-semibold">You don't have any asset yet.</H4>
+
+      <Button>Buy Asset with Ledger</Button>
+    </Box>
   );
 };
 
 function Portfolio() {
-  const { accounts } = useStore();
-  const cvState = useCountervaluesState();
-  const assets = getAssetsDistribution(accounts, cvState, countervalue);
+  const { accounts, assets } = useStore();
 
   return (
     <Flex className="flex-col gap-6">
-      <Balance />
+      <Card className="p-3 space-y-1">
+        <Subtitle className="text-muted-foreground">Balance</Subtitle>
+        {
+          <H2 className="font-bold">
+            {formatCurrencyUnit(countervalue.units[0], BigNumber(assets.sum), { showCode: true })}
+          </H2>
+        }
+      </Card>
+
       <Card className="p-4">
-        {!assets?.list.length ? (
-          <EmptyPortfolio />
+        {!accounts.length ? (
+          <NoAccount />
+        ) : !assets?.list.length ? (
+          <NoAssets />
         ) : (
-          assets?.list.map(asset => <AssetItem asset={asset} key={asset.id} />)
+          assets?.list.map((asset, index) => <AssetItem asset={asset} key={index} />)
         )}
       </Card>
     </Flex>
