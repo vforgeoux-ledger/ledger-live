@@ -5,7 +5,7 @@ export default function Header() {
     <header className="flex w-full justify-center pt-11 pb-6">
       <div className="flex flex-row gap-4 w-content">
         <Ledger className="h-8" />
-        <h1>Portfolio</h1>
+        <h1 className="font-bold">Portfolio</h1>
       </div>
     </header>
   );
