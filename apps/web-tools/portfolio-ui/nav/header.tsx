@@ -1,4 +1,5 @@
 import Flex from "@/components/system/flex";
+import { H1, H2, H3, H4 } from "@/components/system/typography";
 import Ledger from "@/components/ui/icons/ledger";
 
 export default function Header() {
@@ -6,7 +7,7 @@ export default function Header() {
     <header className="py-6">
       <Flex className="flex-row gap-4">
         <Ledger className="h-8" />
-        <h1 className="font-semibold">Portfolio</h1>
+        <H4 className="font-semibold tracking-tighter">Portfolio</H4>
       </Flex>
     </header>
   );

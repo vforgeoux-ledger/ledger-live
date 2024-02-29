@@ -44,7 +44,7 @@ const EmptyPortfolio = () => {
   };
 
   return (
-    <Box className="p-0">
+    <Box full className="space-y-2">
       <H4 className="font-semibold">You don't have any account yet.</H4>
       <Combobox
         className="self-center"
@@ -65,7 +65,7 @@ const Balance = () => {
   const assets = getAssetsDistribution(accounts, cvState, countervalue);
 
   return (
-    <Card className="p-4">
+    <Card className="p-3 space-y-1">
       <Subtitle className="text-muted-foreground">Balance</Subtitle>
       <H2 className="font-bold">
         {formatCurrencyUnit(countervalue.units[0], BigNumber(assets.sum), { showCode: true })}
@@ -81,7 +81,7 @@ function Portfolio() {
   const userSettings = useMemo(() => ({ trackingPairs, autofillGaps: true }), [trackingPairs]);
 
   return (
-    <Box className="flex flex-col gap-6">
+    <Box className="flex flex-col gap-4">
       <Countervalues userSettings={userSettings}>
         <Balance />
       </Countervalues>
