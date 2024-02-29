@@ -22,6 +22,7 @@ import BackgroundRunnerService from "./services/BackgroundRunnerService";
 import App from "./src";
 import logReport from "./src/log-report";
 import { withSentry } from "./src/sentry";
+import codePush from "react-native-code-push";
 
 if (__DEV__) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -29,8 +30,9 @@ if (__DEV__) {
 }
 
 logReport.logReportInit();
+let codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
 
-const Root = withSentry(App);
+const Root = codePush(codePushOptions)(withSentry(App));
 
 AppRegistry.registerComponent("ledgerlivemobile", () => Root);
 AppRegistry.registerHeadlessTask("BackgroundRunnerService", () => BackgroundRunnerService);

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">@string/APP_NAME</string>
+    <string name="CodePushDeploymentKey">YX2dI7V_UCnNlvmbJgyPFokrwAZFfxvW7Rgzb</string>
 </resources>

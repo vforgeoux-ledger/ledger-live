@@ -19,6 +19,7 @@ export type SettingsNavigatorStackParamList = {
   };
   [ScreenName.ExperimentalSettings]: undefined;
   [ScreenName.DeveloperSettings]: undefined;
+  [ScreenName.CodePushSync]: undefined;
   [ScreenName.DeveloperCustomManifest]: undefined;
   [ScreenName.DebugSettings]: undefined;
   [ScreenName.DebugFeatureFlags]: undefined;

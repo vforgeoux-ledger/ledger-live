@@ -66,6 +66,7 @@ import DebugTermsOfUse from "~/screens/Settings/Debug/Features/TermsOfUse";
 import CameraPermissions from "~/screens/Settings/Debug/Debugging/CameraPermissions";
 import DebugQueuedDrawers from "~/screens/Settings/Debug/Features/QueuedDrawers";
 import BleEDevicePairingScreen from "~/screens/Settings/Debug/Features/BleDevicePairingScreen";
+import CodePushSync from "~/screens/Settings/CodePush";
 
 const Stack = createStackNavigator<SettingsNavigatorStackParamList>();
 
@@ -166,6 +167,13 @@ export default function SettingsNavigator() {
         component={DeveloperSettings}
         options={{
           title: t("settings.developer.title"),
+        }}
+      />
+      <Stack.Screen
+        name={ScreenName.CodePushSync}
+        component={CodePushSync}
+        options={{
+          title: "CodePush sync",
         }}
       />
       <Stack.Screen

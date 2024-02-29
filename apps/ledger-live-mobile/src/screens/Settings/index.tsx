@@ -123,6 +123,12 @@ export default function Settings({
         Icon={IconsLegacy.ToolMedium}
         onClick={() => navigation.navigate(ScreenName.DeveloperSettings)}
       />
+      <SettingsCard
+        title="Check for update"
+        desc="CodePush sync"
+        Icon={IconsLegacy.RefreshMedium}
+        onClick={() => navigation.navigate(ScreenName.CodePushSync)}
+      />
       {debugVisible || __DEV__ ? (
         <SettingsCard
           title={t("settings.debug.title")}
