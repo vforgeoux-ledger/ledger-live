@@ -75,19 +75,12 @@ const Balance = () => {
 
 function Portfolio() {
   const { accounts } = useStore();
-
-  const trackingPairs = useTrackingPairForAccounts(accounts, countervalue);
-  const userSettings = useMemo(() => ({ trackingPairs, autofillGaps: true }), [trackingPairs]);
-
   const cvState = useCountervaluesState();
   const assets = getAssetsDistribution(accounts, cvState, countervalue);
 
   return (
     <Flex className="flex-col gap-6">
-      <Countervalues userSettings={userSettings}>
-        <Balance />
-      </Countervalues>
-
+      <Balance />
       <Card className="p-4">
         {!assets?.list.length ? (
           <EmptyPortfolio />
@@ -122,12 +115,18 @@ const retrieveAccount = async (networkId: string): Promise<Account | undefined> 
 };
 
 const PortfolioPage = () => {
+  const { accounts } = useStore();
+
+  const trackingPairs = useTrackingPairForAccounts(accounts, countervalue);
+  const userSettings = useMemo(() => ({ trackingPairs, autofillGaps: true }), [trackingPairs]);
+
   return (
     <div className={"flex min-h-screen flex-col font-inter antialiased"}>
       <Header />
-
       <main>
-        <Portfolio />
+        <Countervalues userSettings={userSettings}>
+          <Portfolio />
+        </Countervalues>
       </main>
     </div>
   );
