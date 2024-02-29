@@ -1,3 +1,4 @@
+import { ThemeToggler } from "@/components/system/themeToggler";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import "@/styles/global.css";
 import type { AppProps } from "next/app";
@@ -12,6 +13,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
       <main className={inter.variable}>
+        <div className="absolute right-2 top-2">
+          <ThemeToggler />
+        </div>
         <Component {...pageProps} />
       </main>
     </ThemeProvider>

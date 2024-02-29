@@ -1,8 +1,9 @@
-import './live-common-setup'
+import "./live-common-setup";
 import { useStore } from "@/client/store";
 import { AssetItem } from "@/components/system/AssetItem";
 import Box from "@/components/system/box";
 import { Combobox } from "@/components/system/combobox";
+import Flex from "@/components/system/flex";
 import { H2, H4, Subtitle } from "@/components/system/typography";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -29,101 +30,105 @@ const countervalue = getFiatCurrencyByTicker("EUR");
 const locale = "en";
 
 const EmptyPortfolio = () => {
-    const { addAccount, accounts } = useStore();
-  
-    const [network, setNetwork] = useState("");
-  
-    const addAccountToStore = async () => {
-      const retrievedAccount = await retrieveAccount(network);
-  
-      if (retrievedAccount) {
-        addAccount(retrievedAccount);
-      }
-    };
-  
-    return (
-      <Box full className="space-y-2">
-        <H4 className="font-semibold">You don't have any account yet.</H4>
-        <Combobox
-          className="self-center"
-          items={listSupportedCurrencies().map(item => ({ value: item.id, label: item.id }))}
-          searching="Network"
-          value={network}
-          onChange={setNetwork}
-        />
-        <Button onClick={() => addAccountToStore()}>Add account</Button>
-      </Box>
-    
-    );
-  };
-  
-  const Balance = () => {
-    const { accounts } = useStore();
-  
-    const cvState = useCountervaluesState();
-    const assets = getAssetsDistribution(accounts, cvState, countervalue);
-  
-    return (
-      <Card className="p-3 space-y-1">
-      <Subtitle className="text-muted-foreground">Balance</Subtitle>
-        <H2 className="font-bold">
-          {formatCurrencyUnit(countervalue.units[0], BigNumber(assets.sum), { showCode: true })}
-        </H2>
-      </Card>
-    );
-  };
-  
-  function Portfolio() {
-    const { accounts } = useStore();
-  
-    const trackingPairs = useTrackingPairForAccounts(accounts, countervalue);
-    const userSettings = useMemo(() => ({ trackingPairs, autofillGaps: true }), [trackingPairs]);
+  const { addAccount, accounts } = useStore();
 
-    const cvState = useCountervaluesState();
-    const assets = getAssetsDistribution(accounts, cvState, countervalue);
+  const [network, setNetwork] = useState("");
 
-    return (
-      <Box className="flex flex-col gap-6 w-content h-full p-0">
-        <Countervalues userSettings={userSettings}>
-          <Balance />
-        </Countervalues>
-  
-        <Card className="p-4">
-          {!assets?.list.length ? <EmptyPortfolio/> : assets?.list.map(asset => (
-            <AssetItem asset={asset} key={asset.id} />
-          ))}
-        </Card>
-      </Box>
-    );
-  };
-  
-  const retrieveAccount = async (networkId: string): Promise<Account | undefined> => {
-    const currency = getCryptoCurrencyById(String(networkId));
-    const currencyBridge = getCurrencyBridge(currency);
-    const sub = currencyBridge.scanAccounts({
-      currency,
-      deviceId,
-      syncConfig: {
-        paginationConfig: {},
-        blacklistedTokenIds: [],
-      },
-    });
-  
-    const sub2 = sub.toPromise();
-    const event = await sub2;
-  
-    if (event && event.type === "discovered") {
-      return event.account;
+  const addAccountToStore = async () => {
+    const retrievedAccount = await retrieveAccount(network);
+
+    if (retrievedAccount) {
+      addAccount(retrievedAccount);
     }
-  
-    return undefined;
   };
+
+  return (
+    <Box full className="space-y-2">
+      <H4 className="font-semibold">You don't have any account yet.</H4>
+      <Combobox
+        className="self-center"
+        items={listSupportedCurrencies().map(item => ({ value: item.id, label: item.id }))}
+        searching="Network"
+        value={network}
+        onChange={setNetwork}
+      />
+      <Button onClick={() => addAccountToStore()}>Add account</Button>
+    </Box>
+  );
+};
+
+const Balance = () => {
+  const { accounts } = useStore();
+
+  const cvState = useCountervaluesState();
+  const assets = getAssetsDistribution(accounts, cvState, countervalue);
+
+  return (
+    <Card className="p-3 space-y-1">
+      <Subtitle className="text-muted-foreground">Balance</Subtitle>
+      <H2 className="font-bold">
+        {formatCurrencyUnit(countervalue.units[0], BigNumber(assets.sum), { showCode: true })}
+      </H2>
+    </Card>
+  );
+};
+
+function Portfolio() {
+  const { accounts } = useStore();
+
+  const trackingPairs = useTrackingPairForAccounts(accounts, countervalue);
+  const userSettings = useMemo(() => ({ trackingPairs, autofillGaps: true }), [trackingPairs]);
+
+  const cvState = useCountervaluesState();
+  const assets = getAssetsDistribution(accounts, cvState, countervalue);
+
+  return (
+    <Flex className="flex-col gap-6">
+      <Countervalues userSettings={userSettings}>
+        <Balance />
+      </Countervalues>
+
+      <Card className="p-4">
+        {!assets?.list.length ? (
+          <EmptyPortfolio />
+        ) : (
+          assets?.list.map(asset => <AssetItem asset={asset} key={asset.id} />)
+        )}
+      </Card>
+    </Flex>
+  );
+}
+
+const retrieveAccount = async (networkId: string): Promise<Account | undefined> => {
+  const currency = getCryptoCurrencyById(String(networkId));
+  const currencyBridge = getCurrencyBridge(currency);
+  const sub = currencyBridge.scanAccounts({
+    currency,
+    deviceId,
+    syncConfig: {
+      paginationConfig: {},
+      blacklistedTokenIds: [],
+    },
+  });
+
+  const sub2 = sub.toPromise();
+  const event = await sub2;
+
+  if (event && event.type === "discovered") {
+    return event.account;
+  }
+
+  return undefined;
+};
 
 const PortfolioPage = () => {
   return (
     <div className={"flex min-h-screen flex-col font-inter antialiased"}>
       <Header />
-      <Portfolio />
+
+      <main>
+        <Portfolio />
+      </main>
     </div>
   );
 };
