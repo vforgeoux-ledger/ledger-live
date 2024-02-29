@@ -1,5 +1,5 @@
-import { PortfolioWrapper } from "@/portfolio-ui";
+import PortfolioPage from "@/portfolio-ui";
 
 export const getStaticProps = async () => ({ props: {} });
 
-export default PortfolioWrapper;
+export default PortfolioPage;
