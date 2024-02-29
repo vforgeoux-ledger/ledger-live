@@ -1,15 +1,13 @@
-import Portfolio from "./portfolio"
-import Header from "./header"
-import { PageLayout } from "./page-layout"
+"use client";
+import "../live-common-setup";
 
 import { useStore } from "@/client/store";
+import { AccountItem } from "@/components/system/AccountItem";
 import Box from "@/components/system/box";
 import { Combobox } from "@/components/system/combobox";
 import { H2, H4, Subtitle } from "@/components/system/typography";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import Footer from "@/portfolio-ui/nav/footer";
-import Header from "@/portfolio-ui/nav/header";
 import { getAccountName } from "@ledgerhq/coin-framework/lib-es/account/helpers";
 import {
   formatCurrencyUnit,
@@ -32,10 +30,8 @@ const deviceId = "webhid";
 const countervalue = getFiatCurrencyByTicker("EUR");
 const locale = "en";
 
-export const getStaticProps = async () => ({ props: {} });
-
 const EmptyPortfolio = () => {
-  const { addAccount } = useStore();
+  const { addAccount, accounts } = useStore();
 
   const [network, setNetwork] = useState("");
 
@@ -48,60 +44,57 @@ const EmptyPortfolio = () => {
   };
 
   return (
-    <Box>
-      <Card className="p-4 space-y-4">
-        <H4 className="font-semibold">You don't have any account yet.</H4>
-        <Combobox
-          className="self-center"
-          items={listSupportedCurrencies().map(item => ({ value: item.id, label: item.id }))}
-          searching="Network"
-          value={network}
-          onChange={setNetwork}
-        />
-        <Button onClick={() => addAccountToStore()}>Add account</Button>
-      </Card>
+    <Box className="p-0">
+      <H4 className="font-semibold">You don't have any account yet.</H4>
+      <Combobox
+        className="self-center"
+        items={listSupportedCurrencies().map(item => ({ value: item.id, label: item.id }))}
+        searching="Network"
+        value={network}
+        onChange={setNetwork}
+      />
+      <Button onClick={() => addAccountToStore()}>Add account</Button>
     </Box>
+  
   );
 };
 
-const Portfolio2 = () => {
+const Balance = () => {
   const { accounts } = useStore();
 
-  const trackingPairs = useTrackingPairForAccounts(accounts, countervalue);
-  const userSettings = useMemo(() => ({ trackingPairs, autofillGaps: true }), [trackingPairs]);
   const cvState = useCountervaluesState();
   const assets = getAssetsDistribution(accounts, cvState, countervalue);
 
   return (
-    <Box className="space-y-10">
-      <Countervalues userSettings={userSettings}>
-        <Card className="p-4 space-y-2">
-          <Subtitle className="text-muted-foreground">Balance</Subtitle>
-          <H2 className="font-bold">
-            {formatCurrencyUnit(countervalue.units[0], BigNumber(assets.sum), { showCode: true })}
-          </H2>
-        </Card>
-      </Countervalues>
-
-      <Card className="p-4">
-        {accounts.map(account => (
-          <div key={account.id}>
-            <strong>{getAccountName(account)}</strong>
-            <code>{account.freshAddress}</code>
-            <span>{formatCurrencyUnit(account.unit, account.balance, { showCode: true })}</span>
-          </div>
-        ))}
-      </Card>
-    </Box>
+    <Card className="p-4">
+      <Subtitle className="text-muted-foreground">Balance</Subtitle>
+      <H2 className="font-bold">
+        {formatCurrencyUnit(countervalue.units[0], BigNumber(assets.sum), { showCode: true })}
+      </H2>
+    </Card>
   );
 };
 
 function Portfolio() {
   const { accounts } = useStore();
 
-  if (!accounts.length) return <EmptyPortfolio />;
-  return <Portfolio2 />;
-}
+  const trackingPairs = useTrackingPairForAccounts(accounts, countervalue);
+  const userSettings = useMemo(() => ({ trackingPairs, autofillGaps: true }), [trackingPairs]);
+
+  return (
+    <Box className="flex flex-col gap-6 w-content h-full p-0">
+      <Countervalues userSettings={userSettings}>
+        <Balance />
+      </Countervalues>
+
+      <Card className="p-4">
+        {!accounts.length ? <EmptyPortfolio/> : accounts.map(account => (
+          <AccountItem key={account.id} account={account} />
+        ))}
+      </Card>
+    </Box>
+  );
+};
 
 const retrieveAccount = async (networkId: string): Promise<Account | undefined> => {
   const currency = getCryptoCurrencyById(String(networkId));
@@ -125,18 +118,4 @@ const retrieveAccount = async (networkId: string): Promise<Account | undefined> 
   return undefined;
 };
 
-const PortfolioPage = () => {
-  return (
-    <div className={"flex min-h-screen flex-col font-inter antialiased"}>
-      <Header />
-
-      <div className="mb-auto">
-        <Portfolio />
-      </div>
-
-      <Footer />
-    </div>
-  );
-};
-
-export default PortfolioPage;
+export default Portfolio;
