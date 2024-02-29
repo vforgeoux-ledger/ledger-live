@@ -232,6 +232,7 @@ function HeadlessShowPortfolioInner({
   if (accounts.length === 0) {
     return <div>No accounts.</div>;
   }
+
   console.log(assets); // so here, we should have all the data we need
   return (
     <div>
