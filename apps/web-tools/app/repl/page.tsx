@@ -1,3 +1,3 @@
-import Repl from "@/components/repl";
+import Repl from "@/components/ledger/repl";
 
 export default Repl;
