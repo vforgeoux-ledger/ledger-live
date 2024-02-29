@@ -122,13 +122,8 @@ const retrieveAccount = async (networkId: string): Promise<Account | undefined> 
 const PortfolioPage = () => {
   return (
     <div className={"flex min-h-screen flex-col font-inter antialiased"}>
-      <Header />
-
-      <div className="mb-auto">
+        <Header />
         <Portfolio />
-      </div>
-
-      <Footer />
     </div>
   );
 };
