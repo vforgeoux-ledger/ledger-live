@@ -1,3 +1,4 @@
+import './live-common-setup'
 import { useStore } from "@/client/store";
 import { AssetItem } from "@/components/system/AssetItem";
 import Box from "@/components/system/box";
@@ -121,8 +122,8 @@ const EmptyPortfolio = () => {
 const PortfolioPage = () => {
   return (
     <div className={"flex min-h-screen flex-col font-inter antialiased"}>
-        <Header />
-        <Portfolio />
+      <Header />
+      <Portfolio />
     </div>
   );
 };
