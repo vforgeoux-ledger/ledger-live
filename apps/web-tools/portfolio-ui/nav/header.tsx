@@ -1,12 +1,13 @@
+import Flex from "@/components/system/flex";
 import Ledger from "@/components/ui/icons/ledger";
 
 export default function Header() {
   return (
-    <header className="flex w-full justify-center pt-11 pb-6">
-      <div className="flex flex-row gap-4 w-content">
+    <header className="py-6">
+      <Flex className="flex-row gap-4">
         <Ledger className="h-8" />
         <h1 className="font-bold">Portfolio</h1>
-      </div>
+      </Flex>
     </header>
   );
 }
