@@ -1,24 +1,21 @@
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card } from "@/components/ui/card";
 import { Accordion } from "@/components/ui/accordion";
-import { getAccountName } from "@ledgerhq/coin-framework/lib-es/account/helpers";
-import { formatCurrencyUnit } from "@ledgerhq/coin-framework/lib-es/currencies/formatCurrencyUnit";
+import { getAccountName } from "@ledgerhq/coin-framework/account/helpers";
+import { formatCurrencyUnit } from "@ledgerhq/coin-framework/currencies/formatCurrencyUnit";
 import { Box } from "lucide-react";
 
-
 export const AccountItem = ({ account }: any) => {
-
   return (
     <Box>
       {getAccountName(account)}
       {account?.balance}
     </Box>
-  )
-}
+  );
+};
 
 export const AssetItem = ({ asset }: any) => {
-
-  const {currency, accounts, amount} = asset;
+  const { currency, accounts, amount } = asset;
 
   return (
     <Card className="p-3">
@@ -31,9 +28,7 @@ export const AssetItem = ({ asset }: any) => {
             {/* {account.children.map((subAsset: any) => (
               <div key={subAsset.id}>{subAsset.name}</div>
             ))} */}
-            {accounts?.map(account => (
-              <AccountItem key={account.id} account={account} />
-            ))}
+            {accounts?.map(account => <AccountItem key={account.id} account={account} />)}
           </AccordionContent>
         </AccordionItem>
       </Accordion>

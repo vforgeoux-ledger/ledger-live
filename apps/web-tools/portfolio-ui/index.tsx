@@ -1,4 +1,5 @@
 import "./live-common-setup";
+
 import { useStore } from "@/client/store";
 import { AssetItem } from "@/components/system/AssetItem";
 import Box from "@/components/system/box";
@@ -12,42 +13,49 @@ import {
   formatCurrencyUnit,
   getCryptoCurrencyById,
   getFiatCurrencyByTicker,
-} from "@ledgerhq/coin-framework/lib-es/currencies/index";
-import { listSupportedCurrencies } from "@ledgerhq/coin-framework/lib-es/currencies/support";
-import { getCurrencyBridge } from "@ledgerhq/live-common/lib-es/bridge/impl";
+} from "@ledgerhq/coin-framework/currencies/index";
+import { listSupportedCurrencies } from "@ledgerhq/coin-framework/currencies/support";
 import {
   Countervalues,
   useCountervaluesState,
   useTrackingPairForAccounts,
 } from "@ledgerhq/live-countervalues-react";
-import { getAssetsDistribution } from "@ledgerhq/live-countervalues/lib-es/portfolio";
+import { getAssetsDistribution } from "@ledgerhq/live-countervalues/portfolio";
 import { Account } from "@ledgerhq/types-live";
 import BigNumber from "bignumber.js";
 import { useMemo, useState } from "react";
+import { scanAccounts, useLocalStorage } from "./logic";
 
 const deviceId = "webhid";
 const countervalue = getFiatCurrencyByTicker("EUR");
 const locale = "en";
 
 const NoAccount = () => {
-  const { addAccount, accounts, addAssets } = useStore();
-  const cvState = useCountervaluesState();
+  const { addAccounts } = useStore();
 
   const [network, setNetwork] = useState("");
+  const [pending, setPending] = useState(false);
 
-  const addAccountToStore = async () => {
-    const retrievedAccount = await retrieveAccount(network);
-
-    if (retrievedAccount) {
-      const assets = getAssetsDistribution(accounts, cvState, countervalue);
-      addAssets(assets);
-      addAccount(retrievedAccount);
-    }
+  const onAddAccounts = () => {
+    const currency = getCryptoCurrencyById(String(network));
+    setPending(true);
+    scanAccounts(currency, deviceId).subscribe({
+      next: account => {
+        addAccounts([account]);
+      },
+      error: error => {
+        console.error("Error while scanning accounts", error);
+        setPending(false);
+      },
+      complete: () => {
+        setPending(false);
+      },
+    });
   };
 
   return (
     <Box full className="space-y-2">
-      <H4 className="font-semibold">You don't have any account yet.</H4>
+      <H4 className="font-semibold">{"You don't have any account yet."}</H4>
       <Combobox
         className="self-center"
         items={listSupportedCurrencies().map(item => ({ value: item.id, label: item.id }))}
@@ -55,7 +63,9 @@ const NoAccount = () => {
         value={network}
         onChange={setNetwork}
       />
-      <Button onClick={() => addAccountToStore()}>Add account</Button>
+      <Button onClick={onAddAccounts} disabled={pending}>
+        Add accounts
+      </Button>
     </Box>
   );
 };
@@ -63,7 +73,7 @@ const NoAccount = () => {
 const NoAssets = () => {
   return (
     <Box full className="space-y-2">
-      <H4 className="font-semibold">You don't have any asset yet.</H4>
+      <H4 className="font-semibold">{"You don't have any asset yet."}</H4>
 
       <Button>Buy Asset with Ledger</Button>
     </Box>
@@ -71,7 +81,9 @@ const NoAssets = () => {
 };
 
 function Portfolio() {
-  const { accounts, assets } = useStore();
+  const { accounts } = useStore();
+  const cvState = useCountervaluesState();
+  const assets = getAssetsDistribution(accounts, cvState, countervalue);
 
   return (
     <Flex className="flex-col gap-6">
@@ -97,33 +109,13 @@ function Portfolio() {
   );
 }
 
-const retrieveAccount = async (networkId: string): Promise<Account | undefined> => {
-  const currency = getCryptoCurrencyById(String(networkId));
-  const currencyBridge = getCurrencyBridge(currency);
-  const sub = currencyBridge.scanAccounts({
-    currency,
-    deviceId,
-    syncConfig: {
-      paginationConfig: {},
-      blacklistedTokenIds: [],
-    },
-  });
-
-  const sub2 = sub.toPromise();
-  const event = await sub2;
-
-  if (event && event.type === "discovered") {
-    return event.account;
-  }
-
-  return undefined;
-};
-
 const PortfolioPage = () => {
-  const { accounts } = useStore();
+  const { accounts, addAccounts } = useStore();
 
   const trackingPairs = useTrackingPairForAccounts(accounts, countervalue);
   const userSettings = useMemo(() => ({ trackingPairs, autofillGaps: true }), [trackingPairs]);
+
+  useLocalStorage(accounts, addAccounts);
 
   return (
     <div className={"flex min-h-screen flex-col font-inter antialiased"}>

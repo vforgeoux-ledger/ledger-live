@@ -100,7 +100,7 @@ function HeadlessAddAccounts({
       // This is how we scan for accounts with the bridge today
       const currency = getCryptoCurrencyById(String(currencyId));
       const currencyBridge = getCurrencyBridge(currency);
-      const sub = appForCurrency(deviceId, currency, () =>
+      appForCurrency(deviceId, currency, () =>
         currencyBridge.scanAccounts({
           currency,
           deviceId,
@@ -123,10 +123,6 @@ function HeadlessAddAccounts({
           setDisabled(false);
         },
       });
-      // TODO we could also offer an interruptability by doing sub.unsubscribe() when the user wants to cancel
-      return () => {
-        sub.unsubscribe();
-      };
     },
     [addAccounts],
   );
