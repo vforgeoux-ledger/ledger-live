@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@ledgerhq/coin-framework": "workspace:^",
-    "@ledgerhq/crypto-icons-ui": "workspace:^",
     "@ledgerhq/domain-service": "workspace:^",
     "@ledgerhq/errors": "workspace:^",
     "@ledgerhq/hw-app-eth": "workspace:^",
