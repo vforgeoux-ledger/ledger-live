@@ -1,5 +1,5 @@
 import Flex from "@/components/system/flex";
-import { H1, H2, H3, H4 } from "@/components/system/typography";
+import { H4 } from "@/components/system/typography";
 import Ledger from "@/components/ui/icons/ledger";
 
 export default function Header() {
