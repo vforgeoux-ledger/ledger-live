@@ -15,6 +15,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ledgerhq/crypto-icons-ui": "workspace:^",
     "@ledgerhq/coin-framework": "workspace:^",
     "@ledgerhq/domain-service": "workspace:^",
     "@ledgerhq/errors": "workspace:^",
