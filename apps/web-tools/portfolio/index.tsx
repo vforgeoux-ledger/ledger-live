@@ -315,7 +315,7 @@ function HeadlessStateManagement({
 
 // For the send flow, the most convenient is to first select an account
 // then once selected, we can assume the account is in context and move on to the second component
-function HeadlessSendFlow({ accounts }: { accounts: Account[] }) {
+export function HeadlessSendFlow({ accounts }: { accounts: Account[] }) {
   const [accountId, setAccountId] = useState<string | null>(null);
   const account = accounts.find(a => a.id === accountId);
 
@@ -600,6 +600,7 @@ function appForCurrency<T>(
   currency: CryptoCurrency,
   job: () => Observable<T>,
 ): Observable<T> {
+  console.log(deviceId, currency, job)
   return connectApp({
     deviceId,
     request: {

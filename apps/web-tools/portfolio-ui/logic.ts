@@ -16,6 +16,7 @@ function appForCurrency<T>(
   currency: CryptoCurrency,
   job: () => Observable<T>,
 ): Observable<T> {
+  console.log(deviceId, currency, job)
   return connectApp({
     deviceId,
     request: {
@@ -46,6 +47,7 @@ function appForCurrency<T>(
 export function scanAccounts(currency: CryptoCurrency, deviceId: string): Observable<Account> {
   // This is how we scan for accounts with the bridge today
   const currencyBridge = getCurrencyBridge(currency);
+  console.log('Bridge', currencyBridge)
   return appForCurrency(deviceId, currency, () =>
     currencyBridge.scanAccounts({
       currency,

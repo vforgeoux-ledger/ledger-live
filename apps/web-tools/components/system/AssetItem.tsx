@@ -5,6 +5,11 @@ import { getAccountName } from "@ledgerhq/coin-framework/lib-es/account/helpers"
 import { formatCurrencyUnit } from "@ledgerhq/coin-framework/lib-es/currencies/formatCurrencyUnit";
 import Box from "@/components/system/box";
 import CryptoIcon from "../ui/crypto-icon";
+import { getFiatCurrencyByTicker } from "@ledgerhq/coin-framework/lib-es/currencies/index";
+import BigNumber from "bignumber.js";
+import { getBalanceHistoryWithCountervalue } from "@ledgerhq/live-countervalues/lib-es/portfolio";
+
+const countervalues = getFiatCurrencyByTicker("EUR");
 
 const AccountLine = ({ title, subtitle, value, counterValue }: any) => {
   return (
@@ -21,18 +26,21 @@ const AccountLine = ({ title, subtitle, value, counterValue }: any) => {
   )
 }
 
-export const AccountItem = ({ account }: any) => {
+getBalanceHistoryWithCountervalue
 
+export const AccountItem = ({ account }: any) => {
   return (
     <div>
-      <AccountLine title={account?.name} subtitle={account?.currency?.name} value={formatCurrencyUnit(account?.currency.unit, account.balance)} counterValue={'none'}
+      <AccountLine title={account?.name} subtitle={account?.currency?.name} counterValue={formatCurrencyUnit(account?.unit, account.balance) + ` ${account?.currency?.ticker}`}
     />
     </div>
   )
 }
 
 export const AssetItem = ({ asset }: any) => {
-  const {currency, accounts, amount} = asset;
+  const {currency, accounts, amount, countervalue} = asset;
+
+  console.log(amount, currency)
   return (
     <Card className="p-3 bg-gray-300 bg-opacity-10">
       <Accordion type="single" collapsible>
@@ -42,7 +50,7 @@ export const AssetItem = ({ asset }: any) => {
               <div className="w-8 h-8">
               <CryptoIcon iconName={currency?.ticker}/>
               </div>
-              <AccountLine title={currency?.name} subtitle={currency?.ticker} value={formatCurrencyUnit(currency.unit, amount.balance)} counterValue={"none"}/>
+              <AccountLine title={currency?.name} subtitle={currency?.ticker} value={formatCurrencyUnit(currency.units[0], amount)} counterValue={formatCurrencyUnit(countervalues?.units[0], BigNumber(countervalue), { showCode: true })}/>
             </div>
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 pr-8 pl-11">
