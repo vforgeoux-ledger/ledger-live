@@ -136,46 +136,6 @@ BRAZE_CUSTOM_ENDPOINT="sdk.fra-02.braze.eu"`;
   } catch (error) {
     echo(chalk.red(error));
   }
-
-  if (os.platform() === "darwin" && !process.env["SKIP_BUNDLE_CHECK"] && !hashesAreEquals) {
-    cd("ios");
-    try {
-      await $`bundle exec pod install --deployment --repo-update`;
-      try {
-        runHashChecks(true);
-      } catch (error) {
-        echo(chalk.red(error));
-      }
-    } catch (error) {
-      const str = `
-        ________________________________________
-        / CocoaPods lockfile is probably out of  \\
-        | sync with native dependencies. Don't   |
-        | forget to run \`pnpm mobile pod\` after  |
-        | adding or updating dependencies, and   |
-        \\ commit the changes in Podfile.lock.    /
-         ----------------------------------------
-          \\
-           \\
-             __
-            /  \\
-            |  |
-            @  @
-            |  |
-            || |/
-            || ||
-            |\\_/|
-            \\___/
-        `;
-      echo(chalk.red(str));
-      await $`exit 1`;
-    }
-    cd("..");
-
-    // We manually need to run Jetifier for React Native BLE PLX until they switch to AndroidX
-    // https://github.com/Polidea/react-native-ble-plx#android-example-setup
-    await $`pnpm jetify`;
-  }
 };
 
 await syncFamilies();
