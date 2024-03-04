@@ -22,10 +22,6 @@ mockPaymentInfo.mockResolvedValue({
 describe("getEstimatedFees", () => {
   const transaction = createFixtureTransaction();
 
-  beforeEach(() => {
-    mockPaymentInfo.mockClear();
-  });
-
   it("calls loadPolkadotCrypto (WASM check)", async () => {
     // Given
     const account = createFixtureAccount();
