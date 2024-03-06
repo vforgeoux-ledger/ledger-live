@@ -188,7 +188,7 @@ export const makeSync =
     shouldMergeOps?: boolean;
   }): AccountBridge<any>["sync"] =>
   (initial, syncConfig): Observable<AccountUpdater> =>
-    Observable.create((o: Observer<(acc: Account) => Account>) => {
+    new Observable((o: Observer<(acc: Account) => Account>) => {
       async function main() {
         const accountId = encodeAccountId({
           type: "js",
