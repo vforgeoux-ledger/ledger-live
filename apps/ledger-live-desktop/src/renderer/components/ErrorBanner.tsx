@@ -10,10 +10,11 @@ type Props = {
     title?: React.ReactNode;
     description?: React.ReactNode;
   };
+  supportURL?: string;
 };
 
-const ErrorBanner = ({ error, warning, fallback }: Props) => {
-  const maybeUrl = error ? urls.errors[String(error?.name)] : null;
+const ErrorBanner = ({ error, warning, fallback, supportURL }: Props) => {
+  const maybeUrl = supportURL || (error ? urls.errors[String(error?.name)] : null);
   return (
     <Alert
       type={warning ? "warning" : "error"}

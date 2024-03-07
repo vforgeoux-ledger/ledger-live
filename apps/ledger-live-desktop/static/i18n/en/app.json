@@ -5937,6 +5937,10 @@
     "FailedToRetrieveFirmwareUpdateInfo": {
       "title": "OS update check failed",
       "description": "Something went wrong. Please try again or contact Ledger Support if in doubt."
+    },
+    "CardinalityError": {
+      "title": "We are experiencing an issue with our Bitcoin infrastructure.",
+      "description": "Please find more details on how to solve this issue:"
     }
   },
   "cryptoOrg": {

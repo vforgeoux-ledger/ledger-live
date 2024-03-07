@@ -15,6 +15,7 @@ import { StepProps } from "../types";
 import StepRecipientSeparator from "~/renderer/components/StepRecipientSeparator";
 import { Account } from "@ledgerhq/types-live";
 import EditOperationPanel from "~/renderer/components/OperationsList/EditOperationPanel";
+import { urls } from "~/config/urls";
 
 const StepRecipient = ({
   t,
@@ -39,6 +40,8 @@ const StepRecipient = ({
   // check if there is a stuck transaction. If so, display a warning panel with "speed up or cancel" button
   const stuckAccountAndOperation = getStuckAccountAndOperation(account, parentAccount);
 
+  console.log(error, urls?.cardinalityError);
+
   return (
     <Box flow={4}>
       <TrackPage
@@ -48,7 +51,7 @@ const StepRecipient = ({
         isNFTSend={isNFTSend}
       />
       {mainAccount ? <CurrencyDownStatusAlert currencies={[mainAccount.currency]} /> : null}
-      {error ? <ErrorBanner error={error} /> : null}
+      {error ? <ErrorBanner error={error} supportURL={urls?.cardinalityError} /> : null}
       {isNFTSend ? (
         <Box flow={1}>
           <Label>{t("send.steps.recipient.nftRecipient")}</Label>

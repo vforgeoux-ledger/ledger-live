@@ -223,6 +223,8 @@ export const urls = {
   howToUpdateNewLedger: "https://support.ledger.com/hc/articles/9305992683165?docs=true",
   genuineCheck:
     "https://support.ledger.com/hc/articles/4404389367057-Is-my-Ledger-device-genuine-?docs=true",
+  cardinalityError:
+    "https://support.ledger.com/hc/en-us/articles/14406937221149-Fix-the-Cardinality-of-feesPerByte-should-be-exactly-3-error-with-Bitcoin-BTC?support=true",
 };
 
 export const vaultSigner = {

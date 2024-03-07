@@ -163,6 +163,7 @@ export const ReplacementTransactionUnderpriced = createCustomErrorClass(
 // Bitcoin family
 export const OpReturnDataSizeLimit = createCustomErrorClass("OpReturnSizeLimit");
 export const DustLimit = createCustomErrorClass("DustLimit");
+export const CardinalityError = createCustomErrorClass("CardinalityError");
 
 // Language
 export const LanguageNotFound = createCustomErrorClass("LanguageNotFound");
