@@ -34,6 +34,7 @@ export type MakeModalsType<MData> = {
  */
 export type GlobalModalData = {
   MODAL_SEND: undefined | SendData;
+  MODAL_SEND_SMART_ACCOUNT: undefined | SendData;
   MODAL_RECEIVE: undefined | ReceiveData;
   MODAL_SETTINGS_ACCOUNT: {
     account: Account;

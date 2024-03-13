@@ -7,6 +7,7 @@ import MODAL_DISABLE_PASSWORD from "./DisablePasswordModal";
 import MODAL_ADD_ACCOUNTS from "./AddAccounts";
 import MODAL_RECEIVE from "./Receive";
 import MODAL_SEND from "./Send";
+import MODAL_SEND_SMART_ACCOUNT from "./SendSmartAccount";
 import MODAL_SIGN_MESSAGE from "./SignMessage";
 import MODAL_SIGN_TRANSACTION from "./SignTransaction";
 import MODAL_NO_FUNDS_STAKE from "./NoFundsStake";
@@ -74,6 +75,7 @@ const globalModals: GlobalModals = {
   MODAL_ERROR,
   MODAL_AUTHENTICATE_SMART_ACCOUNT,
   MODAL_SMART_ACCOUNT_SIGNER,
+  MODAL_SEND_SMART_ACCOUNT,
 };
 
 export type Modals = MakeModalsType<ModalData>;

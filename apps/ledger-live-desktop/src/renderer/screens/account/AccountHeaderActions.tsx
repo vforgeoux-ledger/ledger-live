@@ -264,7 +264,9 @@ const AccountHeaderActions = ({ account, parentAccount, openModal }: Props) => {
       button: "send",
       ...buttonSharedTrackingFields,
     });
-    openModal("MODAL_SEND", {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
+    openModal(account.isSmartAccount ? "MODAL_SEND_SMART_ACCOUNT" : "MODAL_SEND", {
       parentAccount,
       account,
     });

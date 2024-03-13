@@ -27,12 +27,13 @@ export const buildAccount = async (address: string) => {
       },
     },
   );
-  console.log(accountShape);
   return {
     ...accountShape,
     ...infos,
     pendingOperations: [],
     balanceHistoryCache: emptyHistoryCache,
+    isSmartAccount: true,
+    name: "Ethereum Sepolia Smart Account",
     unit: currency.units[0],
   };
 };

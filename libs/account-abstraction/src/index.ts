@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { createModularAccountAlchemyClient } from "@alchemy/aa-alchemy";
 import { sepolia } from "@alchemy/aa-core";
 import { AlchemySigner } from "@alchemy/aa-alchemy";
 
 const chain = sepolia;
+//@ts-expect-error
+let client = null;
 
 export const signer = new AlchemySigner({
   client: {
@@ -25,7 +28,7 @@ async function completeAuthenticate(orgId: string, bundle: string) {
   await signer.authenticate({ type: "email", bundle, orgId });
   const initializeClient = async () => {
     // Create a smart account client to send user operations from your smart account
-    const client = await createModularAccountAlchemyClient({
+    client = await createModularAccountAlchemyClient({
       // get your Alchemy API key at https://dashboard.alchemy.com
       apiKey: "L-jqi7xsnl7jMzasEbLLqnPCr0ROdxqy",
       chain,
@@ -40,22 +43,19 @@ async function completeAuthenticate(orgId: string, bundle: string) {
   return await initializeClient();
 }
 
-/*
-const initializeClient = async () => {
-  // Create a smart account client to send user operations from your smart account
-  const client = await createModularAccountAlchemyClient({
-    // get your Alchemy API key at https://dashboard.alchemy.com
-    apiKey: "L-jqi7xsnl7jMzasEbLLqnPCr0ROdxqy",
-    chain,
-    signer,
-  });
+//@ts-expect-error
+async function sendTx({ to, value, gas }) {
+  const tx = {
+    //@ts-expect-error
+    from: client.getAddress(),
+    to,
+    value,
+    gas,
+  };
+  //@ts-expect-error
+  const txHash = await client.sendTransaction(tx);
+  console.log(txHash);
+  return txHash;
+}
 
-  // Fund your account address with ETH to send for the user operations
-  // (e.g. Get Sepolia ETH at https://sepoliafaucet.com)
-  console.log("Smart Account Address: ", client.getAddress()); // Log the smart account address
-};
-
-initializeClient();
-*/
-
-export { authenticate, completeAuthenticate };
+export { authenticate, completeAuthenticate, sendTx };
