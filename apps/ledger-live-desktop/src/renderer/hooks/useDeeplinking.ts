@@ -101,6 +101,8 @@ export function useDeepLinkHandler() {
        * searchParams.getAll("abc") to get the array from the searchParams with
        * what we have now
        */
+      console.log(deeplink);
+      alert(deeplink)
       const query = Object.fromEntries(searchParams);
       const fullUrl = pathname.replace(/(^\/+|\/+$)/g, "");
       const [url, path] = fullUrl.split("/");

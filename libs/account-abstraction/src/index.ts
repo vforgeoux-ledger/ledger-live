@@ -33,4 +33,5 @@ const initializeClient = async () => {
   console.log("Smart Account Address: ", client.getAddress()); // Log the smart account address
 };
 
-initializeClient();*/
+initializeClient();
+*/
