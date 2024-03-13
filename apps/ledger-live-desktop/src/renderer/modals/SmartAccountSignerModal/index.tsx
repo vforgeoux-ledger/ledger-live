@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import TrackPage from "~/renderer/analytics/TrackPage";
-import { Flex } from "@ledgerhq/react-ui";
+import { Flex, Text } from "@ledgerhq/react-ui";
 import Button from "~/renderer/components/Button";
 import Modal from "~/renderer/components/Modal";
 import ModalBody from "~/renderer/components/Modal/ModalBody";
 import { closeModal } from "~/renderer/actions/modals";
 import { useDispatch } from "react-redux";
 import { completeAuthenticate } from "@ledgerhq/account-abstraction";
-
+import Spinner from "~/renderer/components/Spinner";
 export type Props = {
   isOpened: boolean;
   onClose: () => void;
@@ -31,7 +31,9 @@ const ErrorModal = ({
 }: Props) => {
   const dispatch = useDispatch();
   const [address, setAddress] = useState("");
-  const handleClose = () => dispatch(closeModal("MODAL_SMART_ACCOUNT_SIGNER"));
+  const handleClose = () => {
+    dispatch(closeModal("MODAL_SMART_ACCOUNT_SIGNER"));
+  };
   useEffect(() => {
     completeAuthenticate(signer.orgId, signer.bundle).then(setAddress);
   }, [signer]);
@@ -45,21 +47,39 @@ const ErrorModal = ({
     >
       <ModalBody
         {...props}
-        title={"Create smart contract"}
+        title={"Create smart account"}
         onClose={handleClose}
         render={() => (
-          <Flex columnGap={"20px"} justifyContent={"center"} alignItems={"center"}>
-            <p>Successfully created smart account.</p>
-            <br />
-            <p>Your Address: {address}</p>
-            <Button
-              primary
-              onClick={() => {
-                handleClose();
-              }}
-            >
-              {"Continue"}
-            </Button>
+          <Flex
+            flexDirection={"column"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            rowGap={"20px"}
+          >
+            <>
+              {address === "" ? (
+                <Spinner size={30} />
+              ) : (
+                <>
+                  <Text flex={1} color="green" fontSize={18}>
+                    {"Your smart account has been created successfully !"}
+                  </Text>
+                  <Text flex={1} fontSize={13}>
+                    {"Your Address:"} {address}
+                  </Text>
+                  <Flex width={"100%"} justifyContent={"end"}>
+                    <Button
+                      primary
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      {"Continue"}
+                    </Button>
+                  </Flex>
+                </>
+              )}
+            </>
           </Flex>
         )}
       />

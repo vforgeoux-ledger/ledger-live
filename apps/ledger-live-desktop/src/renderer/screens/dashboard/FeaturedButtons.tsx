@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Grid, IconsLegacy } from "@ledgerhq/react-ui";
+import { Grid, Icons, IconsLegacy } from "@ledgerhq/react-ui";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import EntryButton from "~/renderer/components/EntryButton/EntryButton";
@@ -81,10 +81,11 @@ const FeaturedButtons = () => {
         entryButtonTestId="stake-entry-button"
       />
       <EntryButton
-        Icon={() => <IconsLegacy.WalletAddMedium size={18} />}
+        Icon={() => <Icons.WalletInput />}
         disabled={stakeDisabled}
-        title={"Create smart contract"}
-        body={"Create smart contract description"}
+        title={"Smart account"}
+        body={"Create your smart account"}
+        label={"New"}
         onClick={handleAuthenticateSmartAccount}
         entryButtonTestId="stake-entry-button"
       />

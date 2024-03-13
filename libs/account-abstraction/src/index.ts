@@ -9,7 +9,7 @@ export const signer = new AlchemySigner({
     // This is created in your dashboard under `https://dashboard.alchemy.com/settings/access-keys`
     // NOTE: it is not recommended to expose your API key on the client, instead proxy requests to your backend and set the `rpcUrl`
     // here to point to your backend.
-    connection: { apiKey: "" },
+    connection: { apiKey: "alcht_wZ6aisidYNbZ3Conc4GeWVllYgFFy4" },
     iframeConfig: {
       // you will need to render a container with this id in your DOM
       iframeContainerId: "turnkey-iframe-container",
