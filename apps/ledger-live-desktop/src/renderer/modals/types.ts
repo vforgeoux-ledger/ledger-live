@@ -84,6 +84,7 @@ export type GlobalModalData = {
   MODAL_CONFIRM: ConfirmProps;
   MODAL_ERROR: ErrorProps;
   MODAL_AUTHENTICATE_SMART_ACCOUNT: undefined;
+  MODAL_SMART_ACCOUNT_PLUGINS: undefined;
   MODAL_SMART_ACCOUNT_SIGNER: SignerProps;
   MODAL_VAULT_SIGNER: undefined;
 };
