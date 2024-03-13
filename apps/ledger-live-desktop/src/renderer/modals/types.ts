@@ -12,6 +12,7 @@ import { Data as ConnectDeviceData } from "./ConnectDevice/index";
 import { Params as SignTransactionData } from "./SignTransaction/Body";
 import { Props as ConfirmProps } from "./ConfirmModal";
 import { Props as ErrorProps } from "./ErrorModal";
+import { Props as SignerProps } from "./SmartAccountSignerModal";
 import { UserProps as AddAccountProps } from "./AddAccounts";
 import { ModalStartStakeProps } from "./StartStake";
 import { CoinModalsData } from "../families/generated";
@@ -80,7 +81,9 @@ export type GlobalModalData = {
     appName?: string | undefined | null;
   };
   MODAL_CONFIRM: ConfirmProps;
-  MODAL_ERROR: undefined | ErrorProps;
+  MODAL_ERROR: ErrorProps;
+  MODAL_AUTHENTICATE_SMART_ACCOUNT: undefined;
+  MODAL_SMART_ACCOUNT_SIGNER: SignerProps;
   MODAL_VAULT_SIGNER: undefined;
 };
 

@@ -101,8 +101,6 @@ export function useDeepLinkHandler() {
        * searchParams.getAll("abc") to get the array from the searchParams with
        * what we have now
        */
-      console.log(deeplink);
-      alert(deeplink)
       const query = Object.fromEntries(searchParams);
       const fullUrl = pathname.replace(/(^\/+|\/+$)/g, "");
       const [url, path] = fullUrl.split("/");
@@ -114,6 +112,8 @@ export function useDeepLinkHandler() {
         currency,
         installApp,
         appName,
+        bundle,
+        orgId,
       } = query;
 
       // Track deeplink only when ajsPropSource attribute exists.
@@ -335,6 +335,9 @@ export function useDeepLinkHandler() {
           break;
         case "storyly":
           setUrl(deeplink);
+          break;
+        case "smart-account":
+          dispatch(openModal("MODAL_SMART_ACCOUNT_SIGNER", { signer: { bundle, orgId } }));
           break;
         case "portfolio":
         default:

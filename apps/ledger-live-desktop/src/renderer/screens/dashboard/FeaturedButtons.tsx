@@ -49,13 +49,9 @@ const FeaturedButtons = () => {
 
   const dispatch = useDispatch();
 
-  const openAddAccounts = useCallback(() => {
-    dispatch(openModal("MODAL_ERROR", undefined));
+  const handleAuthenticateSmartAccount = useCallback(() => {
+    dispatch(openModal("MODAL_AUTHENTICATE_SMART_ACCOUNT", undefined));
   }, [dispatch]);
-
-  const handleClickSmartContract = useCallback(() => {
-    openAddAccounts();
-  }, [openAddAccounts]);
 
   if (!bannerEnabled) return null;
 
@@ -89,7 +85,7 @@ const FeaturedButtons = () => {
         disabled={stakeDisabled}
         title={"Create smart contract"}
         body={"Create smart contract description"}
-        onClick={handleClickSmartContract}
+        onClick={handleAuthenticateSmartAccount}
         entryButtonTestId="stake-entry-button"
       />
     </ButtonGrid>

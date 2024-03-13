@@ -28,6 +28,8 @@ import MODAL_HIDE_NFT_COLLECTION from "./HideNftCollection";
 import MODAL_PROTECT_DISCOVER from "./ProtectDiscover";
 import MODAL_CONFIRM from "./ConfirmModal";
 import MODAL_ERROR from "./ErrorModal";
+import MODAL_AUTHENTICATE_SMART_ACCOUNT from "./AuthenticateModal";
+import MODAL_SMART_ACCOUNT_SIGNER from "./SmartAccountSignerModal";
 import MODAL_VAULT_SIGNER from "./VaultSigner";
 
 type GlobalModals = MakeModalsType<GlobalModalData>;
@@ -70,6 +72,8 @@ const globalModals: GlobalModals = {
 
   MODAL_CONFIRM,
   MODAL_ERROR,
+  MODAL_AUTHENTICATE_SMART_ACCOUNT,
+  MODAL_SMART_ACCOUNT_SIGNER,
 };
 
 export type Modals = MakeModalsType<ModalData>;

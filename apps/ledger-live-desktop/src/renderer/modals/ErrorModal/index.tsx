@@ -1,10 +1,9 @@
 import React from "react";
 import TrackPage from "~/renderer/analytics/TrackPage";
-import { Flex } from "@ledgerhq/react-ui";
-import Button from "~/renderer/components/Button";
-import Input from "~/renderer/components/Input";
+import Box from "~/renderer/components/Box";
 import Modal from "~/renderer/components/Modal";
 import ModalBody from "~/renderer/components/Modal/ModalBody";
+import ErrorDisplay from "~/renderer/components/ErrorDisplay";
 
 export type Props = {
   isOpened: boolean;
@@ -19,15 +18,13 @@ const ErrorModal = ({ isOpened, onClose, error, onRetry, withExportLogs, ...prop
     <Modal name="MODAL_ERROR" backdropColor isOpened={isOpened} onClose={onClose} centered>
       <ModalBody
         {...props}
-        title={"Create smart contract"}
-        onClose={() => console.log("onClose")}
+        onClose={onClose}
         render={() => (
-          <Flex columnGap={"20px"} justifyContent={"center"} alignItems={"center"}>
-            <Input placeholder={"Enter your email"} />
-            <Button primary onClick={() => console.log("send")}>
-              {"Continue"}
-            </Button>
-          </Flex>
+          <Box>
+            {error && (
+              <ErrorDisplay error={error} onRetry={onRetry} withExportLogs={withExportLogs} />
+            )}
+          </Box>
         )}
       />
       <TrackPage category="Modal" name={error && error.name} />
