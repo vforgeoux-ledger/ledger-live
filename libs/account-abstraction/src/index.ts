@@ -30,9 +30,12 @@ async function completeAuthenticate(orgId: string, bundle: string) {
     // Create a smart account client to send user operations from your smart account
     client = await createModularAccountAlchemyClient({
       // get your Alchemy API key at https://dashboard.alchemy.com
-      apiKey: "L-jqi7xsnl7jMzasEbLLqnPCr0ROdxqy",
+      apiKey: "-4DNBT1xJpmgCcjuuOALsQuS0b9qmjqJ",
       chain,
       signer,
+      gasManagerConfig: {
+        policyId: "af93d626-bf51-46e1-8963-db712ab8cc0c",
+      },
     });
 
     // Fund your account address with ETH to send for the user operations
@@ -44,13 +47,10 @@ async function completeAuthenticate(orgId: string, bundle: string) {
 }
 
 //@ts-expect-error
-async function sendTx({ to, value, gas }) {
+async function sendTx({ to, value }) {
   const tx = {
-    //@ts-expect-error
-    from: client.getAddress(),
-    to,
     value,
-    gas,
+    to,
   };
   //@ts-expect-error
   const txHash = await client.sendTransaction(tx);

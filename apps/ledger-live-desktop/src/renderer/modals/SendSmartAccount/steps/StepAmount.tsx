@@ -16,7 +16,13 @@ import Input from "~/renderer/components/Input";
 import { useSelector } from "react-redux";
 import { getAllNFTs } from "~/renderer/reducers/accounts";
 import AccountFooter from "../AccountFooter";
-import SendAmountFields from "../SendAmountFields";
+import styled from "styled-components";
+import Alert from "~/renderer/components/Alert";
+
+// FormattedVal is a div, we want to avoid having it on a second line
+const TextContent = styled.div`
+  display: inline-flex;
+`;
 import AmountField from "../fields/AmountField";
 import { StepProps } from "../types";
 import { getLLDCoinFamily } from "~/renderer/families";
@@ -105,15 +111,9 @@ const StepAmount = (props: StepProps) => {
             resetInitValue={onResetMaybeAmount}
           />
         )}
-        <SendAmountFields
-          account={mainAccount}
-          parentAccount={parentAccount}
-          status={status}
-          transaction={transaction}
-          onChange={onChangeTransaction}
-          bridgePending={bridgePending}
-          updateTransaction={updateTransaction}
-        />
+        <Alert type="primary">
+          <TextContent>Your gas fees are sponsored for this transaction</TextContent>
+        </Alert>
       </Fragment>
     </Box>
   );

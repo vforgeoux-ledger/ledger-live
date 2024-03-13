@@ -32,7 +32,11 @@ const AccountFooter = ({ account, parentAccount, status }: Props) => {
   const SpecificComponent = specific?.AccountFooter;
 
   return SpecificComponent ? (
-    <SpecificComponent account={account} parentAccount={parentAccount} status={status} />
+    <SpecificComponent
+      account={account}
+      parentAccount={parentAccount}
+      status={{ ...status, estimatedFees: 0 }}
+    />
   ) : (
     <>
       <CurrencyCircleIcon size={40} currency={currency} />

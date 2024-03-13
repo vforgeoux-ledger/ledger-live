@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { TransactionHasBeenValidatedError } from "@ledgerhq/errors";
 import { getMainAccount } from "@ledgerhq/live-common/account/index";
 import { SyncOneAccountOnMount } from "@ledgerhq/live-common/bridge/react/index";
-import React from "react";
+import React, { useState } from "react";
+import { Log, GlitchText } from "@ledgerhq/react-ui";
 import { Trans } from "react-i18next";
 import styled from "styled-components";
 import TrackPage from "~/renderer/analytics/TrackPage";
@@ -9,7 +11,6 @@ import Box from "~/renderer/components/Box";
 import BroadcastErrorDisclaimer from "~/renderer/components/BroadcastErrorDisclaimer";
 import Button from "~/renderer/components/Button";
 import ErrorDisplay from "~/renderer/components/ErrorDisplay";
-import RetryButton from "~/renderer/components/RetryButton";
 import SuccessDisplay from "~/renderer/components/SuccessDisplay";
 import { OperationDetails } from "~/renderer/drawers/OperationDetails";
 import { setDrawer } from "~/renderer/drawers/Provider";
@@ -18,13 +19,12 @@ import { StepProps } from "../types";
 
 const Container = styled(Box).attrs(() => ({
   alignItems: "center",
-  grow: true,
   color: "palette.text.shade100",
 }))<{
   shouldSpace?: boolean;
 }>`
   justify-content: ${p => (p.shouldSpace ? "space-between" : "center")};
-  min-height: 220px;
+  min-height: 120px;
 `;
 
 function StepConfirmation({
@@ -36,7 +36,31 @@ function StepConfirmation({
   currencyName,
   account,
   parentAccount,
+  transaction,
 }: StepProps) {
+  const [txPending, setTxPending] = useState(true);
+  // @ts-expect-error
+  transaction.broadcastingTx.then(() => {
+    setTxPending(false);
+  });
+
+  if (txPending) {
+    return (
+      <Container>
+        <Log width="fit-content">
+          <GlitchText delay={0} duration={2000} text="Broadcasting " />
+          <GlitchText delay={0} duration={4000} text="the transaction to " />
+          <GlitchText delay={0} duration={4000} text="the Blockchain" />.
+        </Log>
+      </Container>
+    );
+  } else {
+    <Container>
+      <Log width="fit-content">
+        <GlitchText delay={0} duration={2000} text="Transaction confirmed" />
+      </Log>
+    </Container>;
+  }
   if (optimisticOperation) {
     return (
       <Container>
@@ -87,12 +111,9 @@ function StepConfirmation({
 }
 export function StepConfirmationFooter({
   t,
-  transitionTo,
   account,
   parentAccount,
-  onRetry,
   optimisticOperation,
-  error,
   closeModal,
 }: StepProps) {
   const concernedOperation = optimisticOperation
@@ -101,38 +122,23 @@ export function StepConfirmationFooter({
       : optimisticOperation
     : null;
   return (
-    <>
-      {concernedOperation ? (
-        // FIXME make a standalone component!
-        <Button
-          ml={2}
-          id={"send-confirmation-opc-button"}
-          event="Send Flow Step 4 View OpD Clicked"
-          onClick={() => {
-            closeModal();
-            if (account && concernedOperation) {
-              setDrawer(OperationDetails, {
-                operationId: concernedOperation.id,
-                accountId: account.id,
-                parentId: (parentAccount && parentAccount.id) || undefined,
-              });
-            }
-          }}
-          primary
-        >
-          {t("send.steps.confirmation.success.cta")}
-        </Button>
-      ) : error ? (
-        <RetryButton
-          ml={2}
-          primary
-          onClick={() => {
-            onRetry();
-            transitionTo("summary");
-          }}
-        />
-      ) : null}
-    </>
+    <Button
+      ml={2}
+      id={"send-confirmation-opc-button"}
+      onClick={() => {
+        closeModal();
+        if (account && concernedOperation) {
+          setDrawer(OperationDetails, {
+            operationId: concernedOperation.id,
+            accountId: account.id,
+            parentId: (parentAccount && parentAccount.id) || undefined,
+          });
+        }
+      }}
+      primary
+    >
+      {t("send.steps.confirmation.success.cta")}
+    </Button>
   );
 }
 export default StepConfirmation;
