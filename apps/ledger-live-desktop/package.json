@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@braze/web-sdk": "^4.6.3",
+    "@ledgerhq/account-abstraction": "workspace:^",
     "@ledgerhq/coin-bitcoin": "workspace:^",
     "@ledgerhq/coin-evm": "workspace:^",
     "@ledgerhq/coin-framework": "workspace:^",
