@@ -6,7 +6,9 @@ import Modal from "~/renderer/components/Modal";
 import ModalBody from "~/renderer/components/Modal/ModalBody";
 import { closeModal } from "~/renderer/actions/modals";
 import { useDispatch } from "react-redux";
+import { addAccount } from "~/renderer/actions/accounts";
 import { completeAuthenticate } from "@ledgerhq/account-abstraction";
+import { buildAccount } from "./accountStructure";
 
 export type Props = {
   isOpened: boolean;
@@ -49,12 +51,14 @@ const ErrorModal = ({
         onClose={handleClose}
         render={() => (
           <Flex columnGap={"20px"} justifyContent={"center"} alignItems={"center"}>
-            <p>Successfully created smart account.</p>
-            <br />
             <p>Your Address: {address}</p>
             <Button
               primary
-              onClick={() => {
+              onClick={async () => {
+                const account = await buildAccount(address);
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-expect-error
+                dispatch(addAccount(account));
                 handleClose();
               }}
             >
