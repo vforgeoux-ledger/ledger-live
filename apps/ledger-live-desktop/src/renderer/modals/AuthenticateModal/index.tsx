@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TrackPage from "~/renderer/analytics/TrackPage";
-import { Flex } from "@ledgerhq/react-ui";
+import { Flex, Text, Box } from "@ledgerhq/react-ui";
 import Button from "~/renderer/components/Button";
 import Input from "~/renderer/components/Input";
 import Modal from "~/renderer/components/Modal";
@@ -8,7 +8,7 @@ import ModalBody from "~/renderer/components/Modal/ModalBody";
 import { closeModal } from "~/renderer/actions/modals";
 import { useDispatch } from "react-redux";
 import { authenticate } from "@ledgerhq/account-abstraction";
-
+import { useTheme } from "styled-components";
 export type Props = {
   isOpened: boolean;
   onClose: () => void;
@@ -18,12 +18,13 @@ export type Props = {
 };
 
 const ErrorModal = ({ isOpened, onClose, error, onRetry, withExportLogs, ...props }: Props) => {
+  const colors = useTheme().colors;
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const handleClose = () => dispatch(closeModal("MODAL_AUTHENTICATE_SMART_ACCOUNT"));
   return (
     <Modal
-      name="MODAL_AUTHENTICATE_SMART_ACCOUNT"
+      name={"MODAL_AUTHENTICATE_SMART_ACCOUNT"}
       backdropColor
       isOpened={isOpened}
       onClose={handleClose}
@@ -31,20 +32,37 @@ const ErrorModal = ({ isOpened, onClose, error, onRetry, withExportLogs, ...prop
     >
       <ModalBody
         {...props}
-        title={"Create smart contract"}
+        title={"Create smart account"}
         onClose={handleClose}
         render={() => (
-          <Flex columnGap={"20px"} justifyContent={"center"} alignItems={"center"}>
-            <Input placeholder={"Enter your email"} onChange={setEmail} />
-            <Button
-              primary
-              onClick={() => {
-                authenticate(email);
-                handleClose();
-              }}
-            >
-              {"Continue"}
-            </Button>
+          <Flex
+            rowGap={"20px"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            width={"100%"}
+            flexDirection={"column"}
+          >
+            <Text textAlign={"center"} color={colors.palette.neutral.c50} fontSize={12}>
+              {
+                "Please enter your email address so we can send you a link to authenticate your smart account. This will allow you to sign transactions and interact with smart contracts."
+              }
+            </Text>
+            <Flex flexDirection={"row"} columnGap={"20px"} width={"100%"} alignItems={"center"}>
+              <Box width={"75%"}>
+                <Input placeholder={"Enter your email"} onChange={setEmail} />
+              </Box>
+              <Box width={"25%"}>
+                <Button
+                  primary
+                  onClick={() => {
+                    authenticate(email);
+                    handleClose();
+                  }}
+                >
+                  {"Continue"}
+                </Button>
+              </Box>
+            </Flex>
           </Flex>
         )}
       />
