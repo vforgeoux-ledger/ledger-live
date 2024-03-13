@@ -80,7 +80,7 @@ export type GlobalModalData = {
     appName?: string | undefined | null;
   };
   MODAL_CONFIRM: ConfirmProps;
-  MODAL_ERROR: ErrorProps;
+  MODAL_ERROR: undefined | ErrorProps;
   MODAL_VAULT_SIGNER: undefined;
 };
 
