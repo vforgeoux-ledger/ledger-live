@@ -4,7 +4,7 @@ import { Flex, Text } from "@ledgerhq/react-ui";
 import Button from "~/renderer/components/Button";
 import Modal from "~/renderer/components/Modal";
 import ModalBody from "~/renderer/components/Modal/ModalBody";
-import { closeModal } from "~/renderer/actions/modals";
+import { closeModal, openModal } from "~/renderer/actions/modals";
 import { useDispatch } from "react-redux";
 import { addAccount } from "~/renderer/actions/accounts";
 import { completeAuthenticate } from "@ledgerhq/account-abstraction";
@@ -36,6 +36,7 @@ const ErrorModal = ({
   const [address, setAddress] = useState("");
   const handleClose = () => {
     dispatch(closeModal("MODAL_SMART_ACCOUNT_SIGNER"));
+    dispatch(openModal("MODAL_SMART_ACCOUNT_PLUGINS", undefined));
   };
   useEffect(() => {
     completeAuthenticate(signer.orgId, signer.bundle).then(setAddress);
