@@ -1,19 +1,29 @@
 import { createModularAccountAlchemyClient } from "@alchemy/aa-alchemy";
-import { LocalAccountSigner, sepolia, type Hex } from "@alchemy/aa-core";
+import { arbitrumSepolia } from "@alchemy/aa-core";
+import { AlchemySigner } from "@alchemy/aa-alchemy";
 
-const chain = sepolia;
+const chain = arbitrumSepolia;
 
-// The private key of your EOA that will be the signer to connect with the Modular Account
-// Our recommendation is to store the private key in an environment variable
-const PRIVATE_KEY = "0xYourEOAPrivateKey" as Hex;
+export const signer = new AlchemySigner({
+  client: {
+    // This is created in your dashboard under `https://dashboard.alchemy.com/settings/access-keys`
+    // NOTE: it is not recommended to expose your API key on the client, instead proxy requests to your backend and set the `rpcUrl`
+    // here to point to your backend.
+    connection: { apiKey: "" },
+    iframeConfig: {
+      // you will need to render a container with this id in your DOM
+      iframeContainerId: "turnkey-iframe-container",
+    },
+  },
+});
 
+signer.authenticate({ type: "email", email: "kevin.le-seigle@ledger.fr" });
+/*
 const initializeClient = async () => {
-  const signer = LocalAccountSigner.privateKeyToAccountSigner(PRIVATE_KEY);
-
   // Create a smart account client to send user operations from your smart account
   const client = await createModularAccountAlchemyClient({
     // get your Alchemy API key at https://dashboard.alchemy.com
-    apiKey: "ALCHEMY_API_KEY",
+    apiKey: "L-jqi7xsnl7jMzasEbLLqnPCr0ROdxqy",
     chain,
     signer,
   });
@@ -23,4 +33,4 @@ const initializeClient = async () => {
   console.log("Smart Account Address: ", client.getAddress()); // Log the smart account address
 };
 
-initializeClient();
+initializeClient();*/

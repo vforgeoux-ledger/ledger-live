@@ -24,7 +24,8 @@
     "@alchemy/aa-accounts": "^*",
     "@alchemy/aa-alchemy": "^*",
     "@alchemy/aa-core": "^*",
-    "viem": "^*"
+    "viem": "^*",
+    "zod": "3.22.4"
   },
   "devDependencies": {
     "@types/jest": "^29.5.10",
