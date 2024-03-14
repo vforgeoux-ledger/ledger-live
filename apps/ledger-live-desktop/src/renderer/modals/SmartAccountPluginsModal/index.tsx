@@ -20,7 +20,6 @@ const ButtonGrid = styled(Grid).attrs(() => ({
   padding-bottom: ${p => p.theme.space[6]}px;
   background-color: ${p => p.theme.colors.palette.background.default};
   border-radius: 8px;
-  min-height: 400px;
   max-height: 400px;
   overflow-y: scroll;
 `;
@@ -60,7 +59,7 @@ const SmartAccountPluginsModal = ({
     deadmanSwitch: {
       title: "Dead Man Switch",
       label: "Popular",
-      description: "Transfers the account keys to a dedicated signer after a period of inactivity",
+      description: "Transfers the account keys to a another signer after a period of inactivity",
       icon: Icons.Clock,
     },
     zkEmail_recovery: {
@@ -71,11 +70,12 @@ const SmartAccountPluginsModal = ({
     multi_sig: {
       title: "Multi Signature",
       description: "Require multiple signatures to authorize a transaction",
+      icon: Icons.LedgerDevices,
     },
     DCA: {
       title: "Dollar Cost Averaging",
       description: "Automatically buy a fixed amount of crypto at regular intervals",
-      icon: Icons.ArrowDown,
+      icon: Icons.DollarConvert,
     },
   };
 

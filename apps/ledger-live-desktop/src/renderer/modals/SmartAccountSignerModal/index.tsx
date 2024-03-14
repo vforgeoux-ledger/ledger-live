@@ -2,18 +2,17 @@ import React, { useEffect, useState } from "react";
 import TrackPage from "~/renderer/analytics/TrackPage";
 import { Box, Flex, Text, Button } from "@ledgerhq/react-ui";
 import Modal from "~/renderer/components/Modal";
-import ModalBody from "~/renderer/components/Modal/ModalBody";
 import { closeModal, openModal } from "~/renderer/actions/modals";
 import { useDispatch } from "react-redux";
 import { addAccount } from "~/renderer/actions/accounts";
 import { completeAuthenticate } from "@ledgerhq/account-abstraction";
 import { buildAccount } from "./accountStructure";
-import Spinner from "~/renderer/components/Spinner";
 import GreenSvg from "./greenSvg";
 import { Icons } from "@ledgerhq/react-ui";
 import { useTheme } from "styled-components";
 import TopGradient from "./topGradient";
 import FakeLink from "~/renderer/components/FakeLink";
+import ModalSpinner from "./modalSpinner";
 export type Props = {
   isOpened: boolean;
   onClose: () => void;
@@ -45,6 +44,16 @@ const ErrorModal = ({
   useEffect(() => {
     completeAuthenticate(signer.orgId, signer.bundle).then(setAddress);
   }, [signer]);
+
+  const [isSpinnerVisible, setSpinnerVisible] = useState(true);
+
+  useEffect(() => {
+    if (address !== "") {
+      setTimeout(() => {
+        setSpinnerVisible(false);
+      }, 3000);
+    }
+  }, [address]);
   return (
     <Modal
       name="MODAL_SMART_ACCOUNT_SIGNER"
@@ -60,12 +69,12 @@ const ErrorModal = ({
     >
       <Box py={"36px"} width={"100%"}>
         <Flex flexDirection={"column"} alignItems={"center"} rowGap={32} justifyContent={"center"}>
-          {address === "" ? (
-            <Spinner size={30} />
+          {isSpinnerVisible ? (
+            <ModalSpinner isReady={address !== ""} />
           ) : (
             <>
               <Flex flexDirection={"column"} alignItems={"center"} rowGap={16}>
-                <Box position={"absolute"} top={"-70px"}>
+                <Box position={"absolute"} top={"-20px"}>
                   <TopGradient />
                 </Box>
                 <Flex
