@@ -46,6 +46,7 @@ const ErrorModal = ({
   }, [signer]);
 
   const [isSpinnerVisible, setSpinnerVisible] = useState(true);
+  const [isReady, setReady] = useState(false);
 
   useEffect(() => {
     if (address !== "") {
@@ -54,6 +55,15 @@ const ErrorModal = ({
       }, 3000);
     }
   }, [address]);
+
+  useEffect(() => {
+    if (address !== "") {
+      setTimeout(() => {
+        setReady(true);
+      }, 2500);
+    }
+  }, [address]);
+
   return (
     <Modal
       name="MODAL_SMART_ACCOUNT_SIGNER"
@@ -70,7 +80,7 @@ const ErrorModal = ({
       <Box py={"36px"} width={"100%"}>
         <Flex flexDirection={"column"} alignItems={"center"} rowGap={32} justifyContent={"center"}>
           {isSpinnerVisible ? (
-            <ModalSpinner isReady={address !== ""} />
+            <ModalSpinner isReady={isReady} becomeGreen={false} />
           ) : (
             <>
               <Flex flexDirection={"column"} alignItems={"center"} rowGap={16}>
