@@ -91,6 +91,11 @@ const HashContainer = styled.div`
   user-select: none;
 `;
 
+function capitalizeFirstLetter(word?: string) {
+  if (!word) return undefined;
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 const truncate = (word?: string, tooLongChars = 25) => {
   if (!word) return undefined;
 
@@ -120,8 +125,8 @@ const Attribute = ({
         {t(`account.ordinals.details.${name}`)}
       </Text>
       <ToolTip content={attribute.length > tooLongChars ? attribute : undefined}>
-        <Text variant="subtitle" color="neutral.c100">
-          {truncate(attribute, tooLongChars)}
+        <Text variant="paragraph" color="neutral.c100">
+          {truncate(capitalizeFirstLetter(attribute), tooLongChars)}
         </Text>
       </ToolTip>
     </Flex>
