@@ -17,6 +17,7 @@ import { setDrawer } from "~/renderer/drawers/Provider";
 import { multiline } from "~/renderer/styles/helpers";
 import { StepProps } from "../types";
 import ModalSpinner from "../../SmartAccountSignerModal/modalSpinner";
+
 const Container = styled(Box).attrs(() => ({
   alignItems: "center",
   color: "palette.text.shade100",
@@ -45,7 +46,7 @@ function StepConfirmation({
   if (txPending) {
     return (
       <Container>
-        <ModalSpinner isReady={false} />
+        <ModalSpinner becomeGreen isReady={false} />
         <Log width="100%" height="100px" marginTop={20}>
           <GlitchText delay={0} duration={2000} text="Broadcasting " />
           <GlitchText delay={0} duration={4000} text="the transaction to the " />
@@ -57,7 +58,7 @@ function StepConfirmation({
   } else {
     return (
       <Container>
-        <ModalSpinner isReady={true} />
+        <ModalSpinner becomeGreen isReady={true} />
         <Log width="100%" height="100px" marginTop={20}>
           <GlitchText delay={0} duration={2000} text="Transaction confirmed" />
         </Log>
