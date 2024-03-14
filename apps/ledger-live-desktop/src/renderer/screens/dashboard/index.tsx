@@ -31,7 +31,7 @@ import { ABTestingVariants, AccountLike, Operation } from "@ledgerhq/types-live"
 import PortfolioContentCards from "~/renderer/screens/dashboard/PortfolioContentCards";
 import MarketPerformanceWidget from "~/renderer/screens/dashboard/MarketPerformanceWidget";
 import { useMarketPerformanceFeatureFlag } from "~/renderer/actions/marketperformance";
-import { Grid } from "@ledgerhq/react-ui";
+import { Flex, Grid } from "@ledgerhq/react-ui";
 
 // This forces only one visible top banner at a time
 export const TopBannerContainer = styled.div`
@@ -88,7 +88,6 @@ export default function DashboardPage() {
         <PortfolioContentCards variant={ABTestingVariants.variantA} />
       </Box>
       {isPostOnboardingBannerVisible && <PostOnboardingHubBanner />}
-      <FeaturedButtons />
       <TrackPage
         category="Portfolio"
         totalAccounts={totalAccounts}
@@ -96,7 +95,7 @@ export default function DashboardPage() {
         totalCurrencies={totalCurrencies}
         hasExchangeBannerCTA={!!portfolioExchangeBanner?.enabled}
       />
-      <Box flow={7} id="portfolio-container" data-test-id="portfolio-container">
+      <Box flow={7} id="portfolio-container" data-test-id="portfolio-container" height={"100%"}>
         {!hasInstalledApps ? (
           <EmptyStateInstalledApps />
         ) : totalAccounts > 0 ? (
@@ -134,7 +133,9 @@ export default function DashboardPage() {
             )}
           </>
         ) : (
-          <EmptyStateAccounts />
+          <Flex justifyContent="center" height={"100%"} alignItems={"center"}>
+            <EmptyStateAccounts />
+          </Flex>
         )}
       </Box>
     </>

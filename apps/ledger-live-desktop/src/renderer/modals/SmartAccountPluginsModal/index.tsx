@@ -11,8 +11,8 @@ import Button from "~/renderer/components/Button";
 
 const ButtonGrid = styled(Grid).attrs(() => ({
   columns: 2,
-  columnGap: 4,
-  rowGap: 4,
+  columnGap: 2,
+  rowGap: 2,
 }))`
   padding-top: ${p => p.theme.space[4]}px;
   padding-left: ${p => p.theme.space[4]}px;
@@ -67,6 +67,15 @@ const SmartAccountPluginsModal = ({
       title: "Email Recovery",
       description: "Allow users to recover their account via email, without doxxing the email",
       icon: Icons.At,
+    },
+    multi_sig: {
+      title: "Multi Signature",
+      description: "Require multiple signatures to authorize a transaction",
+    },
+    DCA: {
+      title: "Dollar Cost Averaging",
+      description: "Automatically buy a fixed amount of crypto at regular intervals",
+      icon: Icons.ArrowDown,
     },
   };
 

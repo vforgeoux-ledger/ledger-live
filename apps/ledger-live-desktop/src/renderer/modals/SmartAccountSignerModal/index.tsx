@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TrackPage from "~/renderer/analytics/TrackPage";
-import { Flex, Text } from "@ledgerhq/react-ui";
-import Button from "~/renderer/components/Button";
+import { Box, Flex, Text, Button } from "@ledgerhq/react-ui";
 import Modal from "~/renderer/components/Modal";
 import ModalBody from "~/renderer/components/Modal/ModalBody";
 import { closeModal, openModal } from "~/renderer/actions/modals";
@@ -10,7 +9,11 @@ import { addAccount } from "~/renderer/actions/accounts";
 import { completeAuthenticate } from "@ledgerhq/account-abstraction";
 import { buildAccount } from "./accountStructure";
 import Spinner from "~/renderer/components/Spinner";
-
+import GreenSvg from "./greenSvg";
+import { Icons } from "@ledgerhq/react-ui";
+import { useTheme } from "styled-components";
+import TopGradient from "./topGradient";
+import FakeLink from "~/renderer/components/FakeLink";
 export type Props = {
   isOpened: boolean;
   onClose: () => void;
@@ -32,6 +35,7 @@ const ErrorModal = ({
   withExportLogs,
   ...props
 }: Props) => {
+  const colors = useTheme().colors;
   const dispatch = useDispatch();
   const [address, setAddress] = useState("");
   const handleClose = () => {
@@ -48,51 +52,122 @@ const ErrorModal = ({
       isOpened={isOpened}
       onClose={handleClose}
       centered
+      bodyStyle={{
+        padding: "0px",
+        width: "430px",
+        borderRadius: "12px",
+      }}
     >
-      <ModalBody
-        {...props}
-        title={"Create smart account"}
-        onClose={handleClose}
-        render={() => (
-          <Flex
-            flexDirection={"column"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            rowGap={"20px"}
-          >
+      <Box py={"36px"} width={"100%"}>
+        <Flex flexDirection={"column"} alignItems={"center"} rowGap={32} justifyContent={"center"}>
+          {address === "" ? (
+            <Spinner size={30} />
+          ) : (
             <>
-              {address === "" ? (
-                <Spinner size={30} />
-              ) : (
-                <>
-                  <Text flex={1} color="green" fontSize={18}>
-                    {"Your smart account has been created successfully !"}
+              <Flex flexDirection={"column"} alignItems={"center"} rowGap={16}>
+                <Box position={"absolute"} top={"-70px"}>
+                  <TopGradient />
+                </Box>
+                <Flex
+                  width={"100%"}
+                  position={"absolute"}
+                  justifyContent={"end"}
+                  right={10}
+                  top={10}
+                >
+                  <Box
+                    onClick={handleClose}
+                    style={{
+                      cursor: "pointer",
+                      backgroundColor: "#FFFFFF1A",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: "50%",
+                      padding: "8px",
+                    }}
+                  >
+                    <Icons.Close size={"XS"} />
+                  </Box>
+                </Flex>
+                <GreenSvg />
+                <Text variant={"body"} fontSize={24} textTransform={"none"} ff={"Inter|Medium"}>
+                  Your account is ready
+                </Text>
+                <Flex flexDirection={"column"} alignItems={"center"} rowGap={"8px"}>
+                  <Text variant={"body"} fontSize={14} color={colors.neutral.c70}>
+                    Your address is{" "}
                   </Text>
-                  <Text flex={1} fontSize={13}>
-                    {"Your Address:"} {address}
-                  </Text>
-                  <Flex width={"100%"} justifyContent={"end"}>
-                    <Button
-                      primary
-                      onClick={async () => {
-                        const account = await buildAccount(address);
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        //@ts-expect-error
-                        dispatch(addAccount(account));
-                        handleClose();
-                      }}
-                    >
-                      {"Add account"}
-                    </Button>
-                  </Flex>
-                </>
-              )}
+                  <Box
+                    backgroundColor={"#FFFFFF0D"}
+                    style={{ padding: "10px 8px", borderRadius: "48px" }}
+                  >
+                    <Text color={colors.neutral.c100} variant={"body"} fontSize={14}>
+                      {address}
+                    </Text>
+                  </Box>
+                </Flex>
+              </Flex>
+              <Button
+                style={{ borderRadius: "500px" }}
+                variant={"main"}
+                onClick={async () => {
+                  const account = await buildAccount(address);
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  //@ts-expect-error
+                  dispatch(addAccount(account));
+                  handleClose();
+                }}
+              >
+                {"Customize your account"}
+              </Button>
+              <FakeLink color={colors.neutral.c70} fontSize={"13px"}>
+                {"Skip"}
+              </FakeLink>
             </>
-          </Flex>
-        )}
-      />
+          )}
+        </Flex>
+      </Box>
       <TrackPage category="Modal" name={error && error.name} />
     </Modal>
   );
 };
 export default ErrorModal;
+/*
+<ModalBody
+  {...props}
+  onClose={handleClose}
+  render={() => (
+    <Flex flexDirection={"column"} alignItems={"center"} justifyContent={"center"} rowGap={"20px"}>
+      <>
+        {address === "" ? (
+          <Spinner size={30} />
+        ) : (
+          <>
+            <GreenSvg />
+            <Text flex={1} color="green" fontSize={18}>
+              {"Your smart account has been created successfully !"}
+            </Text>
+            <Text flex={1} fontSize={13}>
+              {"Your Address:"} {address}
+            </Text>
+            <Flex width={"100%"} justifyContent={"end"}>
+              <Button
+                primary
+                onClick={async () => {
+                  const account = await buildAccount(address);
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  //@ts-expect-error
+                  dispatch(addAccount(account));
+                  handleClose();
+                }}
+              >
+                {"Add account"}
+              </Button>
+            </Flex>
+          </>
+        )}
+      </>
+    </Flex>
+  )}
+/>;*/
