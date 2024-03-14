@@ -3,10 +3,25 @@ import styled from "styled-components";
 import { space, layout, position, PositionProps, LayoutProps, SpaceProps } from "styled-system";
 import Box from "~/renderer/components/Box";
 import { Ordinal } from "../../types/Ordinals";
-import { Flex, Text } from "@ledgerhq/react-ui";
+import { Flex, Icons, Text } from "@ledgerhq/react-ui";
 import Image from "~/renderer/components/Image";
 import { t } from "i18next";
 import ToolTip from "~/renderer/components/Tooltip";
+import ExternalViewerButton from "../../components/Nft/ExternalViewerButton";
+
+const Container = styled(Flex)`
+  align-items: center;
+  cursor: pointer;
+  padding: 4px;
+  color: ${p => p.theme.colors.neutral.c100};
+  background-color: ${p => p.theme.colors.neutral.c30};
+  border-radius: 50px;
+  border: 1px solid ${p => p.theme.colors.neutral.c50};
+  &:hover {
+    background-color: ${p => p.theme.colors.neutral.c40};
+  }
+`;
+
 const InscriptionsDrawerContainer = styled.div`
   flex: 1;
   overflow-y: hidden;
@@ -26,13 +41,6 @@ const InscriptionsDrawerContent = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const Pre = styled.span`
-  white-space: pre-line;
-  display: block;
-  unicode-bidi: embed;
-  line-break: anywhere;
-  line-height: 15px;
-`;
 
 type StickyWrapperProps = { transparent?: boolean } & PositionProps & LayoutProps & SpaceProps;
 const StickyWrapper = styled.div<StickyWrapperProps>`
@@ -46,49 +54,12 @@ const StickyWrapper = styled.div<StickyWrapperProps>`
   ${space}
   z-index: 1;
 `;
-const NFTActions = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin: 12px 0px;
-  justify-content: center;
-`;
+
 const Separator = styled(Flex)`
   width: 100%;
   height: 1px;
   background-color: ${({ theme }) => theme.colors.neutral.c60};
   margin: 24px 0px;
-`;
-const NFTAttributes = styled.div`
-  margin: 24px 0px;
-  display: flex;
-  flex-direction: column;
-`;
-const NFTImageContainer = styled.div`
-  position: relative;
-  cursor: ${({ contentType }: { contentType: string | undefined }) =>
-    contentType === "image" ? "pointer" : "initial"};
-`;
-const NFTImageOverlay = styled.div`
-  opacity: 0;
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  &:hover {
-    opacity: 1;
-  }
-`;
-const HashContainer = styled.div`
-  word-break: break-all;
-  user-select: text;
-  width: 100%;
-  min-width: 100px;
-  user-select: none;
 `;
 
 const truncate = (word?: string, tooLongChars = 25) => {
@@ -146,36 +117,46 @@ const InscriptionsDrawer = ({ ordinal }: InscriptionsDrawerProps) => {
       <InscriptionsDrawerContainer>
         <InscriptionsDrawerContent>
           <StickyWrapper top={0} pb={3} pt="24px">
-            <Text
-              ff="Inter|SemiBold"
-              fontSize={5}
-              lineHeight="18px"
-              color="palette.text.shade50"
-              pb={2}
-            >
-              {collectionName || "-"}
-            </Text>
-            <Text
-              ff="Inter|SemiBold"
-              fontSize={7}
-              lineHeight="29px"
-              color="palette.text.shade100"
-              style={{
-                WebkitLineClamp: 3,
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-                display: "-webkit-box",
-                wordWrap: "break-word",
-                hyphens: "auto",
-              }}
-              uppercase
-            >
-              {name}
-            </Text>
+            <Flex flexDirection="row" justifyContent="space-between" alignItems="center">
+              <Flex flexDirection="column">
+                <Text
+                  ff="Inter|SemiBold"
+                  fontSize={5}
+                  lineHeight="18px"
+                  color="palette.text.shade50"
+                  pb={2}
+                >
+                  {collectionName || "-"}
+                </Text>
+                <Text
+                  ff="Inter|SemiBold"
+                  fontSize={7}
+                  lineHeight="29px"
+                  color="palette.text.shade100"
+                  style={{
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    display: "-webkit-box",
+                    wordWrap: "break-word",
+                    hyphens: "auto",
+                  }}
+                  uppercase
+                >
+                  {name}
+                </Text>
+              </Flex>
+              <ExternalViewerButton ordinal={ordinal}>
+                <Container>
+                  <Icons.MoreHorizontal size="M" color="neutral.c100" />
+                </Container>
+              </ExternalViewerButton>
+            </Flex>
           </StickyWrapper>
           <Flex borderRadius={6} overflow="hidden" width={420} height={420}>
             <Image resource={imageUrl || ""} alt={ordinal.contract.name} height={420} width={420} />
           </Flex>
+
           <Flex mt={40} flex={1} flexDirection="column">
             <Text variant="subtitle" color="neutral.c60">
               {t("account.ordinals.details.title")}
