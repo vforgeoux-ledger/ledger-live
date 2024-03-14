@@ -54,7 +54,9 @@ async function sendTx({ to, value }) {
     to,
   };
   //@ts-expect-error
-  const txHash = await client.sendTransaction(tx);
+  const txHash = await client.sendTransaction(tx, {
+    txMaxRetries: 20,
+  });
   console.log(txHash);
   return txHash;
 }
@@ -89,12 +91,17 @@ async function mintNft() {
     args: [NFT_CONTRACT, FEE_RECIPIENT, "0x0000000000000000000000000000000000000000", 1],
   });
   //@ts-expect-error
-  const uo = await client.sendUserOperation({
-    uo: {
-      target: MINT_PUBLIC,
-      data: uoCallData,
+  const uo = await client.sendUserOperation(
+    {
+      uo: {
+        target: MINT_PUBLIC,
+        data: uoCallData,
+      },
     },
-  });
+    {
+      txMaxRetries: 20,
+    },
+  );
   //@ts-expect-error
   const txHash = await client.waitForUserOperationTransaction(uo);
   return { txHash };
