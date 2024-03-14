@@ -38,6 +38,7 @@ import { State } from "~/renderer/reducers";
 import { getLLDCoinFamily } from "~/renderer/families";
 import Mint_nft from "./MINT_NFT.png";
 import Upgrade from "./UPGRADE.png";
+import { mintNft } from "@ledgerhq/account-abstraction";
 import Image from "~/renderer/components/Image";
 
 type Params = {
@@ -119,7 +120,7 @@ const AccountPage = ({
   const color = getCurrencyColor(currency, bgColor);
 
   const handleMintClick = () => {
-    // TODO
+    mintNft();
   };
 
   return (

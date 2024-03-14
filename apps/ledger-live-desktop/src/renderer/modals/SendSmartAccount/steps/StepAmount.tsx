@@ -21,7 +21,8 @@ import Alert from "~/renderer/components/Alert";
 
 // FormattedVal is a div, we want to avoid having it on a second line
 const TextContent = styled.div`
-  display: inline-flex;
+  font-weight: bold;
+  text-align: center;
 `;
 import AmountField from "../fields/AmountField";
 import { StepProps } from "../types";
@@ -111,8 +112,8 @@ const StepAmount = (props: StepProps) => {
             resetInitValue={onResetMaybeAmount}
           />
         )}
-        <Alert type="primary">
-          <TextContent>Your gas fees are sponsored for this transaction</TextContent>
+        <Alert type="primary" noIcon>
+          <TextContent>✨ Your gas fees are sponsored for this transaction ✨</TextContent>
         </Alert>
       </Fragment>
     </Box>
@@ -146,7 +147,7 @@ export class StepAmountFooter extends PureComponent<StepProps> {
           id={"send-amount-continue-button"}
           isLoading={bridgePending}
           primary
-          disabled={!canNext}
+          disabled={false}
           onClick={this.onNext}
         >
           <Trans i18nKey="common.continue" />

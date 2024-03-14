@@ -311,7 +311,10 @@ const Body = ({
     transaction,
     signed,
     currencyName,
-    hideBreadcrumb: (!!error && ["recipient", "amount"].includes(stepId)) || stepId === "warning",
+    hideBreadcrumb:
+      stepId === "confirmation" ||
+      (!!error && ["recipient", "amount"].includes(stepId)) ||
+      stepId === "warning",
     error,
     status,
     bridgePending,

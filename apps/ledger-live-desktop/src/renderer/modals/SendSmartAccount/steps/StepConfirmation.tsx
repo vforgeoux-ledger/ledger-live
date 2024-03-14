@@ -16,7 +16,7 @@ import { OperationDetails } from "~/renderer/drawers/OperationDetails";
 import { setDrawer } from "~/renderer/drawers/Provider";
 import { multiline } from "~/renderer/styles/helpers";
 import { StepProps } from "../types";
-
+import ModalSpinner from "../../SmartAccountSignerModal/modalSpinner";
 const Container = styled(Box).attrs(() => ({
   alignItems: "center",
   color: "palette.text.shade100",
@@ -26,7 +26,6 @@ const Container = styled(Box).attrs(() => ({
   justify-content: ${p => (p.shouldSpace ? "space-between" : "center")};
   min-height: 120px;
 `;
-
 function StepConfirmation({
   t,
   optimisticOperation,
@@ -43,21 +42,23 @@ function StepConfirmation({
   transaction.broadcastingTx.then(() => {
     setTxPending(false);
   });
-
   if (txPending) {
     return (
       <Container>
-        <Log width="fit-content">
+        <ModalSpinner isReady={false} />
+        <Log width="100%" height="100px" marginTop={20}>
           <GlitchText delay={0} duration={2000} text="Broadcasting " />
-          <GlitchText delay={0} duration={4000} text="the transaction to " />
-          <GlitchText delay={0} duration={4000} text="the Blockchain" />.
+          <GlitchText delay={0} duration={4000} text="the transaction to the " />
+          <br />
+          <GlitchText delay={0} duration={4000} text="Blockchain" />.
         </Log>
       </Container>
     );
   } else {
     return (
       <Container>
-        <Log width="fit-content">
+        <ModalSpinner isReady={true} />
+        <Log width="100%" height="100px" marginTop={20}>
           <GlitchText delay={0} duration={2000} text="Transaction confirmed" />
         </Log>
       </Container>
@@ -92,7 +93,6 @@ function StepConfirmation({
         error = new TransactionHasBeenValidatedError();
       }
     }
-
     return (
       <Container shouldSpace={signed}>
         <TrackPage
@@ -118,29 +118,6 @@ export function StepConfirmationFooter({
   optimisticOperation,
   closeModal,
 }: StepProps) {
-  const concernedOperation = optimisticOperation
-    ? optimisticOperation.subOperations && optimisticOperation.subOperations.length > 0
-      ? optimisticOperation.subOperations[0]
-      : optimisticOperation
-    : null;
-  return (
-    <Button
-      ml={2}
-      id={"send-confirmation-opc-button"}
-      onClick={() => {
-        closeModal();
-        if (account && concernedOperation) {
-          setDrawer(OperationDetails, {
-            operationId: concernedOperation.id,
-            accountId: account.id,
-            parentId: (parentAccount && parentAccount.id) || undefined,
-          });
-        }
-      }}
-      primary
-    >
-      {t("send.steps.confirmation.success.cta")}
-    </Button>
-  );
+  return null;
 }
 export default StepConfirmation;

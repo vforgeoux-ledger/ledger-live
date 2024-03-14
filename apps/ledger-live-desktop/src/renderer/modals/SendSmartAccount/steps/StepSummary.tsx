@@ -26,6 +26,11 @@ import { StepProps } from "../types";
 import AccountTagDerivationMode from "~/renderer/components/AccountTagDerivationMode";
 import { sendTx } from "@ledgerhq/account-abstraction";
 
+const TextContent = styled.div`
+  font-weight: bold;
+  text-align: center;
+`;
+
 const FromToWrapper = styled.div``;
 const Circle = styled.div`
   height: 32px;
@@ -226,11 +231,9 @@ const StepSummary = (props: StepProps) => {
             </Box>
           </>
         ) : null}
-        <Box textAlign="right">
-          <Tag active size="small" type="opacity" textProps={{ fontSize: "12px" }}>
-            Gas fees are sponsored
-          </Tag>
-        </Box>
+        <Alert type="primary" noIcon>
+          <TextContent>✨ Your gas fees are sponsored for this transaction ✨</TextContent>
+        </Alert>
       </FromToWrapper>
     </Box>
   );
@@ -260,7 +263,7 @@ export const StepSummaryFooter = (props: StepProps) => {
 
   return (
     <>
-      <Button id={"send-summary-continue-button"} primary disabled={!canNext} onClick={onNext}>
+      <Button id={"send-summary-continue-button"} primary disabled={false} onClick={onNext}>
         Send
       </Button>
     </>
