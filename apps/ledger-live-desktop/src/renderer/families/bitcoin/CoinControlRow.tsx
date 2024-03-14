@@ -284,6 +284,7 @@ export const CoinControlRow = ({
                   nbSats={element.value}
                   year={rare.metadata.utxo_details?.sat_ranges[0]?.year}
                   key={index}
+                  satributes={rare.metadata.utxo_details?.satributes || {}}
                 />
               ));
             })}
