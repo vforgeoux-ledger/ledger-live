@@ -31,6 +31,7 @@ export const buildAccount = async (address: string) => {
     ...accountShape,
     ...infos,
     pendingOperations: [],
+    freshAddress: [address],
     balanceHistoryCache: emptyHistoryCache,
     isSmartAccount: true,
     name: "Ethereum Sepolia Smart Account",

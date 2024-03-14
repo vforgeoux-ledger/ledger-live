@@ -55,11 +55,13 @@ function StepConfirmation({
       </Container>
     );
   } else {
-    <Container>
-      <Log width="fit-content">
-        <GlitchText delay={0} duration={2000} text="Transaction confirmed" />
-      </Log>
-    </Container>;
+    return (
+      <Container>
+        <Log width="fit-content">
+          <GlitchText delay={0} duration={2000} text="Transaction confirmed" />
+        </Log>
+      </Container>
+    );
   }
   if (optimisticOperation) {
     return (

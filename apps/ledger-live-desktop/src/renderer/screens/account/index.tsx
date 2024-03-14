@@ -166,9 +166,7 @@ const AccountPage = ({
           {AccountBodyHeader ? (
             <AccountBodyHeader account={account} parentAccount={parentAccount} />
           ) : null}
-          {account.type === "Account" && isNFTActive(account.currency) ? (
-            <Collections account={account} />
-          ) : null}
+          {account.type === "Account" && true ? <Collections account={account} /> : null}
           {account.type === "Account" ? <TokensList account={account} /> : null}
           <OperationsList
             account={account}
