@@ -18,9 +18,13 @@ export type OrdinalDetails = {
   content_length: number;
 };
 
+export type Satributes = {
+  [key: string]: { count: number; display_name: string; description: string };
+};
+
 export type UtxoDetails = {
   distinct_rare_sats: number;
-  satributes: { [key: string]: { count: number; display_name: string; description: string } };
+  satributes: Satributes;
   block_number: string;
   value: number;
   sat_ranges: {

@@ -3,7 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { rgba } from "~/renderer/styles/helpers";
-import { Ordinal } from "../../types/Ordinals";
+import { Ordinal, Satributes } from "../../types/Ordinals";
 import { mappingKeysWithIconAndName } from "../../types/mappingKeys";
 import { SatributesIcons } from "../Satributes";
 
@@ -22,6 +22,7 @@ export const SatsRow = ({ ordinal, isLast }: CardProps) => {
           <SatributesComponent
             keySats={element.subranges[0]?.sat_types || []}
             nbSats={element.value}
+            satributes={ordinal.metadata.utxo_details?.satributes || {}}
             year={ordinal.metadata.utxo_details?.sat_ranges[0]?.year}
             key={index}
           />
@@ -39,17 +40,18 @@ export const SatsRow = ({ ordinal, isLast }: CardProps) => {
 
 type SubProps = {
   keySats: string[];
+  satributes: Satributes;
   nbSats: number;
   year?: number;
   withMore?: boolean;
 };
-export function SatributesComponent({ keySats, nbSats, year, withMore }: SubProps) {
+export function SatributesComponent({ keySats, satributes, nbSats, year, withMore }: SubProps) {
   const { t } = useTranslation();
 
   return (
     <Flex flexDirection="row" justifyContent="space-between" alignItems="center" my={"8px"}>
       <Flex flexDirection="row" alignItems={"center"}>
-        <SatributesIcons keySats={keySats} withMore={withMore} />
+        <SatributesIcons keySats={keySats} withMore={withMore} satributes={satributes} />
 
         <Flex flexDirection="column" ml={2}>
           <Flex flexDirection="column">
