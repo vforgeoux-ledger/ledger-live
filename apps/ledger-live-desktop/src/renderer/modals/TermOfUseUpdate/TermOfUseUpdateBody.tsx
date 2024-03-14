@@ -9,9 +9,10 @@ import OpenAI from "openai";
 import { useHistory } from "react-router";
 import Input from "~/renderer/components/Input";
 import Spinner from "~/renderer/components/Spinner";
+import axios from "axios";
 
 const openAI = new OpenAI({
-  apiKey: "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",
+  apiKey: "sk-<api-key>",
   dangerouslyAllowBrowser: true,
 });
 
@@ -55,13 +56,56 @@ const ChatbotBody = ({ onClose }: Props) => {
       assistant_id: assistantId,
     });
 
+    console.log(run.status);
+
     while (["queued", "in_progress", "cancelling"].includes(run.status)) {
       await new Promise(resolve => setTimeout(resolve, 1000));
       run = await openAI.beta.threads.runs.retrieve(run.thread_id, run.id);
     }
 
+    if (run.status === "requires_action" && run.required_action) {
+      console.log("required action found!");
+      const tool_calls = await run.required_action.submit_tool_outputs.tool_calls;
+      console.log("tool_calls", tool_calls);
+      const countervalue = (await axios.get("https://countervalues.live.ledger.com/v3/spot/simple?to=USD&froms=bitcoin")).data;
+      console.log("countervalue", countervalue);
+      run = await openAI.beta.threads.runs.submitToolOutputs(
+        threadId,
+        run.id,
+        {
+          tool_outputs: [
+            {
+              tool_call_id: tool_calls[0].id,
+                output: JSON.stringify({
+                  command: "getCurrencyPrice",
+                  response: Object.values(countervalue)[0]
+                  }
+                  )
+            },
+          ],
+        }
+      );
+
+      while (["queued", "in_progress", "cancelling"].includes(run.status)) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const newrun = await openAI.beta.threads.runs.retrieve(run.thread_id, run.id);
+        if (newrun.status === "completed") {
+          break;
+        }
+      }
+    }
+
+    console.log(run.status);
+    while (["queued", "in_progress", "cancelling"].includes(run.status)) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      run = await openAI.beta.threads.runs.retrieve(run.thread_id, run.id);
+    }
+    console.log(run.status);
+
     if (run.status === "completed") {
       const messages = await openAI.beta.threads.messages.list(run.thread_id);
+      console.log("messages:");
+      console.log(messages);
       const [, command, response] = messages.data[0].content[0].text.value.split("\n");
       assistantResponse = response.split("response:")[1].trim();
       ledgerLiveCommand = command.split("command:")[1].trim();
@@ -71,6 +115,12 @@ const ChatbotBody = ({ onClose }: Props) => {
 
     return { assistantResponse, ledgerLiveCommand };
   };
+
+
+  async function getCountervalue(currency: string) {
+    return 100;
+  }
+
 
   const handleUserSubmit = async () => {
     setIsloading(true);
@@ -127,6 +177,27 @@ const ChatbotBody = ({ onClose }: Props) => {
       response: <response>
       """`,
       model: "gpt-3.5-turbo",
+
+      tools: [{
+        "type": "function",
+        "function": {
+          "name": "getCurrencyPrice",
+          "description": "Get the price of a currency",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "currency": {
+                "type": "string",
+                "description": "Currency name"
+              }
+            },
+            "required": [
+              "currency"
+            ]             
+          }
+        }
+      }]
+
     });
 
     const thread = await openAI.beta.threads.create();
