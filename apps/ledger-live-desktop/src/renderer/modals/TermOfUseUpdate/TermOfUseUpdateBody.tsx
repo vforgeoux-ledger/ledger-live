@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Flex, IconsLegacy, Link, Log, Text } from "@ledgerhq/react-ui";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
@@ -7,6 +7,7 @@ import Button from "~/renderer/components/ButtonV3";
 import { openURL } from "~/renderer/linking";
 import { useLocalizedUrl } from "~/renderer/hooks/useLocalizedUrls";
 import { urls } from "~/config/urls";
+import axios from "axios";
 
 type Props = {
   onClose: () => void;
@@ -28,57 +29,69 @@ const Update = styled(BodyText).attrs(() => ({
   as: "li",
 }))``;
 
-const TermOfUseUpdateBody = ({ onClose }: Props) => {
-  const { t } = useTranslation();
-  const termsUrl = useLocalizedUrl(urls.terms);
+const ChatbotBody = ({ onClose }: Props) => {
+  const [inputValue, setInputValue] = useState("");
+  const [chatHistory, setChatHistory] = useState([]);
 
-  const handleExternalLink = () => {
-    openURL(termsUrl);
+  const getBotResponse = async (input: string) => {
+    const commands= ["receive crypto", "send crypto", "swap cryto", "None of above"];
+
+    const response = await axios.post(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: input }],
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer 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`,
+        },
+      }
+    );
+    console.log(response.data.choices[0].message.content);
+
+    return response.data.choices[0].message.content;
+  };
+
+  const handleUserSubmit = async () => {
+    const botResponse = await getBotResponse(inputValue);
+    setChatHistory([...chatHistory, { prompt: inputValue, response: botResponse }]);
+    setInputValue("");
   };
 
   return (
     <ModalBody
       render={() => (
         <Flex data-test-id="terms-update-popup" flexDirection="column" alignItems="center">
-          <Flex
-            width="56px"
-            height="56px"
-            borderRadius="8px"
-            borderWidth="1px"
-            borderStyle="solid"
-            borderColor="neutral.c40"
-            alignItems="center"
-            justifyContent="center"
-            mb="36px"
-          >
-            <IconsLegacy.ClipboardListCheckMedium size={24} />
-          </Flex>
-          <Log>{t("updatedTerms.title")}</Log>
           <Flex flexDirection="column">
             <BodyText mt="24px" mb="12px">
-              {t("updatedTerms.body.intro")}
+              {"Chatbot"}
             </BodyText>
-            <Updates>
-              <Update>{t("updatedTerms.body.bulletPoints.0")}</Update>
-              <Update>{t("updatedTerms.body.bulletPoints.1")}</Update>
-              <Update>{t("updatedTerms.body.bulletPoints.2")}</Update>
-            </Updates>
-            <BodyText mt="12px">{t("updatedTerms.body.agreement")}</BodyText>
+            <BodyText mt="12px">{"Welcome to Ledger Live chatbot"}</BodyText>
+            <Flex flexDirection="column" mt="12px">
+              {chatHistory.map((chat, index) => (
+                <React.Fragment key={index}>
+                  <Text>Ledger Live: {chat.response}</Text>
+                </React.Fragment>
+              ))}
+              <input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Type your message..."
+                style={{ color: 'black' }} 
+              />
+              <Button onClick={handleUserSubmit}>Send</Button>
+            </Flex>
           </Flex>
         </Flex>
       )}
       renderFooter={() => (
         <Flex justifyContent="flex-end">
-          <Link size="small" Icon={IconsLegacy.ExternalLinkMedium} onClick={handleExternalLink}>
-            {t("updatedTerms.link")}
-          </Link>
-          <Button ml="24px" variant="main" outline={false} onClick={onClose}>
-            {t("updatedTerms.cta")}
-          </Button>
         </Flex>
       )}
     />
   );
 };
 
-export default TermOfUseUpdateBody;
+export default ChatbotBody;

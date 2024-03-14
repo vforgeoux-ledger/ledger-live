@@ -35,6 +35,7 @@ import TopGradient from "./TopGradient";
 import Hide from "./Hide";
 import { track } from "~/renderer/analytics/segment";
 import { useAccountPath } from "@ledgerhq/live-common/hooks/recoverFeatureFlag";
+import { isAcceptedTerms, acceptTerms } from "~/renderer/terms";
 
 type Location = Parameters<Exclude<PromptProps["message"], string>>[0];
 
@@ -311,6 +312,9 @@ const MainSideBar = () => {
     maybeRedirectToAccounts();
     dispatch(openModal("MODAL_SEND", undefined));
   }, [dispatch, maybeRedirectToAccounts]);
+  const handleOpenChatbotModal = useCallback(() => {
+    dispatch(openModal("MODAL_TERM_OF_USE_UPDATE", { acceptTerms }));
+  }, [dispatch]);
   const handleOpenReceiveModal = useCallback(() => {
     maybeRedirectToAccounts();
     dispatch(openModal("MODAL_RECEIVE", undefined));
@@ -382,6 +386,16 @@ const MainSideBar = () => {
                   onClick={handleClickDashboard}
                   isActive={location.pathname === "/" || location.pathname.startsWith("/asset/")}
                   NotifComponent={<UpdateDot collapsed={collapsed} />}
+                  collapsed={secondAnim}
+                />
+                <SideBarListItem
+                  id={"send"}
+                  label={"Chatbot"}
+                  icon={IconsLegacy.ChristmasMedium}
+                  iconSize={20}
+                  iconActiveColor="wallet"
+                  onClick={handleOpenChatbotModal}
+                  disabled={noAccounts || navigationLocked}
                   collapsed={secondAnim}
                 />
                 <SideBarListItem
