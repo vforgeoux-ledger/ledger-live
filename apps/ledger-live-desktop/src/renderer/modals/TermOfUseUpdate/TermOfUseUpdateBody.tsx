@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { ModalBody } from "~/renderer/components/Modal";
 import Button from "~/renderer/components/ButtonV3";
 import axios from "axios";
+import { openModal } from "~/renderer/actions/modals";
+import { useDispatch } from "react-redux";
+import { send } from "xstate/lib/actions";
 
 type Props = {
   onClose: () => void;
@@ -33,6 +36,7 @@ type ChatHistory = {
 const ChatbotBody = ({ onClose }: Props) => {
   const [inputValue, setInputValue] = useState("");
   const [chatHistory, setChatHistory] = useState<ChatHistory[]>([]);
+  const dispatch = useDispatch();
 
   const getBotResponse = async (input: string) => {
     const commands = ["receive crypto", "send crypto", "swap cryto", "None of above"];
@@ -58,6 +62,28 @@ const ChatbotBody = ({ onClose }: Props) => {
 
   const handleUserSubmit = async () => {
     const botResponse = await getBotResponse(inputValue);
+
+    const sendCommandTriggered = inputValue.includes("send");
+    const receiveCommandTriggered = inputValue.includes("receive");
+
+    if (sendCommandTriggered) {
+      botResponse.concat("Opening the send modal now...");
+
+      setTimeout(() => {
+        dispatch(openModal("MODAL_SEND", {}));
+        onClose();
+      }, 10000);
+    }
+
+    if (receiveCommandTriggered) {
+      botResponse.concat("Opening the receive modal now...");
+
+      setTimeout(() => {
+        dispatch(openModal("MODAL_RECEIVE", {}));
+        onClose();
+      }, 10000);
+    }
+
     setChatHistory([...chatHistory, { prompt: inputValue, response: botResponse }]);
     setInputValue("");
   };
@@ -75,6 +101,7 @@ const ChatbotBody = ({ onClose }: Props) => {
             <Flex flexDirection="column" mt="12px">
               {chatHistory.map((chat, index) => (
                 <React.Fragment key={index}>
+                  <Text>You: {chat.prompt}</Text>
                   <Text>Ledger Live: {chat.response}</Text>
                 </React.Fragment>
               ))}
