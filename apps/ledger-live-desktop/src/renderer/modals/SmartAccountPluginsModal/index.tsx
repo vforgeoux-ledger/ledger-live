@@ -11,8 +11,8 @@ import Button from "~/renderer/components/Button";
 
 const ButtonGrid = styled(Grid).attrs(() => ({
   columns: 2,
-  columnGap: 4,
-  rowGap: 4,
+  columnGap: 2,
+  rowGap: 2,
 }))`
   padding-top: ${p => p.theme.space[4]}px;
   padding-left: ${p => p.theme.space[4]}px;
@@ -20,7 +20,6 @@ const ButtonGrid = styled(Grid).attrs(() => ({
   padding-bottom: ${p => p.theme.space[6]}px;
   background-color: ${p => p.theme.colors.palette.background.default};
   border-radius: 8px;
-  min-height: 400px;
   max-height: 400px;
   overflow-y: scroll;
 `;
@@ -60,13 +59,23 @@ const SmartAccountPluginsModal = ({
     deadmanSwitch: {
       title: "Dead Man Switch",
       label: "Popular",
-      description: "Transfers the account keys to a dedicated signer after a period of inactivity",
+      description: "Transfers the account keys to a another signer after a period of inactivity",
       icon: Icons.Clock,
     },
     zkEmail_recovery: {
       title: "Email Recovery",
       description: "Allow users to recover their account via email, without doxxing the email",
       icon: Icons.At,
+    },
+    multi_sig: {
+      title: "Multi Signature",
+      description: "Require multiple signatures to authorize a transaction",
+      icon: Icons.LedgerDevices,
+    },
+    DCA: {
+      title: "Dollar Cost Averaging",
+      description: "Automatically buy a fixed amount of crypto at regular intervals",
+      icon: Icons.DollarConvert,
     },
   };
 

@@ -41,8 +41,9 @@ const ErrorModal = ({ isOpened, onClose, error, onRetry, withExportLogs, ...prop
             alignItems={"center"}
             width={"100%"}
             flexDirection={"column"}
+            mt={"-20px"}
           >
-            <Text textAlign={"center"} color={colors.palette.neutral.c50} fontSize={12}>
+            <Text textAlign={"center"} color={colors.palette.neutral.c70} fontSize={14}>
               {
                 "Please enter your email address so we can send you a link to authenticate your smart account. This will allow you to sign transactions and interact with smart contracts."
               }
