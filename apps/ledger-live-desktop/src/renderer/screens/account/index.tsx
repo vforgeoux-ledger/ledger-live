@@ -127,7 +127,7 @@ const AccountPage = ({
     await mintNft();
     pushToast({
       id,
-      title: "Collectable claimed!",
+      title: "Collectible claimed!",
       text: "Check it in your collection.",
       icon: "info",
     });
