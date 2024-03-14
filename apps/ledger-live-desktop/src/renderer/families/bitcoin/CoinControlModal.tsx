@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { Trans } from "react-i18next";
 import { getAccountBridge } from "@ledgerhq/live-common/bridge/index";
@@ -19,6 +19,8 @@ import {
   Transaction,
   TransactionStatus,
 } from "@ledgerhq/live-common/families/bitcoin/types";
+import Switch from "~/renderer/components/Switch";
+import { Flex } from "@ledgerhq/react-ui";
 
 type Props = {
   isOpened?: boolean;
@@ -45,6 +47,8 @@ const CoinControlModal = ({
   updateTransaction,
 }: Props) => {
   const onClickLink = useCallback(() => openURL(urls.coinControl), []);
+  const [disableOrdinals, setDisableOrdinals] = useState<boolean>(false);
+
   if (!account.bitcoinResources) return null;
   const { bitcoinResources } = account;
   const { utxoStrategy } = transaction;
@@ -94,9 +98,26 @@ const CoinControlModal = ({
               </Box>
             </Box>
 
+            <Separator />
+
+            <Flex>
+              <Flex flex={1}>
+                <Text color="palette.text.shade50" ff="Inter|Regular" fontSize={13}>
+                  Exclude Ordinals assets
+                </Text>
+              </Flex>
+
+              <Switch
+                onChange={() => setDisableOrdinals(!disableOrdinals)}
+                isChecked={disableOrdinals}
+              />
+            </Flex>
+            <Separator />
+
             <Box flow={2}>
               {bitcoinResources.utxos.map(utxo => (
                 <CoinControlRow
+                  disableOrdinals={disableOrdinals}
                   key={utxo.hash}
                   utxoStrategy={utxoStrategy}
                   totalExcludedUTXOS={totalExcludedUTXOS}
