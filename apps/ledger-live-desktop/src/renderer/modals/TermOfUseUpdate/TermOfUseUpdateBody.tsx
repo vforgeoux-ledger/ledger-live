@@ -7,9 +7,11 @@ import { openModal } from "~/renderer/actions/modals";
 import { useDispatch } from "react-redux";
 import OpenAI from "openai";
 import { useHistory } from "react-router";
+import Input from "~/renderer/components/Input";
+import Spinner from "~/renderer/components/Spinner";
 
 const openAI = new OpenAI({
-  apiKey: "",
+  apiKey: "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",
   dangerouslyAllowBrowser: true,
 });
 
@@ -35,6 +37,8 @@ const ChatbotBody = ({ onClose }: Props) => {
   const [chatHistory, setChatHistory] = useState<ChatHistory[]>([]);
   const [threadId, setThreadId] = useState("");
   const [assistantId, setAssistantId] = useState("");
+  const [isLoading, setIsloading] = useState(false);
+
   let assistantResponse = "";
   let ledgerLiveCommand: string = "command_unknown";
 
@@ -69,6 +73,7 @@ const ChatbotBody = ({ onClose }: Props) => {
   };
 
   const handleUserSubmit = async () => {
+    setIsloading(true);
     const { assistantResponse, ledgerLiveCommand } = await getBotResponse(inputValue);
     let completeResponse = assistantResponse;
 
@@ -103,6 +108,7 @@ const ChatbotBody = ({ onClose }: Props) => {
     }
 
     setChatHistory([...chatHistory, { prompt: inputValue, response: completeResponse }]);
+    setIsloading(false);
     setInputValue("");
   };
 
@@ -145,18 +151,35 @@ const ChatbotBody = ({ onClose }: Props) => {
             <BodyText mt="12px">{"Welcome to Ledger Live chatbot"}</BodyText>
             <Flex flexDirection="column" mt="12px">
               {chatHistory.map((chat, index) => (
-                <React.Fragment key={index}>
-                  <Text>You: {chat.prompt}</Text>
-                  <Text>Ledger Live: {chat.response}</Text>
-                </React.Fragment>
+                <div style={{ marginBottom: "32px" }} key={index}>
+                  <p style={{ marginBottom: "4px" }}>
+                    <Text>
+                      <b>You:</b> {chat.prompt}
+                    </Text>
+                  </p>
+                  <p>
+                    <Text>
+                      <b>Ledger Live:</b> {chat.response}
+                    </Text>
+                  </p>
+                </div>
               ))}
-              <input
-                value={inputValue}
-                onChange={e => setInputValue(e.target.value)}
-                placeholder="Type your message..."
-                style={{ color: "black" }}
-              />
-              <Button onClick={handleUserSubmit}>Send</Button>
+              <div style={{ marginTop: "16px" }}>
+                <Input
+                  type="text"
+                  value={inputValue}
+                  onChange={value => setInputValue(value)}
+                  placeholder="Type your message..."
+                  style={{ color: "white" }}
+                />
+              </div>
+              <Flex justifyContent={"center"} alignItems={"center"} marginTop={5}>
+                {isLoading ? (
+                  <Spinner size={15} />
+                ) : (
+                  <Button onClick={handleUserSubmit}>Send</Button>
+                )}
+              </Flex>
             </Flex>
           </Flex>
         </Flex>
