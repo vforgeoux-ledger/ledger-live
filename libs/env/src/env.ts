@@ -179,7 +179,7 @@ const envDefinitions = {
   },
   API_SOLANA_PROXY: {
     parser: stringParser,
-    def: "https://solana.coin.ledger.com",
+    def: "https://solana-helius.coin.ledger-stg.com",
     desc: "proxy url for solana API",
   },
   SOLANA_VALIDATORS_APP_BASE_URL: {
