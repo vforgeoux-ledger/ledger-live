@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import { Flex, IconsLegacy, Link, Log, Text } from "@ledgerhq/react-ui";
-import { useTranslation } from "react-i18next";
+import { Flex, Text } from "@ledgerhq/react-ui";
 import styled from "styled-components";
 import { ModalBody } from "~/renderer/components/Modal";
 import Button from "~/renderer/components/ButtonV3";
-import { openURL } from "~/renderer/linking";
-import { useLocalizedUrl } from "~/renderer/hooks/useLocalizedUrls";
-import { urls } from "~/config/urls";
 import axios from "axios";
 
 type Props = {
@@ -29,14 +25,19 @@ const Update = styled(BodyText).attrs(() => ({
   as: "li",
 }))``;
 
+type ChatHistory = {
+  prompt: string;
+  response: string;
+};
+
 const ChatbotBody = ({ onClose }: Props) => {
   const [inputValue, setInputValue] = useState("");
-  const [chatHistory, setChatHistory] = useState([]);
+  const [chatHistory, setChatHistory] = useState<ChatHistory[]>([]);
 
   const getBotResponse = async (input: string) => {
-    const commands= ["receive crypto", "send crypto", "swap cryto", "None of above"];
+    const commands = ["receive crypto", "send crypto", "swap cryto", "None of above"];
 
-    const response = await axios.post(
+    const response = await axios.post<{ choices: { message: { content: string } }[] }>(
       "https://api.openai.com/v1/chat/completions",
       {
         model: "gpt-3.5-turbo",
@@ -45,10 +46,11 @@ const ChatbotBody = ({ onClose }: Props) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer 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`,
+          Authorization: `Bearer`,
         },
-      }
+      },
     );
+
     console.log(response.data.choices[0].message.content);
 
     return response.data.choices[0].message.content;
@@ -62,6 +64,7 @@ const ChatbotBody = ({ onClose }: Props) => {
 
   return (
     <ModalBody
+      onClose={onClose}
       render={() => (
         <Flex data-test-id="terms-update-popup" flexDirection="column" alignItems="center">
           <Flex flexDirection="column">
@@ -77,19 +80,16 @@ const ChatbotBody = ({ onClose }: Props) => {
               ))}
               <input
                 value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
+                onChange={e => setInputValue(e.target.value)}
                 placeholder="Type your message..."
-                style={{ color: 'black' }} 
+                style={{ color: "black" }}
               />
               <Button onClick={handleUserSubmit}>Send</Button>
             </Flex>
           </Flex>
         </Flex>
       )}
-      renderFooter={() => (
-        <Flex justifyContent="flex-end">
-        </Flex>
-      )}
+      renderFooter={() => <Flex justifyContent="flex-end"></Flex>}
     />
   );
 };
