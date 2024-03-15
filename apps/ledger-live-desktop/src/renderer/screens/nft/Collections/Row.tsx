@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useMemo, memo } from "react";
 import styled from "styled-components";
 import { useNftCollectionMetadata, useNftMetadata } from "@ledgerhq/live-nft-react";
@@ -60,7 +61,10 @@ const Row = ({ nfts, contract, account, onClick }: Props) => {
         <Skeleton width={32} minHeight={32} show={loading}>
           <Media
             metadata={nftMetadata as NFTMetadata}
-            tokenId={nft?.tokenId}
+            //@ts-expect-error
+            image={nft.collection.image_url}
+            // @ts-expect-error
+            tokenId={nft?.token_id}
             mediaFormat="preview"
           />
         </Skeleton>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { getEnv } from "@ledgerhq/live-env";
 import { groupAccountsOperationsByDay } from "@ledgerhq/coin-framework/account/index";
 import type { Operation, ProtoNFT, NFT, Account } from "@ledgerhq/types-live";
@@ -19,12 +20,13 @@ export const nftsByCollections = (
   return collectionAddress
     ? nfts.filter(n => n.contract === collectionAddress)
     : nfts.reduce((acc: Record<string, Array<ProtoNFT | NFT>>, nft) => {
-        const { contract } = nft;
+        //@ts-expect-error
+        const { contract_address } = nft;
 
-        if (!acc[contract]) {
-          acc[contract] = [];
+        if (!acc[contract_address]) {
+          acc[contract_address] = [];
         }
-        acc[contract].push(nft);
+        acc[contract_address].push(nft);
 
         return acc;
       }, {});

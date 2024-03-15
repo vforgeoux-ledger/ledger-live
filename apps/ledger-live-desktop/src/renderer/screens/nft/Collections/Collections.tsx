@@ -17,6 +17,7 @@ import IconReceive from "~/renderer/icons/Receive";
 import Button from "~/renderer/components/Button";
 import Text from "~/renderer/components/Text";
 import { openURL } from "~/renderer/linking";
+import { nftsFromOperations } from "@ledgerhq/coin-framework/nft/helpers";
 import Box from "~/renderer/components/Box";
 import Row from "./Row";
 import { isThresholdValid, useNftGalleryFilter } from "@ledgerhq/live-nft-react";
@@ -77,11 +78,11 @@ const Collections = ({ account }: Props) => {
     chains: [account.currency.id === "ethereum_sepolia" ? "ethereum-sepolia" : account.currency.id],
     threshold: isThresholdValid(thresold) ? Number(thresold) : 75,
   });
-
   const collections = useMemo(
     () => nftsByCollections(nftsFromSimplehashFeature?.enabled ? nfts : account.nfts),
     [account.nfts, nfts, nftsFromSimplehashFeature],
   );
+  console.log(collections);
   const collectionsLength = Object.keys(collections || []).length;
   const onShowMore = useCallback(() => {
     setNumberOfVisibleCollections(numberOfVisibleCollections =>
@@ -99,6 +100,7 @@ const Collections = ({ account }: Props) => {
       ),
     [account.id, collections, hiddenNftCollections],
   );
+
   const visibleCollections = useMemo(
     () =>
       filteredCollections

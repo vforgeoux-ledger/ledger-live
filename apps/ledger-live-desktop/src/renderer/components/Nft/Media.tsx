@@ -31,10 +31,10 @@ class Media extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { mediaFormat, metadata, square, tokenId } = this.props;
+    const { mediaFormat, metadata, square, tokenId, image } = this.props;
     const { useFallback } = this.state;
     const contentType = getMetadataMediaType(metadata, mediaFormat);
-    const Component = contentType === "video" && !useFallback ? Video : Image;
+    const Component = Image;
     const { uri, mediaType } =
       metadata?.medias[
         useFallback ? "preview" : (mediaFormat as keyof (typeof metadata)["medias"])
@@ -45,10 +45,10 @@ class Media extends React.PureComponent<Props, State> {
       }
       return contentType !== "video";
     })();
-    return uri ? (
+    return image ? (
       <Component
         {...this.props}
-        uri={uri}
+        uri={image}
         mediaType={mediaType}
         square={squareWithDefault}
         isFallback={useFallback}

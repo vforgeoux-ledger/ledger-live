@@ -98,6 +98,7 @@ class Image extends React.PureComponent<Props, State> {
       isFallback,
     } = this.props;
     const { loaded, error } = this.state;
+    console.log("HERE", uri);
     return (
       <Wrapper
         full={full}
@@ -109,7 +110,7 @@ class Image extends React.PureComponent<Props, State> {
         objectFit={objectFit}
       >
         <Skeleton full />
-        {uri && !error ? (
+        {uri ? (
           <img
             // This prevent a bug where the change of props from isFallback
             // would not unbind onError and would not trigger it again in case of error
