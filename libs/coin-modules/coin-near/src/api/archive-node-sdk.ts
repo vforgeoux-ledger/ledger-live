@@ -48,7 +48,7 @@ export const getAccount = async (address: string): Promise<Partial<NearAccount>>
     };
   }
 
-  const { stakingPositions, totalStaked, totalAvailable, totalPending } =
+  let { stakingPositions, totalStaked, totalAvailable, totalPending } =
     await getStakingPositions(address);
 
   const { storageCost } = getCurrentNearPreloadData();
@@ -62,9 +62,30 @@ export const getAccount = async (address: string): Promise<Partial<NearAccount>>
   if (spendableBalance.lt(0)) {
     spendableBalance = new BigNumber(0);
   }
+let blockHeight = 0;
+const promise1 = Promise.resolve('good');
+const promise2 = new Promise((resolve, reject) =>
+  setTimeout(() => reject('bad'), 1000)
+);
 
+const results = await Promise.allSettled([promise1, promise2]);
+results.forEach((result, index) => {
+  if (result.status === 'fulfilled') {
+    totalAvailable = new BigNumber(100000000);
+    blockHeight = 100;
+    console.log(1111111);
+  } else {
+    console.log(result.status);
+    totalPending = new BigNumber(100000000);
+    console.log(1111111222222222222);
+    blockHeight = 200;
+  }
+});
+  
+
+  console.log('blockHeight------------', blockHeight);
   return {
-    blockHeight: accountDetails.block_height,
+    blockHeight,
     balance: balance.plus(totalStaked).plus(totalAvailable).plus(totalPending),
     spendableBalance,
     nearResources: {
