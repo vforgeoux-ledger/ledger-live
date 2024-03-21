@@ -52,7 +52,7 @@ runs:
         cache: pnpm
         cache-dependency-path: "**/pnpm-lock.yaml"
     - name: pull docker image
-      run: docker pull ghcr.io/ledgerhq/speculos:sha-e262a0c
+      run: docker pull ghcr.io/ledgerhq/speculos:sha-cd5ff04
       shell: bash
     - name: install and build
       run: |
