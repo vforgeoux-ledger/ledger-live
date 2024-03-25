@@ -1,4 +1,4 @@
-import { ImportItem } from "@ledgerhq/live-common/account/importAccounts";
+import { ImportItem } from "@ledgerhq/live-wallet/liveqr/importAccounts";
 import { Flex, InfiniteLoader } from "@ledgerhq/native-ui";
 import { Account } from "@ledgerhq/types-live";
 import React from "react";

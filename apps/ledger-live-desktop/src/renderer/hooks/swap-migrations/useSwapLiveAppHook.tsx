@@ -12,6 +12,7 @@ import {
 } from "~/renderer/screens/exchange/Swap2/Form/SwapWebView";
 import { rateSelector } from "~/renderer/actions/swap";
 import { getEnv } from "@ledgerhq/live-env";
+import { walletSelector } from "~/renderer/reducers/wallet";
 
 export type UseSwapLiveAppHookProps = {
   manifestID: string | null;
@@ -40,12 +41,14 @@ export const useSwapLiveAppHook = (props: UseSwapLiveAppHookProps) => {
   const exchangeRatesState = swapTransaction.swap?.rates;
   const swapWebPropsRef = useRef<SwapWebProps["swapState"] | undefined>(undefined);
 
+  const walletState = useSelector(walletSelector);
+
   useEffect(() => {
     if (isSwapLiveAppEnabled) {
       const providerRedirectURLSearch = getProviderRedirectURLSearch();
       const { parentAccount: fromParentAccount } = swapTransaction.swap.from;
       const fromParentAccountId = fromParentAccount
-        ? accountToWalletAPIAccount(fromParentAccount)?.id
+        ? accountToWalletAPIAccount(walletState, fromParentAccount)?.id
         : undefined;
       const providerRedirectURL = `ledgerlive://discover/${getProviderName(
         provider ?? "",
@@ -73,6 +76,7 @@ export const useSwapLiveAppHook = (props: UseSwapLiveAppHookProps) => {
       }
     }
   }, [
+    walletState,
     provider,
     manifestID,
     isSwapLiveAppEnabled,

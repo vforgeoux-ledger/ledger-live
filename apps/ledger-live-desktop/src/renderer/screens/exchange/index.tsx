@@ -18,6 +18,7 @@ import {
   INTERNAL_APP_IDS,
   WALLET_API_VERSION,
 } from "@ledgerhq/live-common/wallet-api/constants";
+import { walletSelector } from "~/renderer/reducers/wallet";
 
 export type DProps = {
   defaultCurrencyId?: string | null;
@@ -41,6 +42,7 @@ const LiveAppExchange = ({ appId }: { appId: string }) => {
   const remoteManifest = useRemoteLiveAppManifest(appId);
   const manifest = localManifest || mockManifest || remoteManifest;
   const themeType = useTheme().colors.palette.type;
+  const walletState = useSelector(walletSelector);
 
   /**
    * Pass correct account ID
@@ -58,11 +60,11 @@ const LiveAppExchange = ({ appId }: { appId: string }) => {
         const parentAccount = isTokenAccount(account)
           ? getParentAccount(account, accounts)
           : undefined;
-        urlParams.account = accountToWalletAPIAccount(account, parentAccount).id;
+        urlParams.account = accountToWalletAPIAccount(walletState, account, parentAccount).id;
       }
     }
     return urlParams;
-  }, [accounts, manifest?.apiVersion, urlParams]);
+  }, [accounts, manifest?.apiVersion, urlParams, walletState]);
 
   /**
    * Given the user is on an internal app (webview url is owned by LL) we must reset the session

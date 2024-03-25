@@ -8,6 +8,7 @@ import FakeLink from "~/renderer/components/FakeLink";
 import { SpoilerIcon } from "~/renderer/components/Spoiler";
 import { openURL } from "~/renderer/linking";
 import AccountRow from "./AccountRow";
+import { getDefaultAccountName } from "@ledgerhq/live-wallet/accountName";
 
 export type AccountListProps = {
   accounts: Account[];
@@ -146,7 +147,7 @@ class AccountsList extends Component<
                 accountName={
                   typeof editedNames[account.id] === "string"
                     ? editedNames[account.id]
-                    : account.name
+                    : getDefaultAccountName(account)
                 }
               />
             ))}

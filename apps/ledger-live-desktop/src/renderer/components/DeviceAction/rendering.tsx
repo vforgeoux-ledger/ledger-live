@@ -23,7 +23,6 @@ import { Device } from "@ledgerhq/live-common/hw/actions/types";
 import {
   getAccountUnit,
   getMainAccount,
-  getAccountName,
   getAccountCurrency,
 } from "@ledgerhq/live-common/account/index";
 import { closeAllModal } from "~/renderer/actions/modals";
@@ -67,6 +66,7 @@ import Installing from "~/renderer/modals/UpdateFirmwareModal/Installing";
 import { ErrorBody } from "../ErrorBody";
 import LinkWithExternalIcon from "../LinkWithExternalIcon";
 import { closePlatformAppDrawer } from "~/renderer/actions/UI";
+import { WalletState, accountNameSelector } from "@ledgerhq/live-wallet/store";
 
 export const AnimationWrapper = styled.div`
   width: 600px;
@@ -818,15 +818,13 @@ export const renderError = ({
 export const renderInWrongAppForAccount = ({
   t,
   onRetry,
-  accountName,
 }: {
   t: TFunction;
   onRetry?: (() => void) | null | undefined;
-  accountName: string;
 }) =>
   renderError({
     t,
-    error: new WrongDeviceForAccount("", { accountName }),
+    error: new WrongDeviceForAccount(""),
     withExportLogs: true,
     onRetry,
   });
@@ -940,6 +938,7 @@ export const renderSwapDeviceConfirmation = ({
   amountExpectedTo,
   estimatedFees,
   swapDefaultTrack,
+  walletState,
 }: {
   modelId: DeviceModelId;
   type: Theme["theme"];
@@ -949,15 +948,17 @@ export const renderSwapDeviceConfirmation = ({
   amountExpectedTo?: string;
   estimatedFees?: string;
   swapDefaultTrack: Record<string, string | boolean>;
+  walletState: WalletState;
 }) => {
-  const [sourceAccountName, sourceAccountCurrency] = [
-    getAccountName(exchange.fromAccount),
-    getAccountCurrency(exchange.fromAccount),
-  ];
-  const [targetAccountName, targetAccountCurrency] = [
-    getAccountName(exchange.toAccount),
-    getAccountCurrency(exchange.toAccount),
-  ];
+  const sourceAccountCurrency = getAccountCurrency(exchange.fromAccount);
+  const targetAccountCurrency = getAccountCurrency(exchange.toAccount);
+  const sourceAccountName = accountNameSelector(walletState, {
+    accountId: exchange.fromAccount.id,
+  });
+  const targetAccountName = accountNameSelector(walletState, {
+    accountId: exchange.toAccount.id,
+  });
+
   const providerName = getProviderName(exchangeRate.provider);
   const noticeType = getNoticeType(exchangeRate.provider);
   const alertProperties = noticeType.learnMore ? { learnMoreUrl: urls.swap.learnMore } : {};

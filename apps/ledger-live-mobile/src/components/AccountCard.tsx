@@ -12,6 +12,7 @@ import Card, { Props as CardProps } from "./Card";
 import CurrencyIcon from "./CurrencyIcon";
 import CurrencyUnitValue from "./CurrencyUnitValue";
 import CounterValue from "./CounterValue";
+import { useMaybeAccountName } from "~/reducers/wallet";
 
 export type Props = CardProps & {
   account?: AccountLike | null;
@@ -35,6 +36,8 @@ const AccountCard = ({
   ...props
 }: Props) => {
   const { colors } = useTheme();
+  const accountName = useMaybeAccountName(account);
+  const parentName = useMaybeAccountName(parentAccount);
   if (!account) return null;
   const currency = getAccountCurrency(account);
   const unit = getAccountUnit(account);
@@ -47,9 +50,9 @@ const AccountCard = ({
   const name =
     account.type === "TokenAccount"
       ? parentAccount
-        ? `${parentAccount!.name} (${currency.ticker})`
+        ? `${parentName} (${currency.ticker})`
         : currency.ticker
-      : account.name;
+      : accountName;
   return (
     <TouchableOpacity disabled={disabled} onPress={onPress} testID={"account-card-" + account.id}>
       <Card

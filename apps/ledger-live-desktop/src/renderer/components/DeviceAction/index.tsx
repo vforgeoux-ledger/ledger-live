@@ -74,6 +74,7 @@ import { Device } from "@ledgerhq/types-devices";
 import { LedgerErrorConstructor } from "@ledgerhq/errors/lib/helpers";
 import { TokenCurrency } from "@ledgerhq/types-cryptoassets";
 import { isDeviceNotOnboardedError } from "./utils";
+import { walletSelector } from "~/renderer/reducers/wallet";
 
 type LedgerError = InstanceType<LedgerErrorConstructor<{ [key: string]: unknown }>>;
 
@@ -226,6 +227,7 @@ export const DeviceActionDefaultRendering = <R, H extends States, P>({
   const dispatch = useDispatch();
   const preferredDeviceModel = useSelector(preferredDeviceModelSelector);
   const swapDefaultTrack = useGetSwapTrackingProperties();
+  const walletState = useSelector(walletSelector);
 
   const type = useTheme().colors.palette.type;
 
@@ -362,6 +364,7 @@ export const DeviceActionDefaultRendering = <R, H extends States, P>({
           swapDefaultTrack,
           amountExpectedTo: amountExpectedTo.toString() ?? undefined,
           estimatedFees: estimatedFees?.toString() ?? undefined,
+          walletState,
         });
       }
 
@@ -394,6 +397,7 @@ export const DeviceActionDefaultRendering = <R, H extends States, P>({
       amountExpectedTo: amountExpectedTo ?? undefined,
       estimatedFees: estimatedFees ?? undefined,
       swapDefaultTrack,
+      walletState,
     });
   }
 
@@ -412,11 +416,7 @@ export const DeviceActionDefaultRendering = <R, H extends States, P>({
   }
 
   if (inWrongDeviceForAccount) {
-    return renderInWrongAppForAccount({
-      t,
-      onRetry,
-      accountName: inWrongDeviceForAccount.accountName,
-    });
+    return renderInWrongAppForAccount({ t, onRetry });
   }
 
   if (unresponsive || error instanceof TransportPendingOperation) {
