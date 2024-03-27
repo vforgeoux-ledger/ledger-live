@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import { loadPolkadotCrypto } from "./polkadot-crypto";
-import getEstimatedFees from "./getFeesForTransaction";
+import { getEstimatedFees } from "./getFeesForTransaction";
 import { fixtureChainSpec, fixtureTxMaterialWithMetadata } from "../network/sidecar.fixture";
 import { createFixtureAccount, createFixtureTransaction } from "../types/model.fixture";
 
@@ -21,6 +21,10 @@ mockPaymentInfo.mockResolvedValue({
 
 describe("getEstimatedFees", () => {
   const transaction = createFixtureTransaction();
+
+  beforeEach(() => {
+    mockPaymentInfo.mockClear();
+  });
 
   it("calls loadPolkadotCrypto (WASM check)", async () => {
     // Given
