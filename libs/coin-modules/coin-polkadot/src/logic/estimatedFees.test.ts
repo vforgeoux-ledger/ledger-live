@@ -1,8 +1,7 @@
-import BigNumber from "bignumber.js";
 import { loadPolkadotCrypto } from "./polkadot-crypto";
 import estimatedFees from "./estimatedFees";
 import { fixtureChainSpec, fixtureTxMaterialWithMetadata } from "../network/sidecar.fixture";
-import { createFixtureAccount, createFixtureTransaction } from "../types/model.fixture";
+import { createFixtureAccount, createFixtureTransaction } from "../types/bridge.fixture";
 
 jest.mock("./polkadot-crypto");
 const mockPaymentInfo = jest.fn();
