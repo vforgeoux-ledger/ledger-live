@@ -1,5 +1,31 @@
 # @ledgerhq/live-common
 
+## 34.1.0-nightly.0
+
+### Minor Changes
+
+- [#6497](https://github.com/LedgerHQ/ledger-live/pull/6497) [`32c6cac`](https://github.com/LedgerHQ/ledger-live/commit/32c6cac6993cef7ff05e2d8410b0bc1baa2bc924) Thanks [@overcat](https://github.com/overcat)! - Bump stellar-sdk from 10.4.1 to 11.3.0.
+
+### Patch Changes
+
+- [#6378](https://github.com/LedgerHQ/ledger-live/pull/6378) [`9ada63a`](https://github.com/LedgerHQ/ledger-live/commit/9ada63a05b2d2518af09a9c07937cf94b5b2ea67) Thanks [@ofreyssinet-ledger](https://github.com/ofreyssinet-ledger)! - Edit device name flow adapted for Europa
+
+- [#6553](https://github.com/LedgerHQ/ledger-live/pull/6553) [`3e5d894`](https://github.com/LedgerHQ/ledger-live/commit/3e5d89457601ad4c30881af41acc6b498fa611bb) Thanks [@hzheng-ledger](https://github.com/hzheng-ledger)! - fix bot test due to liveConfig
+
+- [#6378](https://github.com/LedgerHQ/ledger-live/pull/6378) [`9ada63a`](https://github.com/LedgerHQ/ledger-live/commit/9ada63a05b2d2518af09a9c07937cf94b5b2ea67) Thanks [@ofreyssinet-ledger](https://github.com/ofreyssinet-ledger)! - Custom lock screen flow adapted to Europa device
+
+- Updated dependencies []:
+  - @ledgerhq/coin-framework@0.11.4-nightly.0
+  - @ledgerhq/coin-algorand@0.4.1-nightly.0
+  - @ledgerhq/coin-bitcoin@0.4.0-nightly.9
+  - @ledgerhq/coin-evm@1.0.1-nightly.0
+  - @ledgerhq/coin-near@0.3.12-nightly.0
+  - @ledgerhq/coin-polkadot@0.6.1-nightly.0
+  - @ledgerhq/hw-app-eth@6.35.8-nightly.0
+  - @ledgerhq/live-countervalues@0.1.4-nightly.0
+  - @ledgerhq/live-countervalues-react@0.1.4-nightly.0
+  - @ledgerhq/live-nft@0.3.1-nightly.0
+
 ## 34.0.0
 
 ### Major Changes

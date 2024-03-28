@@ -1,5 +1,17 @@
 # @ledgerhq/live-cli
 
+## 24.0.1-nightly.0
+
+### Patch Changes
+
+- [#6378](https://github.com/LedgerHQ/ledger-live/pull/6378) [`9ada63a`](https://github.com/LedgerHQ/ledger-live/commit/9ada63a05b2d2518af09a9c07937cf94b5b2ea67) Thanks [@ofreyssinet-ledger](https://github.com/ofreyssinet-ledger)! - Custom lock screen flow adapted to Europa device
+
+- Updated dependencies [[`9ada63a`](https://github.com/LedgerHQ/ledger-live/commit/9ada63a05b2d2518af09a9c07937cf94b5b2ea67), [`3e5d894`](https://github.com/LedgerHQ/ledger-live/commit/3e5d89457601ad4c30881af41acc6b498fa611bb), [`9ada63a`](https://github.com/LedgerHQ/ledger-live/commit/9ada63a05b2d2518af09a9c07937cf94b5b2ea67), [`32c6cac`](https://github.com/LedgerHQ/ledger-live/commit/32c6cac6993cef7ff05e2d8410b0bc1baa2bc924)]:
+  - @ledgerhq/live-common@34.1.0-nightly.0
+  - @ledgerhq/coin-framework@0.11.4-nightly.0
+  - @ledgerhq/coin-bitcoin@0.4.0-nightly.9
+  - @ledgerhq/live-countervalues@0.1.4-nightly.0
+
 ## 24.0.0
 
 ### Major Changes
