@@ -1,10 +1,8 @@
 import BigNumber from "bignumber.js";
-import { loadPolkadotCrypto } from "./polkadot-crypto";
-import { getEstimatedFees } from "./getFeesForTransaction";
+import getEstimatedFees from "./getFeesForTransaction";
 import { fixtureChainSpec, fixtureTxMaterialWithMetadata } from "../network/sidecar.fixture";
 import { createFixtureAccount, createFixtureTransaction } from "../types/model.fixture";
 
-jest.mock("./polkadot-crypto");
 const mockPaymentInfo = jest.fn();
 jest.mock("../network/sidecar", () => ({
   ...jest.requireActual("../network/sidecar"),
@@ -24,19 +22,6 @@ describe("getEstimatedFees", () => {
 
   beforeEach(() => {
     mockPaymentInfo.mockClear();
-  });
-
-  it("calls loadPolkadotCrypto (WASM check)", async () => {
-    // Given
-    const account = createFixtureAccount();
-    const mockLoadPolkadotCrypto = jest.mocked(loadPolkadotCrypto);
-
-    // When
-    await getEstimatedFees({ a: account, t: transaction });
-
-    // Then
-    // Test to comply with existing code. Should be 1 time only.
-    expect(mockLoadPolkadotCrypto).toHaveBeenCalledTimes(2);
   });
 
   it("returns estimation from Polkadot explorer", async () => {
