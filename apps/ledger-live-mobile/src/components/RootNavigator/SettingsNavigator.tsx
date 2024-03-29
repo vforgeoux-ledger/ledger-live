@@ -66,6 +66,10 @@ import DebugTermsOfUse from "~/screens/Settings/Debug/Features/TermsOfUse";
 import CameraPermissions from "~/screens/Settings/Debug/Debugging/CameraPermissions";
 import DebugQueuedDrawers from "~/screens/Settings/Debug/Features/QueuedDrawers";
 import BleEDevicePairingScreen from "~/screens/Settings/Debug/Features/BleDevicePairingScreen";
+import {
+  DebugQueuedScreen1,
+  DebugQueuedScreen2,
+} from "~/screens/Settings/Debug/Features/QueuedDrawersScreens";
 
 const Stack = createStackNavigator<SettingsNavigatorStackParamList>();
 
@@ -451,6 +455,20 @@ export default function SettingsNavigator() {
         component={DebugQueuedDrawers}
         options={{
           title: "Debug bottom drawers",
+        }}
+      />
+      <Stack.Screen
+        name={ScreenName.DebugQueuedDrawerScreen1}
+        component={DebugQueuedScreen1}
+        options={{
+          title: "Debug Queued Screen 1",
+        }}
+      />
+      <Stack.Screen
+        name={ScreenName.DebugQueuedDrawerScreen2}
+        component={DebugQueuedScreen2}
+        options={{
+          title: "Debug Queued Screen 2",
         }}
       />
     </Stack.Navigator>
