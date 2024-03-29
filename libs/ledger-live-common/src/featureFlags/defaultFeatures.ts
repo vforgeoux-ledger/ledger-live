@@ -72,6 +72,8 @@ export const CURRENCY_DEFAULT_FEATURES = {
   currencyNeonEvm: DEFAULT_FEATURE,
   currencyLinea: DEFAULT_FEATURE,
   currencyLineaGoerli: DEFAULT_FEATURE,
+  currencyBlast: DEFAULT_FEATURE,
+  currencyBlastSepolia: DEFAULT_FEATURE,
 };
 
 /**

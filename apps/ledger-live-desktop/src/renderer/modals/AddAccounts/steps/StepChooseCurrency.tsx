@@ -75,6 +75,8 @@ const StepChooseCurrency = ({ currency, setCurrency }: StepProps) => {
   const lukso = useFeature("currencyLukso");
   const linea = useFeature("currencyLinea");
   const lineaGoerli = useFeature("currencyLineaGoerli");
+  const blast = useFeature("currencyBlast");
+  const blastSepolia = useFeature("currencyBlastSepolia");
 
   const featureFlaggedCurrencies = useMemo(
     (): Partial<Record<CryptoCurrencyId, Feature<unknown> | null>> => ({
@@ -118,6 +120,8 @@ const StepChooseCurrency = ({ currency, setCurrency }: StepProps) => {
       lukso,
       linea,
       linea_goerli: lineaGoerli,
+      blast,
+      blast_sepolia: blastSepolia,
     }),
     [
       axelar,
