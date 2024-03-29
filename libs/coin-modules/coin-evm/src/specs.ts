@@ -49,6 +49,8 @@ const minBalancePerCurrencyId: Partial<Record<CryptoCurrency["id"], number>> = {
   lukso: 0.01,
   linea: 0.001,
   linea_goerli: 0.001,
+  blast: 0.001,
+  blast_sepolia: 0.001,
 };
 
 /**
