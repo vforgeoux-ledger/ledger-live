@@ -12,7 +12,7 @@ import {
   UserRefusedOnDevice,
 } from "@ledgerhq/errors";
 import { useTranslation } from "react-i18next";
-import { ParamListBase, useNavigation, useTheme } from "@react-navigation/native";
+import { useNavigation, useTheme } from "@react-navigation/native";
 import { useTheme as useThemeFromStyledComponents } from "styled-components/native";
 import { Flex, Text, Icons } from "@ledgerhq/native-ui";
 import type { AppRequest } from "@ledgerhq/live-common/hw/actions/app";
@@ -55,6 +55,7 @@ import SkipLock from "../behaviour/SkipLock";
 import DeviceActionProgress from "../DeviceActionProgress";
 import { PartialNullable } from "~/types/helpers";
 import ModalLock from "../ModalLock";
+import { RootStackParamList } from "../RootNavigator/types/RootNavigator";
 
 type LedgerError = InstanceType<LedgerErrorConstructor<{ [key: string]: unknown }>>;
 
@@ -173,7 +174,7 @@ export function DeviceActionDefaultRendering<R, H extends Status, P>({
   const dispatch = useDispatch();
   const theme: "dark" | "light" = dark ? "dark" : "light";
   const { t } = useTranslation();
-  const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {
     appAndVersion,
     device,
