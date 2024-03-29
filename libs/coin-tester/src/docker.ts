@@ -1,4 +1,3 @@
-import "dotenv/config";
 import path from "path";
 import axios from "axios";
 import chalk from "chalk";
@@ -28,9 +27,8 @@ export const spawnSigner = async (
     },
   });
 
-  await fs.mkdir(path.resolve(process.cwd(), "tmp"), { recursive: true });
-  await fs.writeFile(path.resolve(process.cwd(), "tmp/app.elf"), blob, "binary");
-
+  await fs.mkdir(path.resolve(cwd, "tmp"), { recursive: true });
+  await fs.writeFile(path.resolve(cwd, "tmp/app.elf"), blob, "binary");
   await compose.upOne("speculos", {
     cwd,
     log: true,

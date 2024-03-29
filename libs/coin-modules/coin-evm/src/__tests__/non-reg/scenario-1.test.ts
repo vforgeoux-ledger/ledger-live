@@ -1,26 +1,17 @@
-import "dotenv/config";
-import { ethers, providers } from "ethers";
+import Eth from "@ledgerhq/hw-app-eth";
 import { BigNumber } from "bignumber.js";
-// import { encodeTokenAccountId } from "@ledgerhq/coin-framework/account/index";
-import {
-  ethereum,
-  // polygon,
-  ERC20Interface,
-  USDC_ON_ETHEREUM,
-  // USDC_ON_POLYGON,
-} from "./helpers";
-import { clearExplorerAppendix, getLogs, setBlock } from "./indexer";
-import { executeScenario, Scenario } from "@ledgerhq/coin-tester/main";
+import { ethers, providers } from "ethers";
 import { killDocker, spawnSigner } from "@ledgerhq/coin-tester/docker";
+import { executeScenario, Scenario } from "@ledgerhq/coin-tester/main";
+import { getCryptoCurrencyById } from "@ledgerhq/cryptoassets/currencies";
+import { buildAccountBridge, buildCurrencyBridge } from "../../bridge/js";
+import { ethereum, ERC20Interface, USDC_ON_ETHEREUM } from "./helpers";
+import { clearExplorerAppendix, getLogs, setBlock } from "./indexer";
 import { makeAccount } from "../fixtures/common.fixtures";
 import { Transaction as EvmTransaction } from "../../types";
-import Eth from "@ledgerhq/hw-app-eth";
 import resolver from "../../hw-getAddress";
-import { buildAccountBridge, buildCurrencyBridge } from "../../bridge/js";
-import { getCryptoCurrencyById } from "@ledgerhq/cryptoassets/currencies";
 import { spawnAnvil } from "./docker";
 
-const scnerioAccount = makeAccount("0xlol", ethereum);
 const scenarioTransction: EvmTransaction = Object.freeze({
   amount: new BigNumber(100),
   useAllAmount: false,
@@ -38,15 +29,21 @@ const scenarioTransction: EvmTransaction = Object.freeze({
 const defaultNanoAppVersion = { firmware: "2.1.0" as const, version: "1.10.3" as const };
 const scenarioEthereum: Scenario<EvmTransaction> = {
   setup: async () => {
-    const transport = await spawnSigner(
-      "speculos",
-      `/${defaultNanoAppVersion.firmware}/Ethereum/app_${defaultNanoAppVersion.version}.elf`,
-    );
-
     await spawnAnvil();
+    const [transport] = await Promise.all([
+      await spawnSigner(
+        "speculos",
+        `/${defaultNanoAppVersion.firmware}/Ethereum/app_${defaultNanoAppVersion.version}.elf`,
+      ),
+      await spawnAnvil(),
+    ]);
 
+    const provider = new providers.StaticJsonRpcProvider("http://127.0.0.1:8545");
     const signerContext = (deviceId: string, fn: any): any => fn(new Eth(transport));
+
     const currencyBridge = buildCurrencyBridge(signerContext);
+    await currencyBridge.preload(ethereum);
+
     const accountBridge = buildAccountBridge(signerContext);
     const getAddress = resolver(signerContext);
     const { address } = await getAddress("", {
@@ -54,8 +51,8 @@ const scenarioEthereum: Scenario<EvmTransaction> = {
       currency: getCryptoCurrencyById("ethereum"),
       derivationMode: "",
     });
+    const scnerioAccount = makeAccount(address, ethereum);
 
-    const provider = new providers.StaticJsonRpcProvider("http://127.0.0.1:8545");
     await setBlock();
 
     const addressToImpersonate = "0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503"; // Binance
@@ -196,3 +193,9 @@ describe("EVM Deterministic Tester", () => {
     });
    */
 });
+
+["exit", "SIGINT", "SIGUSR1", "SIGUSR2", "uncaughtException"].map(e =>
+  process.on(e, async () => {
+    await killDocker();
+  }),
+);

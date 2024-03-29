@@ -1,12 +1,7 @@
-import "dotenv/config";
-import path from "path";
 import { v2 as compose } from "docker-compose";
-
-const cwd = path.join(__dirname);
 
 export const spawnAnvil = async (rpc = "https://rpc.ankr.com/eth"): Promise<void> => {
   await compose.upOne("anvil", {
-    cwd,
     log: true,
     env: {
       ...process.env,
@@ -16,8 +11,8 @@ export const spawnAnvil = async (rpc = "https://rpc.ankr.com/eth"): Promise<void
 };
 
 export const killDocker = async () => {
-  await compose.stop({ cwd, log: true });
-  await compose.rm({ cwd, log: true });
+  await compose.stop({ log: true });
+  await compose.rm({ log: true });
 };
 
 ["exit", "SIGINT", "SIGUSR1", "SIGUSR2", "uncaughtException"].map(e =>

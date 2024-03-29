@@ -5,7 +5,7 @@ services:
     image: ghcr.io/ledgerhq/speculos:sha-69bf753
     platform: linux/amd64
     volumes:
-      - /Users/landry.monga/Github/ledger/ledger-live/libs/coin-modules/coin-evm/tmp:/speculos/apps
+      - ./lib/tmp:/speculos/apps
     env_file:
       - .env
     ports:

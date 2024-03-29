@@ -1,12 +1,12 @@
 import { setupServer } from "msw/node";
 import { http, HttpResponse, bypass } from "msw";
 import { utils, providers, ethers } from "ethers";
-import ERC1155ABI from "./abis/erc1155.json";
-import ERC721ABI from "./abis/erc721.json";
-import ERC20ABI from "./abis/erc20.json";
-import { provider } from "./helpers";
 import { LedgerExplorerOperation } from "../../types";
+import ERC1155ABI from "../../abis/erc1155.abi.json";
+import ERC721ABI from "../../abis/erc721.abi.json";
+import ERC20ABI from "../../abis/erc20.abi.json";
 
+const provider = new ethers.providers.StaticJsonRpcProvider("http://127.0.0.1:8545");
 const ERC20Interface = new utils.Interface(ERC20ABI);
 const ERC721Interface = new utils.Interface(ERC721ABI);
 const ERC1155Interface = new utils.Interface(ERC1155ABI);
