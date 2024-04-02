@@ -32,6 +32,7 @@ import { TronAccount } from "@ledgerhq/live-common/families/tron/types";
 import { useLocalizedUrl } from "~/renderer/hooks/useLocalizedUrls";
 import { urls } from "~/config/urls";
 import { useDateFromNow } from "~/renderer/hooks/useDateFormatter";
+import { useAccountUnit } from "~/renderer/hooks/useAccountUnit";
 
 const Wrapper = styled(Box).attrs(() => ({
   p: 3,
@@ -50,7 +51,7 @@ const Delegation = ({ account }: { account: TronAccount }) => {
     const diff = new Date().getTime() - lastVoteDate.getTime();
     return Math.floor(diff / (1000 * 60 * 60 * 24));
   }, [lastVoteDate]);
-  const unit = getAccountUnit(account);
+  const unit = useAccountUnit(account);
   const explorerView = getDefaultExplorerView(account.currency);
   const { tronResources } = account;
   const { votes, tronPower, unwithdrawnReward } = tronResources;

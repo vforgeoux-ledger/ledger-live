@@ -21,7 +21,6 @@ import { LatestFirmwareVersionRequired, DeviceNotOnboarded } from "@ledgerhq/liv
 import { DeviceModelId, getDeviceModel } from "@ledgerhq/devices";
 import { Device } from "@ledgerhq/live-common/hw/actions/types";
 import {
-  getAccountUnit,
   getMainAccount,
   getAccountName,
   getAccountCurrency,
@@ -67,6 +66,7 @@ import Installing from "~/renderer/modals/UpdateFirmwareModal/Installing";
 import { ErrorBody } from "../ErrorBody";
 import LinkWithExternalIcon from "../LinkWithExternalIcon";
 import { closePlatformAppDrawer } from "~/renderer/actions/UI";
+import { CurrencySettings } from "~/renderer/reducers/settings";
 
 export const AnimationWrapper = styled.div`
   width: 600px;
@@ -940,6 +940,7 @@ export const renderSwapDeviceConfirmation = ({
   amountExpectedTo,
   estimatedFees,
   swapDefaultTrack,
+  currenciesSettings,
 }: {
   modelId: DeviceModelId;
   type: Theme["theme"];
@@ -949,6 +950,7 @@ export const renderSwapDeviceConfirmation = ({
   amountExpectedTo?: string;
   estimatedFees?: string;
   swapDefaultTrack: Record<string, string | boolean>;
+  currenciesSettings: Record<string, CurrencySettings>;
 }) => {
   const [sourceAccountName, sourceAccountCurrency] = [
     getAccountName(exchange.fromAccount),
@@ -961,6 +963,13 @@ export const renderSwapDeviceConfirmation = ({
   const providerName = getProviderName(exchangeRate.provider);
   const noticeType = getNoticeType(exchangeRate.provider);
   const alertProperties = noticeType.learnMore ? { learnMoreUrl: urls.swap.learnMore } : {};
+
+  const unitFromExchange = currenciesSettings[exchange.fromAccount.id].unit;
+
+  const unitToExchange = currenciesSettings[exchange.toAccount.id].unit;
+
+  const unitMainAccount =
+    currenciesSettings[getMainAccount(exchange.fromAccount, exchange.fromParentAccount).id].unit;
   return (
     <>
       <ConfirmWrapper>
@@ -985,7 +994,7 @@ export const renderSwapDeviceConfirmation = ({
             {
               amountSent: (
                 <CurrencyUnitValue
-                  unit={getAccountUnit(exchange.fromAccount)}
+                  unit={unitFromExchange}
                   value={transaction.amount}
                   disableRounding
                   showCode
@@ -993,7 +1002,7 @@ export const renderSwapDeviceConfirmation = ({
               ),
               amountReceived: (
                 <CurrencyUnitValue
-                  unit={getAccountUnit(exchange.toAccount)}
+                  unit={unitToExchange}
                   value={amountExpectedTo ? BigNumber(amountExpectedTo) : exchangeRate.toAmount}
                   disableRounding
                   showCode
@@ -1007,9 +1016,7 @@ export const renderSwapDeviceConfirmation = ({
               ),
               fees: (
                 <CurrencyUnitValue
-                  unit={getAccountUnit(
-                    getMainAccount(exchange.fromAccount, exchange.fromParentAccount),
-                  )}
+                  unit={unitMainAccount}
                   value={BigNumber(estimatedFees || 0)}
                   disableRounding
                   showCode
