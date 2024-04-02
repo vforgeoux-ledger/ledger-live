@@ -35,7 +35,6 @@ export type TokenAccount = {
   operationsCount: number;
   operations: Operation[];
   pendingOperations: Operation[];
-  starred: boolean;
   // Cache of balance history that allows a performant portfolio calculation.
   // currently there are no "raw" version of it because no need to at this stage.
   // could be in future when pagination is needed.
@@ -98,8 +97,6 @@ export type Account = {
   freshAddresses: Address[];
   // account name
   name: string;
-  // starred
-  starred: boolean;
   // says if the account essentially "exists". an account has been used in the past, but for some reason the blockchain finds it empty (no ops, no balance,..)
   used: boolean;
   // account balance in satoshi

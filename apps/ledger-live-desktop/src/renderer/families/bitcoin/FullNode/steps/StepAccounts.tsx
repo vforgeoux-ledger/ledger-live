@@ -16,8 +16,8 @@ import ToolTip from "~/renderer/components/Tooltip";
 import { FullNodeSteps } from "..";
 import styled from "styled-components";
 import { walletSelector } from "~/renderer/reducers/wallet";
-import { accountNameSelector } from "@ledgerhq/live-wallet/store";
-import { getDefaultAccountName } from "@ledgerhq/live-wallet/accountName";
+import { accountNameWithDefaultSelector } from "@ledgerhq/live-wallet/store";
+
 const Row = styled(Box).attrs(() => ({
   horizontal: true,
   alignItems: "center",
@@ -122,10 +122,7 @@ const Accounts = ({
                   color="palette.text.shade40"
                   fontSize={3}
                 >
-                  <Text>
-                    {accountNameSelector(walletState, { accountId: account.id }) ||
-                      getDefaultAccountName(account)}
-                  </Text>
+                  <Text>{accountNameWithDefaultSelector(walletState, account)}</Text>
                 </Box>
                 <FormattedVal
                   ff="Inter|Regular"

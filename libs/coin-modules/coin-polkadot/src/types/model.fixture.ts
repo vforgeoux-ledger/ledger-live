@@ -36,7 +36,6 @@ export function createFixtureAccount(account?: Partial<PolkadotAccount>): Polkad
     freshAddressPath: freshAddress.derivationPath,
     freshAddresses: [freshAddress],
     name: faker.string.alpha(),
-    starred: false,
     used: true,
     balance: account?.balance || new BigNumber(0),
     spendableBalance: account?.spendableBalance || new BigNumber(0),

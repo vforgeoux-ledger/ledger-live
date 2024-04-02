@@ -258,7 +258,6 @@ export function genTokenAccount(
   const rng = new Prando(account.id + "|" + index);
   const tokenAccount: TokenAccount = {
     type: "TokenAccount",
-    starred: false,
     id: account.id + "|" + index,
     parentId: account.id,
     token,
@@ -331,7 +330,6 @@ export function genAccount(
     freshAddressPath: derivationPath,
     freshAddresses: [freshAddress],
     name: rng.nextString(rng.nextInt(4, 34)),
-    starred: false,
     used: false,
     balance: new BigNumber(0),
     spendableBalance: new BigNumber(0),

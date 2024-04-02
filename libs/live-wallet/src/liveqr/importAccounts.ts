@@ -1,15 +1,13 @@
 import { log } from "@ledgerhq/logs";
-import type { Result } from "../cross";
-import { accountDataToAccount } from "../cross";
+import type { Result } from "./cross";
+import { accountDataToAccount } from "./cross";
 import { checkAccountSupported } from "@ledgerhq/coin-framework/account/index";
-import joinSwapHistories from "../exchange/swap/joinSwapHistories";
-import isEqual from "lodash/isEqual";
-import type { Account, BridgeCacheSystem } from "@ledgerhq/types-live";
-import { getAccountBridge } from "../bridge";
-import { promiseAllBatched } from "../promise";
+import type { Account, AccountBridge, TransactionCommon } from "@ledgerhq/types-live";
+import { promiseAllBatched } from "@ledgerhq/live-promise";
 import { getEnv } from "@ledgerhq/live-env";
 import { Observable, firstValueFrom } from "rxjs";
 import { reduce } from "rxjs/operators";
+import type { BridgeCacheSystem } from "@ledgerhq/types-live";
 
 const itemModeDisplaySort = {
   create: 1,
@@ -31,8 +29,12 @@ export const importAccountsMakeItems = ({
   result: Result;
   accounts: Account[];
   items?: ImportItem[];
-}): ImportItem[] =>
-  result.accounts
+}): {
+  items: ImportItem[];
+  accountNames: Map<string, string>;
+} => {
+  const accountNames = new Map<string, string>();
+  const resultItems = result.accounts
     .map(accInput => {
       const prevItem = (items || []).find(item => item.account.id === accInput.id);
       if (prevItem) return prevItem;
@@ -49,30 +51,12 @@ export const importAccountsMakeItems = ({
           };
         }
 
+        accountNames.set(accInput.id, accInput.name);
+
         const existingAccount = accounts.find(a => a.id === accInput.id);
 
         if (existingAccount) {
-          // only the name is supposed to change. rest is never changing
-          if (
-            existingAccount.name === accInput.name &&
-            isEqual(existingAccount.swapHistory, account.swapHistory)
-          ) {
-            return {
-              initialAccountId: existingAccount.id,
-              account: existingAccount,
-              mode: "id",
-            };
-          }
-
-          return {
-            initialAccountId: existingAccount.id,
-            account: {
-              ...existingAccount,
-              name: accInput.name,
-              swapHistory: joinSwapHistories(existingAccount.swapHistory, account.swapHistory),
-            },
-            mode: "update",
-          };
+          return;
         }
 
         return {
@@ -90,6 +74,9 @@ export const importAccountsMakeItems = ({
       (a, b) =>
         itemModeDisplaySort[(a as ImportItem).mode] - itemModeDisplaySort[(b as ImportItem).mode],
     ) as ImportItem[];
+
+  return { items: resultItems, accountNames };
+};
 
 /**
  * SyncNewAccountsOutput
@@ -116,12 +103,13 @@ export type SyncNewAccountsInput = {
  */
 export const syncNewAccountsToImport = async (
   { items, selectedAccounts }: SyncNewAccountsInput,
+  getAccountBridge: <T extends TransactionCommon>(account: Account) => AccountBridge<T>,
   bridgeCache: BridgeCacheSystem,
   blacklistedTokenIds?: string[],
 ): Promise<SyncNewAccountsOutput> => {
   const selectedItems = items.filter(item => selectedAccounts.includes(item.account.id));
-  const synchronized = {};
-  const failed = {};
+  const synchronized: Record<string, Account> = {};
+  const failed: Record<string, Error> = {};
   await promiseAllBatched(getEnv("SYNC_MAX_CONCURRENT"), selectedItems, async ({ account }) => {
     try {
       const bridge = getAccountBridge(account);
@@ -137,7 +125,7 @@ export const syncNewAccountsToImport = async (
       const synced = await firstValueFrom(reduced);
       synchronized[account.id] = synced;
     } catch (e) {
-      failed[account.id] = e;
+      failed[account.id] = e instanceof Error ? e : new Error(String(e));
     }
   });
   return { synchronized, failed };
@@ -147,6 +135,7 @@ export type ImportAccountsReduceInput = {
   items: ImportItem[];
   selectedAccounts: string[];
   syncResult: SyncNewAccountsOutput;
+  editedNames: Record<string, string>;
 };
 
 /**

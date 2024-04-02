@@ -162,7 +162,6 @@ const getMockAccount = (currencyId: string, address: string): Account => {
     freshAddresses: [],
     seedIdentifier: "",
     index: 0,
-    starred: false,
     used: true,
     operationsCount: 0,
     pendingOperations: [],

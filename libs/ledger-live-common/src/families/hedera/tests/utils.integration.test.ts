@@ -14,7 +14,6 @@ const account: Account = {
   freshAddressPath: "",
   freshAddresses: [],
   name: "",
-  starred: false,
   used: false,
   balance: new BigNumber(100000000),
   spendableBalance: new BigNumber(0),

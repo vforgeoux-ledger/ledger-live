@@ -24,6 +24,13 @@
     "@ledgerhq/types-live": "workspace:*",
     "@ledgerhq/types-cryptoassets": "workspace:*",
     "@ledgerhq/coin-framework": "workspace:*",
+    "@ledgerhq/live-env": "workspace:*",
+    "@ledgerhq/live-promise": "workspace:*",
+    "@ledgerhq/logs": "workspace:*",
+    "@ledgerhq/compressjs": "github:LedgerHQ/compressjs#d9e8e4d994923e0ea76a32b97289bcccfe71b82e",
+    "@ledgerhq/devices": "workspace:*",
+    "@ledgerhq/cryptoassets": "workspace:*",
+    "rxjs": "7",
     "lodash": "4",
     "bignumber.js": "9"
   },

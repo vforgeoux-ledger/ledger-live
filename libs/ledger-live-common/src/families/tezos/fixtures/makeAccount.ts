@@ -25,7 +25,6 @@ export function makeAccount(
     xpub: pubkey,
     subAccounts: [],
     type: "Account",
-    starred: false,
     used: true,
     spendableBalance: new BigNumber(100),
     creationDate: new Date(),

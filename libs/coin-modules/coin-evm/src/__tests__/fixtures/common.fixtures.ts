@@ -49,7 +49,6 @@ export const makeAccount = (
     xpub: xpubOrAddress,
     subAccounts,
     seedIdentifier: xpubOrAddress,
-    starred: true,
     used: true,
     swapHistory: [],
     id,
@@ -105,7 +104,6 @@ export const makeTokenAccount = (address: string, tokenCurrency: TokenCurrency):
     operationsCount: 0,
     operations: [],
     pendingOperations: [],
-    starred: false,
     balanceHistoryCache: {
       HOUR: {
         latestDate: null,

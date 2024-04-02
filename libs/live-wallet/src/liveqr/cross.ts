@@ -1,5 +1,6 @@
 // cross helps dealing with cross-project feature like export/import & cross project conversions
 import { BigNumber } from "bignumber.js";
+// @ts-expect-error no types for compressjs
 import compressjs from "@ledgerhq/compressjs";
 import type { DeviceModelId } from "@ledgerhq/devices";
 import {
@@ -8,7 +9,7 @@ import {
   asDerivationMode,
 } from "@ledgerhq/coin-framework/derivation";
 import { decodeAccountId, emptyHistoryCache } from "@ledgerhq/coin-framework/account/index";
-import { getCryptoCurrencyById } from "./currencies";
+import { getCryptoCurrencyById } from "@ledgerhq/cryptoassets";
 import type { Account, CryptoCurrencyIds } from "@ledgerhq/types-live";
 
 export type AccountData = {
@@ -87,7 +88,7 @@ export function encode({
   ).toString("binary");
 }
 
-const asResultMeta = (unsafe: Record<string, any>): Meta => {
+const asResultMeta = (unsafe: Record<string, unknown>): Meta => {
   if (typeof unsafe !== "object" || !unsafe) {
     throw new Error("invalid meta data");
   }
@@ -102,23 +103,38 @@ const asResultMeta = (unsafe: Record<string, any>): Meta => {
     throw new Error("invalid meta.exporterVersion");
   }
 
-  if (modelId && typeof modelId !== "string") {
-    throw new Error("invalid meta.modelId");
+  let resultModelId: DeviceModelId | undefined = undefined;
+  if (modelId) {
+    if (typeof modelId === "string") {
+      resultModelId = modelId as DeviceModelId;
+    } else {
+      throw new Error("invalid meta.modelId");
+    }
   }
 
-  if (modelIdList && modelIdList.some(id => typeof id !== "string")) {
-    throw new Error("invalid meta.modelIdList");
+  let resultModelIdList: DeviceModelId[] | undefined = undefined;
+
+  if (modelIdList) {
+    if (
+      typeof modelIdList === "object" &&
+      Array.isArray(modelIdList) &&
+      modelIdList.every(id => typeof id === "string")
+    ) {
+      resultModelIdList = modelIdList;
+    } else {
+      throw new Error("invalid meta.modelIdList");
+    }
   }
 
   return {
     exporterName,
     exporterVersion,
-    modelId,
-    modelIdList,
+    modelId: resultModelId,
+    modelIdList: resultModelIdList,
   };
 };
 
-const asResultAccount = (unsafe: Record<string, any>): AccountData => {
+const asResultAccount = (unsafe: Record<string, unknown>): AccountData => {
   if (typeof unsafe !== "object" || !unsafe) {
     throw new Error("invalid account data");
   }
@@ -179,7 +195,7 @@ const asResultAccounts = (unsafe: unknown): AccountData[] => {
   return unsafe.map(asResultAccount);
 };
 
-const asCryptoSettings = (unsafe: Record<string, any>): CryptoSettings => {
+const asCryptoSettings = (unsafe: Record<string, unknown>): CryptoSettings => {
   if (typeof unsafe !== "object" || !unsafe) {
     throw new Error("invalid currency settings data");
   }

@@ -325,7 +325,6 @@ export function scan(arg: ScanCommonOpts): Observable<Account> {
                 shortAddressPreview(xpubOrAddress),
               xpub: xpubOrAddress,
               seedIdentifier: xpubOrAddress,
-              starred: true,
               used: true,
               swapHistory: [],
               id,

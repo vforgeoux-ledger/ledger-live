@@ -876,7 +876,6 @@ function createTokenAccount(id = "32"): TokenAccount {
     operationsCount: 0,
     operations: [],
     pendingOperations: [],
-    starred: false,
     balanceHistoryCache: {
       WEEK: { latestDate: null, balances: [] },
       HOUR: { latestDate: null, balances: [] },

@@ -42,7 +42,6 @@ const cheapValidator: ValidatorsAppValidator = {
 const account: SolanaAccount = {
   type: "Account",
   id: "js:2:solana:8Qs1nzggCjEYhFcj4yHwiS5s3QzNeCPWpQnntFdwUYhN:solanaSub",
-  starred: false,
   used: false,
   seedIdentifier: "5gaQapKG9MpAWMLtZFoDqzmKfxMN2FXDVNAKiGFaMXGg",
   derivationMode: "solanaSub",

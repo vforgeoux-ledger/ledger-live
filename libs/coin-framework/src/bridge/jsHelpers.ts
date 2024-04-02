@@ -367,7 +367,6 @@ export const makeScanAccounts =
           ],
           derivationMode,
           name: "",
-          starred: false,
           used: false,
           index,
           currency,

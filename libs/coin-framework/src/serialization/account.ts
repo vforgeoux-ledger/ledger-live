@@ -39,7 +39,6 @@ export function fromAccountRaw(rawAccount: AccountRaw, fromRaw?: FromFamiliyRaw)
     derivationMode,
     index,
     xpub,
-    starred,
     used,
     freshAddress,
     freshAddressPath,
@@ -86,7 +85,6 @@ export function fromAccountRaw(rawAccount: AccountRaw, fromRaw?: FromFamiliyRaw)
   const res: Account = {
     type: "Account",
     id,
-    starred: starred || false,
     used: false,
     // filled again below
     seedIdentifier,
@@ -184,7 +182,8 @@ export function toAccountRaw(
     nfts,
   } = account;
 
-  let { name, starred } = account;
+  let { name } = account;
+  let starred;
   if (userData) {
     name = userData.name;
     starred = userData.starredIds.includes(id);
@@ -310,7 +309,7 @@ function toTokenAccountRaw(
     approvals,
   } = ta;
 
-  let { starred } = ta;
+  let starred;
   if (userData) {
     starred = userData.starredIds.includes(id);
   }

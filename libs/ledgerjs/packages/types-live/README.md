@@ -49,9 +49,11 @@ Ledger Live main types.
     *   [Properties](#properties-10)
 *   [DatasetTest](#datasettest)
     *   [Properties](#properties-11)
+*   [BridgeCacheSystem](#bridgecachesystem)
+    *   [Properties](#properties-12)
 *   [DerivationMode](#derivationmode)
 *   [Feature](#feature)
-    *   [Properties](#properties-12)
+    *   [Properties](#properties-13)
     *   [enabled](#enabled)
     *   [desktop\_version](#desktop_version)
     *   [mobile\_version](#mobile_version)
@@ -64,81 +66,81 @@ Ledger Live main types.
     *   [params](#params)
 *   [DefaultFeature](#defaultfeature)
 *   [CurrencyFeatures](#currencyfeatures)
-    *   [Properties](#properties-13)
+    *   [Properties](#properties-14)
 *   [Features](#features)
 *   [FeatureId](#featureid)
 *   [Feature\_EthStakingProviders](#feature_ethstakingproviders)
 *   [FeatureMap](#featuremap)
 *   [LedgerScriptParams](#ledgerscriptparams)
-    *   [Properties](#properties-14)
-*   [DeviceInfo](#deviceinfo)
     *   [Properties](#properties-15)
-*   [DeviceModelInfo](#devicemodelinfo)
+*   [DeviceInfo](#deviceinfo)
     *   [Properties](#properties-16)
-*   [DeviceVersion](#deviceversion)
+*   [DeviceModelInfo](#devicemodelinfo)
     *   [Properties](#properties-17)
-*   [McuVersion](#mcuversion)
+*   [DeviceVersion](#deviceversion)
     *   [Properties](#properties-18)
+*   [McuVersion](#mcuversion)
+    *   [Properties](#properties-19)
 *   [SeedPhraseType](#seedphrasetype)
 *   [FirmwareInfo](#firmwareinfo)
-    *   [Properties](#properties-19)
+    *   [Properties](#properties-20)
 *   [OsuFirmware](#osufirmware)
 *   [FinalFirmware](#finalfirmware)
 *   [FirmwareUpdateContext](#firmwareupdatecontext)
-    *   [Properties](#properties-20)
-*   [ApplicationVersion](#applicationversion)
     *   [Properties](#properties-21)
-*   [Application](#application)
+*   [ApplicationVersion](#applicationversion)
     *   [Properties](#properties-22)
+*   [Application](#application)
+    *   [Properties](#properties-23)
 *   [AppType](#apptype)
 *   [App](#app)
-    *   [Properties](#properties-23)
-*   [Category](#category)
     *   [Properties](#properties-24)
+*   [Category](#category)
+    *   [Properties](#properties-25)
 *   [SocketEvent](#socketevent)
 *   [NFTStandard](#nftstandard)
 *   [NFTMediaSize](#nftmediasize)
 *   [NFTMedias](#nftmedias)
 *   [NFTMetadata](#nftmetadata)
-    *   [Properties](#properties-25)
-*   [NFTCollectionMetadata](#nftcollectionmetadata)
     *   [Properties](#properties-26)
-*   [ProtoNFT](#protonft)
+*   [NFTCollectionMetadata](#nftcollectionmetadata)
     *   [Properties](#properties-27)
+*   [ProtoNFT](#protonft)
+    *   [Properties](#properties-28)
 *   [ProtoNFTRaw](#protonftraw)
 *   [NFT](#nft)
 *   [NFTMetadataLinksProviders](#nftmetadatalinksproviders)
 *   [NFTMetadataResponse](#nftmetadataresponse)
-    *   [Properties](#properties-28)
-*   [NFTCollectionMetadataResponse](#nftcollectionmetadataresponse)
     *   [Properties](#properties-29)
-*   [FloorPrice](#floorprice)
+*   [NFTCollectionMetadataResponse](#nftcollectionmetadataresponse)
     *   [Properties](#properties-30)
+*   [FloorPrice](#floorprice)
+    *   [Properties](#properties-31)
 *   [OperationType](#operationtype)
 *   [Operation](#operation)
-    *   [Properties](#properties-31)
-*   [PaginationConfig](#paginationconfig)
     *   [Properties](#properties-32)
-*   [SyncConfig](#syncconfig)
+*   [PaginationConfig](#paginationconfig)
     *   [Properties](#properties-33)
-*   [BalanceHistoryData](#balancehistorydata)
+*   [SyncConfig](#syncconfig)
     *   [Properties](#properties-34)
+*   [BalanceHistoryData](#balancehistorydata)
+    *   [Properties](#properties-35)
 *   [BalanceHistory](#balancehistory)
 *   [BalanceHistoryRaw](#balancehistoryraw)
 *   [BalanceHistoryWithCountervalue](#balancehistorywithcountervalue)
 *   [ValueChange](#valuechange)
-    *   [Properties](#properties-35)
-*   [AccountPortfolio](#accountportfolio)
     *   [Properties](#properties-36)
-*   [CurrencyPortfolio](#currencyportfolio)
+*   [AccountPortfolio](#accountportfolio)
     *   [Properties](#properties-37)
-*   [Portfolio](#portfolio)
+*   [CurrencyPortfolio](#currencyportfolio)
     *   [Properties](#properties-38)
-*   [PortfolioRangeConfig](#portfoliorangeconfig)
+*   [Portfolio](#portfolio)
     *   [Properties](#properties-39)
+*   [PortfolioRangeConfig](#portfoliorangeconfig)
+    *   [Properties](#properties-40)
 *   [PortfolioRange](#portfoliorange)
 *   [AssetsDistribution](#assetsdistribution)
-    *   [Properties](#properties-40)
+    *   [Properties](#properties-41)
 *   [PostOnboardingActionId](#postonboardingactionid)
 *   [getNavigationParams](#getnavigationparams)
 *   [startAction](#startaction)
@@ -154,10 +156,10 @@ Ledger Live main types.
     *   [actionCompletedPopupLabel](#actioncompletedpopuplabel)
     *   [buttonLabelForAnalyticsEvent](#buttonlabelforanalyticsevent)
 *   [PostOnboardingActionState](#postonboardingactionstate)
-    *   [Properties](#properties-41)
+    *   [Properties](#properties-42)
     *   [completed](#completed)
 *   [PostOnboardingState](#postonboardingstate)
-    *   [Properties](#properties-42)
+    *   [Properties](#properties-43)
     *   [deviceModelId](#devicemodelid)
     *   [walletEntryPointDismissed](#walletentrypointdismissed)
     *   [actionsToComplete](#actionstocomplete)
@@ -165,33 +167,33 @@ Ledger Live main types.
     *   [lastActionCompleted](#lastactioncompleted)
     *   [postOnboardingInProgress](#postonboardinginprogress)
 *   [PostOnboardingHubState](#postonboardinghubstate)
-    *   [Properties](#properties-43)
-*   [SwapOperation](#swapoperation)
     *   [Properties](#properties-44)
-*   [SwapOperationRaw](#swapoperationraw)
+*   [SwapOperation](#swapoperation)
     *   [Properties](#properties-45)
-*   [SignedOperation](#signedoperation)
+*   [SwapOperationRaw](#swapoperationraw)
     *   [Properties](#properties-46)
-*   [SignedOperationRaw](#signedoperationraw)
+*   [SignedOperation](#signedoperation)
     *   [Properties](#properties-47)
+*   [SignedOperationRaw](#signedoperationraw)
+    *   [Properties](#properties-48)
 *   [SignOperationEvent](#signoperationevent)
 *   [SignOperationEventRaw](#signoperationeventraw)
 *   [TransactionCommon](#transactioncommon)
-    *   [Properties](#properties-48)
-*   [TransactionCommonRaw](#transactioncommonraw)
     *   [Properties](#properties-49)
-*   [FeeStrategy](#feestrategy)
+*   [TransactionCommonRaw](#transactioncommonraw)
     *   [Properties](#properties-50)
-*   [TransactionStatusCommon](#transactionstatuscommon)
+*   [FeeStrategy](#feestrategy)
     *   [Properties](#properties-51)
-*   [TransactionStatusCommonRaw](#transactionstatuscommonraw)
+*   [TransactionStatusCommon](#transactionstatuscommon)
     *   [Properties](#properties-52)
+*   [TransactionStatusCommonRaw](#transactionstatuscommonraw)
+    *   [Properties](#properties-53)
 
 ### TokenAccount
 
 A token belongs to an Account and share the parent account address
 
-Type: {type: `"TokenAccount"`, id: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), parentId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), token: TokenCurrency, balance: BigNumber, spendableBalance: BigNumber, creationDate: [Date](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date), operationsCount: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), operations: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Operation](#operation)>, pendingOperations: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Operation](#operation)>, starred: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), balanceHistoryCache: BalanceHistoryCache, swapHistory: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[SwapOperation](#swapoperation)>, approvals: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<{sender: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), value: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}>?}
+Type: {type: `"TokenAccount"`, id: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), parentId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), token: TokenCurrency, balance: BigNumber, spendableBalance: BigNumber, creationDate: [Date](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date), operationsCount: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), operations: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Operation](#operation)>, pendingOperations: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Operation](#operation)>, balanceHistoryCache: BalanceHistoryCache, swapHistory: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[SwapOperation](#swapoperation)>, approvals: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<{sender: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), value: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}>?}
 
 #### Properties
 
@@ -205,7 +207,6 @@ Type: {type: `"TokenAccount"`, id: [string](https://developer.mozilla.org/docs/W
 *   `operationsCount` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**&#x20;
 *   `operations` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Operation](#operation)>**&#x20;
 *   `pendingOperations` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Operation](#operation)>**&#x20;
-*   `starred` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**&#x20;
 *   `balanceHistoryCache` **BalanceHistoryCache**&#x20;
 *   `swapHistory` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[SwapOperation](#swapoperation)>**&#x20;
 *   `approvals` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<{sender: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), value: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}>?**&#x20;
@@ -232,7 +233,7 @@ const bitcoinAccount = account as BitcoinAccount;
 
 and that BitcoinAccount type would be part of a coin integration family specific indeed.
 
-Type: {type: `"Account"`, id: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), seedIdentifier: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), xpub: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, derivationMode: [DerivationMode](#derivationmode), index: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), freshAddress: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), freshAddressPath: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), freshAddresses: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Address](#address)>, name: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), starred: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), used: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), balance: BigNumber, spendableBalance: BigNumber, creationDate: [Date](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date), blockHeight: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), currency: CryptoCurrency, feesCurrency: (CryptoCurrency | TokenCurrency)?, unit: Unit, operationsCount: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), operations: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Operation](#operation)>, pendingOperations: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Operation](#operation)>, lastSyncDate: [Date](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date), subAccounts: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[TokenAccount](#tokenaccount)>?, balanceHistoryCache: BalanceHistoryCache, swapHistory: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[SwapOperation](#swapoperation)>, syncHash: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, nfts: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[ProtoNFT](#protonft)>?}
+Type: {type: `"Account"`, id: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), seedIdentifier: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), xpub: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, derivationMode: [DerivationMode](#derivationmode), index: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), freshAddress: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), freshAddressPath: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), freshAddresses: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Address](#address)>, name: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), used: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), balance: BigNumber, spendableBalance: BigNumber, creationDate: [Date](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date), blockHeight: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), currency: CryptoCurrency, feesCurrency: (CryptoCurrency | TokenCurrency)?, unit: Unit, operationsCount: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), operations: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Operation](#operation)>, pendingOperations: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Operation](#operation)>, lastSyncDate: [Date](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date), subAccounts: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[TokenAccount](#tokenaccount)>?, balanceHistoryCache: BalanceHistoryCache, swapHistory: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[SwapOperation](#swapoperation)>, syncHash: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, nfts: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[ProtoNFT](#protonft)>?}
 
 #### Properties
 
@@ -246,7 +247,6 @@ Type: {type: `"Account"`, id: [string](https://developer.mozilla.org/docs/Web/Ja
 *   `freshAddressPath` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**&#x20;
 *   `freshAddresses` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Address](#address)>**&#x20;
 *   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**&#x20;
-*   `starred` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**&#x20;
 *   `used` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**&#x20;
 *   `balance` **BigNumber**&#x20;
 *   `spendableBalance` **BigNumber**&#x20;
@@ -477,6 +477,15 @@ Type: {implementations: [Array](https://developer.mozilla.org/docs/Web/JavaScrip
 
 *   `implementations` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>**&#x20;
 *   `currencies` **(Record\<CryptoCurrencyIds, [CurrenciesData](#currenciesdata)\<T>> | Record<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), never>)**&#x20;
+
+### BridgeCacheSystem
+
+Type: {hydrateCurrency: function (currency: CryptoCurrency): [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<(any | null | [undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined))>, prepareCurrency: function (currency: CryptoCurrency): [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<(any | null | [undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined))>}
+
+#### Properties
+
+*   `hydrateCurrency` **function (currency: CryptoCurrency): [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<(any | null | [undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined))>**&#x20;
+*   `prepareCurrency` **function (currency: CryptoCurrency): [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<(any | null | [undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined))>**&#x20;
 
 ### DerivationMode
 

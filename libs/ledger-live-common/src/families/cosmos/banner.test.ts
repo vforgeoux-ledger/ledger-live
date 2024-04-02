@@ -29,7 +29,6 @@ const cheapValidator: CosmosValidatorItem | undefined = data.validators.find(
 const account: CosmosAccount = {
   type: "Account",
   id: "js:2:cosmos:cosmos1f9y7wdychcdhwvyrhff3zvs3gy3qxcu2th4g8u:",
-  starred: false,
   used: false,
   seedIdentifier: "02d4c121ce2bb160ebf39aa0be0050b4d553e18872985ac3a4e21904fd1442defe",
   derivationMode: "",

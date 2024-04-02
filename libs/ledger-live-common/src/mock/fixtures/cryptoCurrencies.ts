@@ -55,7 +55,6 @@ export function createFixtureTokenAccount(
     operationsCount: 0,
     operations: [],
     pendingOperations: [],
-    starred: false,
     balanceHistoryCache: {
       HOUR: {
         balances: [],
@@ -88,7 +87,6 @@ export function createFixtureAccount(
     freshAddressPath: "44'/60'/0'/0/0",
     freshAddresses: [],
     name: "Ethereum 1",
-    starred: false,
     used: false,
     balance: new BigNumber("51281813126095913"),
     spendableBalance: new BigNumber("51281813126095913"),

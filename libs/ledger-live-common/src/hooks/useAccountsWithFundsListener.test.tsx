@@ -13,7 +13,6 @@ const polygon = getCryptoCurrencyById("polygon");
 const ethMockAccount: Account = {
   type: "Account",
   id: "js:2:ethereum:0x66c4371aE8FFeD2ec1c2EBbbcCfb7E494181E1E3:",
-  starred: false,
   used: true,
   seedIdentifier:
     "0441996d9ce858d8fd6304dd790e645500fc6cee7ae0fccfee8c8fa884dfa8ccf1f6f8cc82cc0aa71fc659c895a8a43b69f918b08a22b3a6145a0bbd93c5cb9308",
@@ -54,7 +53,6 @@ const ethMockAccount: Account = {
 const polygonMockAccount: Account = {
   type: "Account",
   id: "js:2:polygon:0x66c4371aE8FFeD2ec1c2EBbbcCfb7E494181E1E3:",
-  starred: false,
   used: true,
   seedIdentifier:
     "0441996d9ce858d8fd6304dd790e645500fc6cee7ae0fccfee8c8fa884dfa8ccf1f6f8cc82cc0aa71fc659c895a8a43b69f918b08a22b3a6145a0bbd93c5cb9308",

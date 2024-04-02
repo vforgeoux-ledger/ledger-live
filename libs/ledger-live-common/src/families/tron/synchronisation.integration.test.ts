@@ -21,7 +21,6 @@ const dummyAccount: Account = {
   derivationMode: "",
   seedIdentifier: "",
   name: "Tron",
-  starred: false,
   used: false,
   currency: tron,
   index: 0,

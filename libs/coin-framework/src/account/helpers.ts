@@ -228,7 +228,6 @@ export const makeEmptyTokenAccount = (account: Account, token: TokenCurrency): T
   creationDate: new Date(),
   operations: [],
   pendingOperations: [],
-  starred: false,
   swapHistory: [],
   balanceHistoryCache: emptyHistoryCache,
 });
@@ -260,7 +259,6 @@ export const accountWithMandatoryTokens = (
       creationDate: new Date(),
       operations: [],
       pendingOperations: [],
-      starred: false,
       swapHistory: [],
       balanceHistoryCache: emptyHistoryCache,
     }));

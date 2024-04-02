@@ -20,9 +20,17 @@ export const initialState: WalletState = {
   starredAccountIds: new Set(),
 };
 
+export enum WalletHandlerType {
+  INIT_ACCOUNTS = "INIT_ACCOUNTS",
+  SET_ACCOUNT_NAME = "SET_ACCOUNT_NAME",
+  SET_ACCOUNT_STARRED = "SET_ACCOUNT_STARRED",
+  ADD_ACCOUNTS = "ADD_ACCOUNTS",
+}
+
 export type HandlersPayloads = {
   INIT_ACCOUNTS: { accounts: Account[]; accountsUserData: AccountUserData[] };
   SET_ACCOUNT_NAME: { accountId: string; name: string };
+  BULK_SET_ACCOUNT_NAMES: { accountNames: Map<string, string> };
   SET_ACCOUNT_STARRED: { accountId: string; starred: boolean };
   ADD_ACCOUNTS: AddAccountsAction["payload"];
 };
@@ -52,6 +60,14 @@ export const handlers: WalletHandlers = {
     const accountNames = new Map(state.accountNames);
     accountNames.set(accountId, name);
     return { ...state, accountNames };
+  },
+  BULK_SET_ACCOUNT_NAMES: (state, { payload: { accountNames } }) => {
+    // merge the new account names with the existing ones
+    const newAccountNames = new Map(state.accountNames);
+    for (const [accountId, name] of accountNames) {
+      newAccountNames.set(accountId, name);
+    }
+    return { ...state, accountNames: newAccountNames };
   },
   SET_ACCOUNT_STARRED: (state, { payload: { accountId, starred: value } }) => {
     const starredAccountIds = new Set(state.starredAccountIds);
