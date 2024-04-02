@@ -4,7 +4,7 @@ import { concat, from, Subscription } from "rxjs";
 import { ignoreElements } from "rxjs/operators";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { isAccountEmpty, groupAddAccounts } from "@ledgerhq/live-common/account/index";
+import { isAccountEmpty } from "@ledgerhq/live-common/account/index";
 import type { AddAccountSupportLink } from "@ledgerhq/live-common/account/index";
 import { createStructuredSelector } from "reselect";
 import uniq from "lodash/uniq";
@@ -48,6 +48,7 @@ import {
 import { AddAccountsNavigatorParamList } from "~/components/RootNavigator/types/AddAccountsNavigator";
 import { BaseNavigatorStackParamList } from "~/components/RootNavigator/types/BaseNavigator";
 import Config from "react-native-config";
+import { groupAddAccounts } from "@ledgerhq/live-wallet/addAccounts";
 
 const SectionAccounts = ({
   defaultSelected,

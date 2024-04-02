@@ -3,11 +3,6 @@ import { Account, AccountUserData } from "@ledgerhq/types-live";
 import { AccountComparator } from "@ledgerhq/live-common/account/index";
 import { getKey } from "~/renderer/storage";
 
-export const replaceAccounts = (payload: Account[]) => ({
-  type: "DB:REPLACE_ACCOUNTS",
-  payload,
-});
-
 export const removeAccount = (payload: Account) => ({
   type: "DB:REMOVE_ACCOUNT",
   payload,

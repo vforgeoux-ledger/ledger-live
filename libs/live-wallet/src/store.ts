@@ -3,11 +3,12 @@
  * The Wallet store is a store that contains the user data related to accounts.
  * It essentially is the whole user's wallet.
  */
-import { Account, AccountRaw, AccountUserData } from "@ledgerhq/types-live";
+import { Account, AccountLike, AccountRaw, AccountUserData } from "@ledgerhq/types-live";
 import { getDefaultAccountName } from "./accountName";
+import { AddAccountsAction } from "./addAccounts";
 
 export type WalletState = {
-  // user's name for each account id
+  // user's customized name for each account id
   accountNames: Map<string, string>;
 
   // a set of all the account ids that are starred (NB: token accounts can also be starred)
@@ -23,9 +24,7 @@ export type HandlersPayloads = {
   INIT_ACCOUNTS: { accounts: Account[]; accountsUserData: AccountUserData[] };
   SET_ACCOUNT_NAME: { accountId: string; name: string };
   SET_ACCOUNT_STARRED: { accountId: string; starred: boolean };
-  // FIXME hack: we currently listen on this old one.
-  // next, we need to rework 'addAccounts' live-common logic to split the Account away from the AccountUserData
-  REPLACE_ACCOUNTS: Account[];
+  ADD_ACCOUNTS: AddAccountsAction["payload"];
 };
 
 type Handlers<State, Types, PreciseKey = true> = {
@@ -63,24 +62,13 @@ export const handlers: WalletHandlers = {
     }
     return { ...state, starredAccountIds };
   },
-  // FIXME temporary implementation. this will be reworked during the addAccounts rework.
-  // since the source of trust will be reversed as we will not extract out the name/starred from Account anymore
-  // so we will need another way to add accountUserData in context of add accounts
-  REPLACE_ACCOUNTS: (state, { payload }) => {
-    const accountNames = new Map();
-    const starredAccountIds = new Set<string>();
-    payload.forEach(a => {
-      accountNames.set(a.id, a.name);
-      if (a.starred) {
-        starredAccountIds.add(a.id);
-      }
-      for (const t of a.subAccounts || []) {
-        if (t.starred) {
-          starredAccountIds.add(t.id);
-        }
-      }
-    });
-    return { accountNames, starredAccountIds };
+  ADD_ACCOUNTS: (state, { payload: { allAccounts, editedNames } }) => {
+    const accountNames = new Map(state.accountNames);
+    for (const account of allAccounts) {
+      const name = editedNames.get(account.id) || getDefaultAccountName(account);
+      accountNames.set(account.id, name);
+    }
+    return { ...state, accountNames };
   },
 };
 
@@ -107,6 +95,9 @@ export const accountNameSelector = (
   state: WalletState,
   { accountId }: { accountId: string },
 ): string | undefined => state.accountNames.get(accountId);
+
+export const accountNameWithDefaultSelector = (state: WalletState, account: AccountLike): string =>
+  state.accountNames.get(account.id) || getDefaultAccountName(account);
 
 export const isStarredAccountSelector = (
   state: WalletState,

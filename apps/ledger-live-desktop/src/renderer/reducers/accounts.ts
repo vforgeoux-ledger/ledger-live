@@ -19,6 +19,7 @@ import { hiddenNftCollectionsSelector } from "./settings";
 import { Handlers } from "./types";
 import { walletSelector } from "./wallet";
 import { isStarredAccountSelector } from "@ledgerhq/live-wallet/store";
+import { AddAccountsAction } from "@ledgerhq/live-wallet/addAccounts";
 
 /*
 FIXME
@@ -33,7 +34,7 @@ const state: AccountsState = [];
 type HandlersPayloads = {
   REORDER_ACCOUNTS: { comparator: AccountComparator };
   INIT_ACCOUNTS: { accounts: Account[]; accountsUserData: AccountUserData[] };
-  REPLACE_ACCOUNTS: Account[];
+  ADD_ACCOUNTS: AddAccountsAction["payload"];
   UPDATE_ACCOUNT: { accountId: string; updater: (a: Account) => Account };
   REMOVE_ACCOUNT: Account;
   CLEAN_FULLNODE_DISCONNECT: never;
@@ -45,8 +46,8 @@ type AccountsHandlers<PreciseKey = true> = Handlers<AccountsState, HandlersPaylo
 
 const handlers: AccountsHandlers = {
   REORDER_ACCOUNTS: (state, { payload: { comparator } }) => nestedSortAccounts(state, comparator),
-  INIT_ACCOUNTS: (state, { payload: { accounts } }) => accounts,
-  REPLACE_ACCOUNTS: (_, { payload }) => payload,
+  INIT_ACCOUNTS: (_, { payload: { accounts } }) => accounts,
+  ADD_ACCOUNTS: (_, { payload }) => payload.allAccounts,
   UPDATE_ACCOUNT: (state, { payload: { accountId, updater } }) =>
     state.map(existingAccount => {
       if (existingAccount.id !== accountId) {

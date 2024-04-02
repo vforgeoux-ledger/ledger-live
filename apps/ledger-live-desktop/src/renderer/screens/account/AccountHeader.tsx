@@ -20,7 +20,6 @@ import {
   getAccountCurrency,
   getMainAccount,
   shortAddressPreview,
-  getAccountName,
 } from "@ledgerhq/live-common/account/index";
 import Box, { Tabbable } from "~/renderer/components/Box";
 import Text from "~/renderer/components/Text";
@@ -32,8 +31,9 @@ import ParentCryptoCurrencyIcon from "~/renderer/components/ParentCryptoCurrency
 import IconPen from "~/renderer/icons/Pen";
 import IconCross from "~/renderer/icons/Cross";
 import IconCheck from "~/renderer/icons/Check";
-import { updateAccount } from "~/renderer/actions/accounts";
 import AccountTagDerivationMode from "~/renderer/components/AccountTagDerivationMode";
+import { setAccountName } from "@ledgerhq/live-wallet/store";
+import { useAccountName } from "~/renderer/reducers/wallet";
 
 type BaseComponentProps = BaseProps & { ff?: string };
 
@@ -162,7 +162,9 @@ const AccountHeader: React.ComponentType<Props> = React.memo(function AccountHea
   parentAccount,
 }: Props) {
   const dispatch = useDispatch();
-  const [name, setName] = useState(getAccountName(account));
+  const storeAccountName = useAccountName(account);
+  // local state of the name
+  const [name, setName] = useState(storeAccountName);
   const [editingName, setEditingName] = useState(false);
   const currency = getAccountCurrency(account);
   const mainAccount = getMainAccount(account, parentAccount);
@@ -173,11 +175,7 @@ const AccountHeader: React.ComponentType<Props> = React.memo(function AccountHea
       : null;
   const submitNameChange = () => {
     if (account.type === "Account") {
-      const updatedAccount: Account = {
-        ...account,
-        name,
-      };
-      dispatch(updateAccount(updatedAccount));
+      dispatch(setAccountName(account.id, name));
     }
   };
   const submitNameChangeOnEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -194,9 +192,9 @@ const AccountHeader: React.ComponentType<Props> = React.memo(function AccountHea
   }, [contract]);
   useEffect(() => {
     if (!editingName) {
-      setName(getAccountName(account));
+      setName(storeAccountName);
     }
-  }, [editingName, account]);
+  }, [editingName, storeAccountName]);
   return (
     <Box horizontal shrink alignItems="center" flow={3}>
       <Box>

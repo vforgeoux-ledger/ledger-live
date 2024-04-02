@@ -170,6 +170,7 @@ export default function AccountContextMenu({
     dispatch,
     history,
     refreshAccountsOrdering,
+    isStarred,
   ]);
   const currency = getAccountCurrency(account);
   return (
