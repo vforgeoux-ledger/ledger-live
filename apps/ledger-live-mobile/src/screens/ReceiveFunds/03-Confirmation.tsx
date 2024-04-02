@@ -152,7 +152,6 @@ function ReceiveConfirmationInner({ navigation, route, account, parentAccount }:
 
   useEffect(() => {
     navigation.setOptions({
-      //headerTitle: getAccountName(account as AccountLike),
       headerTitle: () => (
         <ConfirmationHeaderTitle accountCurrency={currency}></ConfirmationHeaderTitle>
       ),

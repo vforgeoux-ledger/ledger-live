@@ -133,7 +133,7 @@ class DisplayResult extends Component<Props, State> {
       bridgeCache,
       backlistedTokenIds,
     );
-    importAccounts({ items, selectedAccounts, syncResult });
+    importAccounts({ items, editedNames, selectedAccounts, syncResult });
     if (importSettings) {
       importDesktopSettings(
         this.props.route.params?.result.settings as SettingsImportDesktopPayload,

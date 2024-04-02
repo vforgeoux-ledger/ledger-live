@@ -231,6 +231,7 @@ function AddAccountsAccounts({
     replaceAccounts({
       scannedAccounts,
       selectedIds,
+      // TODO: replace this with the live-wallet version
       renamings: {}, // renaming was done in scannedAccounts directly.. (see if we want later to change this paradigm)
     });
 
@@ -264,6 +265,7 @@ function AddAccountsAccounts({
     (name: string, changedAccount: Account) => {
       setScannedAccounts(
         scannedAccounts.map(account =>
+          // TODO clean this up....
           account.id === changedAccount.id ? { ...account, name } : account,
         ),
       );

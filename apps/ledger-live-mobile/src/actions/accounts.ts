@@ -1,10 +1,9 @@
-import type { Account, AccountRaw } from "@ledgerhq/types-live";
+import type { Account, AccountRaw, AccountUserData } from "@ledgerhq/types-live";
 import { createAction } from "redux-actions";
 import accountModel from "../logic/accountModel";
 import type {
   AccountsDeleteAccountPayload,
   AccountsImportAccountsPayload,
-  AccountsImportStorePayload,
   AccountsReorderPayload,
   AccountsReplaceAccountsPayload,
   AccountsSetAccountsPayload,
@@ -12,24 +11,24 @@ import type {
 } from "./types";
 import { AccountsActionTypes } from "./types";
 import logger from "../logger";
+import { initAccounts } from "@ledgerhq/live-wallet/store";
 
 const version = 0; // FIXME this needs to come from user data
 
-const importStoreAction = createAction<AccountsImportStorePayload>(
-  AccountsActionTypes.ACCOUNTS_IMPORT,
-);
 export const importStore = (rawAccounts: { active: { data: AccountRaw }[] }) => {
-  const accounts = [];
+  const tuples: Array<[Account, AccountUserData]> = [];
   if (rawAccounts && Array.isArray(rawAccounts.active)) {
     for (const { data } of rawAccounts.active) {
       try {
-        accounts.push(accountModel.decode({ data, version }));
+        tuples.push(accountModel.decode({ data, version }));
       } catch (e) {
         if (e instanceof Error) logger.critical(e);
       }
     }
   }
-  return importStoreAction(accounts);
+  const accounts = tuples.map(([account]) => account);
+  const accountsUserData = tuples.map(([, userData]) => userData);
+  return initAccounts(accounts, accountsUserData);
 };
 export const reorderAccounts = createAction<AccountsReorderPayload>(
   AccountsActionTypes.REORDER_ACCOUNTS,

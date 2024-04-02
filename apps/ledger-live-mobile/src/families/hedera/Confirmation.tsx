@@ -6,11 +6,7 @@ import QRCode from "react-native-qrcode-svg";
 import { Trans } from "react-i18next";
 import ReactNativeModal from "react-native-modal";
 import type { Account, TokenAccount } from "@ledgerhq/types-live";
-import {
-  getMainAccount,
-  getAccountCurrency,
-  getAccountName,
-} from "@ledgerhq/live-common/account/index";
+import { getMainAccount, getAccountCurrency } from "@ledgerhq/live-common/account/index";
 import { CompositeScreenProps, useTheme } from "@react-navigation/native";
 import getWindowDimensions from "~/logic/getWindowDimensions";
 import { accountScreenSelector } from "~/reducers/accounts";
@@ -38,6 +34,7 @@ import type {
   StackNavigatorNavigation,
   StackNavigatorProps,
 } from "~/components/RootNavigator/types/helpers";
+import { useMaybeAccountName } from "~/reducers/wallet";
 
 type ScreenProps = CompositeScreenProps<
   StackNavigatorProps<ReceiveFundsStackParamList, ScreenName.ReceiveConfirmation>,
@@ -83,6 +80,8 @@ export default function ReceiveConfirmation({ navigation, route }: Props) {
   function onDone(): void {
     navigation.getParent<StackNavigatorNavigation<BaseNavigatorStackParamList>>()?.pop();
   }
+
+  const accountName = useMaybeAccountName(account);
 
   useEffect(() => {
     if (!allowNavigation) {
@@ -169,7 +168,7 @@ export default function ReceiveConfirmation({ navigation, route }: Props) {
           <View style={styles.addressWrapper}>
             <CurrencyIcon currency={currency} size={20} />
             <LText semiBold style={styles.addressTitleBold}>
-              {getAccountName(account)}
+              {accountName}
             </LText>
           </View>
           <View style={styles.address}>

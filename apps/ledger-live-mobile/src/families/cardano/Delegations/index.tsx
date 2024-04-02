@@ -27,6 +27,7 @@ import RedelegateIcon from "~/icons/Redelegate";
 import UndelegateIcon from "~/icons/Undelegate";
 import DelegationRow from "./Row";
 import PoolImage from "../shared/PoolImage";
+import { useAccountName } from "~/reducers/wallet";
 
 type Props = {
   account: CardanoAccount;
@@ -107,6 +108,8 @@ function Delegations({ account }: Props) {
     [account.currency],
   );
 
+  const accountName = useAccountName(account);
+
   const data = useMemo<DelegationDrawerProps["data"]>(() => {
     const d = delegation;
 
@@ -152,7 +155,7 @@ function Delegations({ account }: Props) {
                 style={[styles.valueText]}
                 color="live"
               >
-                {account.name}{" "}
+                {accountName}{" "}
               </LText>
             ),
           },
@@ -186,7 +189,7 @@ function Delegations({ account }: Props) {
             : []),
         ]
       : [];
-  }, [delegation, t, account, onOpenExplorer]);
+  }, [delegation, t, accountName, onOpenExplorer]);
 
   const actions = useMemo<DelegationDrawerActions>(() => {
     return [

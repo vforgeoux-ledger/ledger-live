@@ -37,6 +37,7 @@ import type {
   NftState,
 } from "../reducers/types";
 import type { Unpacked } from "../types/helpers";
+import { HandlersPayloads } from "@ledgerhq/live-wallet/store";
 
 //  === ACCOUNTS ACTIONS ===
 
@@ -52,7 +53,6 @@ export enum AccountsActionTypes {
   DANGEROUSLY_OVERRIDE_STATE = "DANGEROUSLY_OVERRIDE_STATE",
 }
 
-export type AccountsImportStorePayload = Account[];
 export type AccountsReorderPayload = AccountComparator;
 export type AccountsImportAccountsPayload = ImportAccountsReduceInput;
 export type AccountsReplaceAccountsPayload = Pick<
@@ -67,7 +67,7 @@ export type AccountsUpdateAccountWithUpdaterPayload = {
 };
 export type AccountsDeleteAccountPayload = Account;
 export type AccountsPayload =
-  | AccountsImportStorePayload
+  | HandlersPayloads["INIT_ACCOUNTS"]
   | AccountsReorderPayload
   | AccountsImportAccountsPayload
   | AccountsReplaceAccountsPayload
