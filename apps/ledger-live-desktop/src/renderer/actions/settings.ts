@@ -20,6 +20,7 @@ import {
   SettingsState,
   VaultSigner,
   SupportedCountervaluesData,
+  CurrencySettings,
 } from "~/renderer/reducers/settings";
 import { useRefreshAccountsOrdering } from "~/renderer/actions/general";
 import { Language, Locale } from "~/config/languages";
@@ -357,4 +358,9 @@ export const setSupportedCounterValues = (payload: SupportedCountervaluesData[])
 export const setHasSeenAnalyticsOptInPrompt = (hasSeenAnalyticsOptInPrompt: boolean) => ({
   type: "SET_HAS_SEEN_ANALYTICS_OPT_IN_PROMPT",
   payload: hasSeenAnalyticsOptInPrompt,
+});
+
+export const setCurrencySettings = (payload: { key: string; value: CurrencySettings }) => ({
+  type: "SET_CURRENCY_SETTINGS",
+  payload,
 });

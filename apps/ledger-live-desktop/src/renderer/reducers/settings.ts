@@ -244,6 +244,7 @@ type HandlersPayloads = {
   SET_VAULT_SIGNER: VaultSigner;
   SET_SUPPORTED_COUNTER_VALUES: SupportedCountervaluesData[];
   SET_HAS_SEEN_ANALYTICS_OPT_IN_PROMPT: boolean;
+  SET_CURRENCY_SETTINGS: { key: string; value: CurrencySettings };
 };
 type SettingsHandlers<PreciseKey = true> = Handlers<SettingsState, HandlersPayloads, PreciseKey>;
 
@@ -376,6 +377,13 @@ const handlers: SettingsHandlers = {
     lastSeenCustomImage: {
       size: payload.imageSize,
       hash: payload.imageHash,
+    },
+  }),
+  SET_CURRENCY_SETTINGS: (state: SettingsState, { payload }) => ({
+    ...state,
+    currenciesSettings: {
+      ...state.currenciesSettings,
+      [payload.key]: payload.value,
     },
   }),
   SET_OVERRIDDEN_FEATURE_FLAG: (state: SettingsState, { payload }) => ({
