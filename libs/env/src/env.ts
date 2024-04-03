@@ -785,6 +785,11 @@ const envDefinitions = {
     parser: intParser,
     desc: "Configure the low battery percentage threshold",
   },
+  LOG_DRAWERS: {
+    def: false,
+    parser: boolParser,
+    desc: "Enable logs for drawers",
+  },
 };
 
 export const getDefinition = (name: string): EnvDef<any> => {
