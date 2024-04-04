@@ -77,7 +77,7 @@ import { getFeature } from "@ledgerhq/live-common/featureFlags/index";
 import { StorylyProvider } from "./components/StorylyStories/StorylyProvider";
 import { useSettings } from "~/hooks";
 import AppProviders from "./AppProviders";
-import QueuedDrawersContextProvider from "./components/QueuedDrawer/QueuedDrawersContextProvider";
+import QueuedDrawersContextProvider from "~/newArch/components/QueuedDrawer/QueuedDrawersContextProvider";
 
 if (Config.DISABLE_YELLOW_BOX) {
   LogBox.ignoreAllLogs();
@@ -89,7 +89,7 @@ checkLibs({
   log,
   Transport,
 });
-// useScreens();
+
 const styles = StyleSheet.create({
   root: {
     flex: 1,
