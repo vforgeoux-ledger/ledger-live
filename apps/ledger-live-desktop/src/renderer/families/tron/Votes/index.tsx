@@ -9,7 +9,6 @@ import {
   formatVotes,
   getNextRewardDate,
 } from "@ledgerhq/live-common/families/tron/react";
-import { getAccountUnit } from "@ledgerhq/live-common/account/index";
 import { formatCurrencyUnit } from "@ledgerhq/live-common/currencies/index";
 import { getDefaultExplorerView } from "@ledgerhq/live-common/explorers";
 import { openURL } from "~/renderer/linking";

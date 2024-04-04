@@ -17,7 +17,11 @@ import {
   setLastSeenDeviceInfo,
   addNewDeviceModel,
 } from "~/renderer/actions/settings";
-import { preferredDeviceModelSelector } from "~/renderer/reducers/settings";
+import {
+  CurrencySettings,
+  currencySettingsLocaleSelector,
+  preferredDeviceModelSelector,
+} from "~/renderer/reducers/settings";
 import { DeviceModelId } from "@ledgerhq/devices";
 import AutoRepair from "~/renderer/components/AutoRepair";
 import TransactionConfirm from "~/renderer/components/TransactionConfirm";
@@ -72,8 +76,9 @@ import { Transaction, TransactionStatus } from "@ledgerhq/live-common/generated/
 import { AppAndVersion } from "@ledgerhq/live-common/hw/connectApp";
 import { Device } from "@ledgerhq/types-devices";
 import { LedgerErrorConstructor } from "@ledgerhq/errors/lib/helpers";
-import { TokenCurrency } from "@ledgerhq/types-cryptoassets";
+import { Currency, TokenCurrency } from "@ledgerhq/types-cryptoassets";
 import { isDeviceNotOnboardedError } from "./utils";
+import { State } from "~/renderer/reducers";
 
 type LedgerError = InstanceType<LedgerErrorConstructor<{ [key: string]: unknown }>>;
 
@@ -227,6 +232,14 @@ export const DeviceActionDefaultRendering = <R, H extends States, P>({
   const preferredDeviceModel = useSelector(preferredDeviceModelSelector);
   const swapDefaultTrack = useGetSwapTrackingProperties();
 
+  const useCurrencySettingsSelector = (currency: Currency): CurrencySettings => {
+    const currencySettings = useSelector((state: State) =>
+      currencySettingsLocaleSelector(state.settings, currency),
+    );
+
+    return currencySettings;
+  };
+
   const type = useTheme().colors.palette.type;
 
   const modelId = device ? device.modelId : overridesPreferredDeviceModel || preferredDeviceModel;
@@ -362,6 +375,7 @@ export const DeviceActionDefaultRendering = <R, H extends States, P>({
           swapDefaultTrack,
           amountExpectedTo: amountExpectedTo.toString() ?? undefined,
           estimatedFees: estimatedFees?.toString() ?? undefined,
+          getCurrencySettings: useCurrencySettingsSelector,
         });
       }
 
@@ -394,6 +408,7 @@ export const DeviceActionDefaultRendering = <R, H extends States, P>({
       amountExpectedTo: amountExpectedTo ?? undefined,
       estimatedFees: estimatedFees ?? undefined,
       swapDefaultTrack,
+      getCurrencySettings: useCurrencySettingsSelector,
     });
   }
 
