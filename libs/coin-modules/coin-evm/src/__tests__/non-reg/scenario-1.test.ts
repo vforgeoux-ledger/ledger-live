@@ -1,21 +1,23 @@
 import Eth from "@ledgerhq/hw-app-eth";
 import { BigNumber } from "bignumber.js";
 import { ethers, providers } from "ethers";
-import { killDocker, spawnSigner } from "@ledgerhq/coin-tester/docker";
+import { killSpeculos, spawnSigner } from "@ledgerhq/coin-tester/docker";
 import { executeScenario, Scenario } from "@ledgerhq/coin-tester/main";
 import { getCryptoCurrencyById } from "@ledgerhq/cryptoassets/currencies";
 import { buildAccountBridge, buildCurrencyBridge } from "../../bridge/js";
-import { ethereum, ERC20Interface, USDC_ON_ETHEREUM } from "./helpers";
+import { ethereum, ERC20Interface, USDC_ON_ETHEREUM, ERC721Interface } from "./helpers";
 import { clearExplorerAppendix, getLogs, setBlock } from "./indexer";
 import { makeAccount } from "../fixtures/common.fixtures";
-import { Transaction as EvmTransaction } from "../../types";
+import { EvmNftTransaction, Transaction as EvmTransaction } from "../../types";
 import resolver from "../../hw-getAddress";
-import { spawnAnvil } from "./docker";
+import { killAnvil, spawnAnvil } from "./docker";
+import { setCoinConfig } from "../../config";
+import { SignOperationEvent } from "@ledgerhq/types-live";
+import axios from "axios";
 
-const scenarioTransction: EvmTransaction = Object.freeze({
+const scenarioSendTransaction: EvmTransaction = {
   amount: new BigNumber(100),
   useAllAmount: false,
-  subAccountId: "id",
   recipient: "0x6bfD74C0996F269Bcece59191EFf667b3dFD73b9",
   feesStrategy: "medium",
   family: "evm",
@@ -24,22 +26,78 @@ const scenarioTransction: EvmTransaction = Object.freeze({
   gasLimit: new BigNumber(21000),
   nonce: 0,
   chainId: 1,
-});
+};
 
-const defaultNanoAppVersion = { firmware: "2.1.0" as const, version: "1.10.3" as const };
+const scenarioERC721Transaction: EvmTransaction & EvmNftTransaction = {
+  amount: new BigNumber(1),
+  useAllAmount: false,
+  recipient: "0x6bfD74C0996F269Bcece59191EFf667b3dFD73b9",
+  feesStrategy: "medium",
+  family: "evm",
+  mode: "erc721",
+  nft: {
+    tokenId: "3368",
+    contract: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
+    quantity: new BigNumber(1),
+    collectionName: "Bored Ape",
+  },
+  gasPrice: new BigNumber(0),
+  gasLimit: new BigNumber(21000),
+  nonce: 0,
+  chainId: 1,
+};
+
+const defaultNanoAppVersion = { firmware: "2.2.3" as const, version: "1.10.4" as const };
 const scenarioEthereum: Scenario<EvmTransaction> = {
   setup: async () => {
-    await spawnAnvil();
     const [transport] = await Promise.all([
-      await spawnSigner(
+      spawnSigner(
         "speculos",
         `/${defaultNanoAppVersion.firmware}/Ethereum/app_${defaultNanoAppVersion.version}.elf`,
       ),
-      await spawnAnvil(),
+      spawnAnvil("https://rpc.ankr.com/eth"),
     ]);
 
     const provider = new providers.StaticJsonRpcProvider("http://127.0.0.1:8545");
     const signerContext = (deviceId: string, fn: any): any => fn(new Eth(transport));
+    const onSignerConfirmation = async (e?: SignOperationEvent): Promise<void> => {
+      if (e?.type === "device-signature-requested") {
+        const { data } = await axios.get(
+          `http://localhost:${process.env.API_PORT}/events?currentscreenonly=true`,
+        );
+
+        if (data.events[0].text !== "Accept") {
+          await axios.post(`http://localhost:${process.env.API_PORT}/button/right`, {
+            action: "press-and-release",
+          });
+          onSignerConfirmation(e);
+        } else {
+          await axios.post(`http://localhost:${process.env.API_PORT}/button/both`, {
+            action: "press-and-release",
+          });
+        }
+      }
+    };
+
+    setCoinConfig(() => ({
+      info: {
+        status: {
+          type: "active",
+        },
+        gasTracker: {
+          type: "ledger",
+          explorerId: "eth",
+        },
+        node: {
+          type: "external",
+          uri: "http://127.0.0.1:8545",
+        },
+        explorer: {
+          type: "ledger",
+          explorerId: "eth",
+        },
+      },
+    }));
 
     const currencyBridge = buildCurrencyBridge(signerContext);
     await currencyBridge.preload(ethereum);
@@ -51,15 +109,17 @@ const scenarioEthereum: Scenario<EvmTransaction> = {
       currency: getCryptoCurrencyById("ethereum"),
       derivationMode: "",
     });
-    const scnerioAccount = makeAccount(address, ethereum);
+
+    const scenarioAccount = makeAccount(address, ethereum);
 
     await setBlock();
 
-    const addressToImpersonate = "0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503"; // Binance
-    await provider.send("anvil_impersonateAccount", [addressToImpersonate]);
+    const addressToImpersonateBinance = "0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503"; // Binance
+
+    await provider.send("anvil_impersonateAccount", [addressToImpersonateBinance]);
 
     const sendUSDC = {
-      from: addressToImpersonate,
+      from: addressToImpersonateBinance,
       to: USDC_ON_ETHEREUM.contractAddress,
       data: ERC20Interface.encodeFunctionData("transfer", [
         address,
@@ -69,23 +129,47 @@ const scenarioEthereum: Scenario<EvmTransaction> = {
       gas: ethers.BigNumber.from(1_000_000).toHexString(),
       type: "0x0",
       gasPrice: (await provider.getGasPrice()).toHexString(),
-      nonce: "0x" + (await provider.getTransactionCount(addressToImpersonate)).toString(16),
+      nonce: "0x" + (await provider.getTransactionCount(addressToImpersonateBinance)).toString(16),
       chainId: "0x" + (await provider.getNetwork()).chainId.toString(16),
     };
 
     const hash = await provider.send("eth_sendTransaction", [sendUSDC]);
-    await provider.send("anvil_stopImpersonatingAccount", [addressToImpersonate]);
-
+    await provider.send("anvil_stopImpersonatingAccount", [addressToImpersonateBinance]);
     await provider.waitForTransaction(hash);
+
+    // Bored Ape
+    const addressToImpersonateBoredApe = "0x440Bcc7a1CF465EAFaBaE301D1D7739cbFe09dDA";
+    await provider.send("anvil_impersonateAccount", [addressToImpersonateBoredApe]);
+    const sendBoredApe = {
+      from: addressToImpersonateBoredApe,
+      to: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
+      data: ERC721Interface.encodeFunctionData("transferFrom", [
+        addressToImpersonateBoredApe,
+        address,
+        "3368",
+      ]),
+      value: ethers.BigNumber.from(0).toHexString(),
+      gas: ethers.BigNumber.from(1_000_000).toHexString(),
+      type: "0x0",
+      gasPrice: (await provider.getGasPrice()).toHexString(),
+      nonce: "0x" + (await provider.getTransactionCount(addressToImpersonateBoredApe)).toString(16),
+      chainId: "0x" + (await provider.getNetwork()).chainId.toString(16),
+    };
+
+    const boredApeTxHash = await provider.send("eth_sendTransaction", [sendBoredApe]);
+    await provider.send("anvil_stopImpersonatingAccount", [addressToImpersonateBoredApe]);
+    await provider.waitForTransaction(boredApeTxHash);
+
     await getLogs();
 
-    return { currencyBridge, accountBridge, account: scnerioAccount };
+    return { currencyBridge, accountBridge, account: scenarioAccount, onSignerConfirmation };
   },
+
   beforeAll: async () => {},
-  transactions: [scenarioTransction],
+  transactions: [scenarioSendTransaction, scenarioERC721Transaction],
   afterAll: async () => {
-    console.log("Done testing this scenario");
-    await killDocker();
+    console.log("Scenario test done ✓");
+    await Promise.all([killSpeculos(), killAnvil()]);
   },
 };
 
@@ -153,7 +237,12 @@ const scenarioPolygon: Scenario = {
 };
 */
 
-jest.setTimeout(60_000); // 10 Min
+jest.setTimeout(600_000); // 10 Min
+
+afterAll(done => {
+  killSpeculos();
+  done();
+});
 
 describe("EVM Deterministic Tester", () => {
   const jestConsole = console;
@@ -196,6 +285,6 @@ describe("EVM Deterministic Tester", () => {
 
 ["exit", "SIGINT", "SIGUSR1", "SIGUSR2", "uncaughtException"].map(e =>
   process.on(e, async () => {
-    await killDocker();
+    await killSpeculos();
   }),
 );

@@ -35,14 +35,12 @@ export const getLogs = async (): Promise<providers.Log[]> => {
   }
 
   const toBlock = await provider.getBlockNumber();
-  // console.log({ toBlock });
   const logs = await provider.getLogs({
     fromBlock,
     toBlock,
-    topics: [TRANSFER_EVENTS_TOPICS.ERC20],
+    topics: [[TRANSFER_EVENTS_TOPICS.ERC20, TRANSFER_EVENTS_TOPICS.ERC721]],
   });
 
-  // console.log(logs.length, "LOGS FOUND");
   if (logs.length) {
     for (const log of logs) {
       const [receipt, tx, block, contractDecimals] = await Promise.all([
@@ -84,7 +82,7 @@ export const getLogs = async (): Promise<providers.Log[]> => {
           ? [
               {
                 contract: log.address,
-                token_id: ethers.BigNumber.from(log.data).toString(),
+                token_id: ethers.BigNumber.from(log.topics[3]).toString(),
                 sender: ethers.utils.defaultAbiCoder.decode(["address"], log.topics[1])[0],
                 receiver: ethers.utils.defaultAbiCoder.decode(["address"], log.topics[2])[0],
               },
@@ -128,12 +126,8 @@ export const getLogs = async (): Promise<providers.Log[]> => {
         explorerAppendixByAddress[to] = new Map();
       }
       explorerAppendixByAddress[to].set(operation.hash, operation);
-
-      // fromBlock = log.blockNumber;
     }
   }
-
-  // console.log(explorerAppendixByAddress);
 
   return logs;
 };

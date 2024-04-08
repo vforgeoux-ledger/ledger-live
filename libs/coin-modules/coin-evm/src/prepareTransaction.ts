@@ -59,6 +59,7 @@ const prepareCoinTransaction = async (
     // and displayed in the UI as `set the gas manually`
     () => new BigNumber(0),
   );
+
   const additionalFees = await getAdditionalLayer2Fees(account.currency, {
     ...typedTransaction,
     gasLimit,
