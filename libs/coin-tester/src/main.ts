@@ -15,7 +15,7 @@ export type Scenario<T extends TransactionCommon> = {
     account: Account;
     testTimeout?: number;
     retryInterval?: number;
-    onSignerConfirmation?: () => Promise<void>;
+    onSignerConfirmation?: (e?: SignOperationEvent) => Promise<void>;
   }>;
   transactions: (T & { after?: (account: Account) => void })[];
   beforeAll?: () => Promise<void>;
@@ -27,17 +27,25 @@ export async function executeScenario<T extends TransactionCommon>(scenario: Sce
   const { accountBridge, currencyBridge, account, retryInterval, onSignerConfirmation } =
     await scenario.setup();
 
+  console.log("Setup completed ✓");
   await scenario.beforeAll?.();
+  console.log("BeforeAll completed ✓");
 
   const data = await currencyBridge.preload(account.currency);
   currencyBridge.hydrate(data, account.currency);
 
+  console.log("Preload + hydrate completed ✓");
+
+  console.log("Running a synchronization on the account...");
   let scenarioAccount = await firstValueFrom(
     accountBridge
       .sync(account, { paginationConfig: {} })
       .pipe(reduce((acc, f: (arg0: Account) => Account) => f(acc), account)),
   );
 
+  console.log("Synchronization completed ✓");
+
+  console.log("Starting running scenario transactions...");
   for (const testTransaction of scenario.transactions) {
     if (scenario.transactions.indexOf(testTransaction) > 0) {
       scenarioAccount = await firstValueFrom(
@@ -55,7 +63,7 @@ export async function executeScenario<T extends TransactionCommon>(scenario: Sce
 
     const status = await accountBridge.getTransactionStatus(scenarioAccount, transaction);
 
-    if (Object.entries(status.errors)) {
+    if (Object.entries(status.errors).length) {
       throw new Error(`Error in transaction status: ${JSON.stringify(status.errors, null, 3)}`);
     }
 
@@ -69,7 +77,7 @@ export async function executeScenario<T extends TransactionCommon>(scenario: Sce
         .pipe(
           map(e => {
             if (e.type === "device-signature-requested") {
-              onSignerConfirmation?.();
+              onSignerConfirmation?.(e);
             }
 
             return e;
@@ -101,9 +109,11 @@ export async function executeScenario<T extends TransactionCommon>(scenario: Sce
       } catch (e) {
         if (e instanceof AssertionError) {
           if (retry === 0) {
+            console.error("Retried 10 times and could not assert this test");
             throw e;
           }
 
+          console.warn("Expection failed. Retrying...");
           await new Promise(resolve => setTimeout(resolve, retryInterval || 5000));
           afterHandler(retry - 1);
         }

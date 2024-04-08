@@ -28,6 +28,7 @@ export const getNFTInfo = async (
       log("error", "could not fetch from " + url + ": " + String(e));
       return null;
     });
+
   if (!response) return;
 
   // APDU response specification: https://ledgerhq.atlassian.net/wiki/spaces/WALLETCO/pages/3269984297/NFT-1+NFT+Backend+design#NFT-Metadata-BLOB
@@ -63,6 +64,7 @@ export const loadNftPlugin = async (
       log("error", "could not fetch from " + url + ": " + String(e));
       return null;
     });
+
   if (!response) return;
 
   const payload = response["payload"];

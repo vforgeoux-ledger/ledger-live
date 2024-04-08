@@ -2,7 +2,7 @@ version: '2.4'
 
 services:
   speculos:
-    image: ghcr.io/ledgerhq/speculos:sha-69bf753
+    image: ghcr.io/ledgerhq/speculos:latest
     platform: linux/amd64
     volumes:
       - ./lib/tmp:/speculos/apps

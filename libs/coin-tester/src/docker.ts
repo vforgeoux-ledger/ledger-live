@@ -11,15 +11,19 @@ const cwd = path.join(__dirname);
 
 const delay = (timing: number) => new Promise(resolve => setTimeout(resolve, timing));
 
-type SemanticVersion = `${number}.${number}.${number}`;
-type NanoAppEndpoint = `/${SemanticVersion}/${string}/app_${SemanticVersion}.elf`;
+// type SemanticVersion = `${number}.${number}.${number}`;
+// type NanoAppEndpoint = `/${SemanticVersion}/${string}/app_${SemanticVersion}.elf`;
 
 export const spawnSigner = async (
   service: "speculos",
-  nanoAppEndpoint: NanoAppEndpoint,
+  nanoAppEndpoint: string,
 ): Promise<SpeculosTransportHttp> => {
+  console.log(`Starting ${service}...`);
+  console.log(
+    `https://raw.githubusercontent.com/LedgerHQ/coin-apps/raw/master/nanox${nanoAppEndpoint}`,
+  );
   const { data: blob } = await axios({
-    url: `https://raw.githubusercontent.com/LedgerHQ/coin-apps/master/nanos${nanoAppEndpoint}`,
+    url: `https://raw.githubusercontent.com/LedgerHQ/coin-apps/master/nanox${nanoAppEndpoint}`,
     method: "GET",
     responseType: "stream",
     headers: {
@@ -27,6 +31,7 @@ export const spawnSigner = async (
     },
   });
 
+  console.log(path.resolve(cwd, "tmp"));
   await fs.mkdir(path.resolve(cwd, "tmp"), { recursive: true });
   await fs.writeFile(path.resolve(cwd, "tmp/app.elf"), blob, "binary");
   await compose.upOne("speculos", {
@@ -46,20 +51,23 @@ export const spawnSigner = async (
         apiPort: API_PORT,
       });
     }
+
     await delay(200);
     return checkSpeculosLogs();
   };
 
+  console.log(`${service} started ✓`);
   return checkSpeculosLogs().then(transport => transport);
 };
 
-export const killDocker = async () => {
-  await compose.stopMany({ cwd, log: true }, "speculos");
-  await compose.rm({ cwd, log: true });
+export const killSpeculos = async () => {
+  await compose.down({ cwd });
+  // await compose.stop({ cwd, log: true });
+  // await compose.rm({ cwd, log: true });
 };
 
 ["exit", "SIGINT", "SIGUSR1", "SIGUSR2", "uncaughtException"].map(e =>
   process.on(e, async () => {
-    await killDocker();
+    await killSpeculos();
   }),
 );
