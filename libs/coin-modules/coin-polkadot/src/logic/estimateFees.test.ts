@@ -1,7 +1,8 @@
 import { loadPolkadotCrypto } from "./polkadot-crypto";
-import estimatedFees from "./estimatedFees";
+import estimatedFees from "./estimateFees";
 import { fixtureChainSpec, fixtureTxMaterialWithMetadata } from "../network/sidecar.fixture";
-import { createFixtureAccount, createFixtureTransaction } from "../types/bridge.fixture";
+import { createFixtureAccount } from "../types/bridge.fixture";
+import { craftEstimationTransaction } from "./craftTransaction";
 
 jest.mock("./polkadot-crypto");
 const mockPaymentInfo = jest.fn();
@@ -19,8 +20,6 @@ mockPaymentInfo.mockResolvedValue({
 });
 
 describe("estimatedFees", () => {
-  const transaction = createFixtureTransaction();
-
   beforeEach(() => {
     mockPaymentInfo.mockClear();
   });
@@ -29,12 +28,10 @@ describe("estimatedFees", () => {
     // Given
     const account = createFixtureAccount();
     const mockLoadPolkadotCrypto = jest.mocked(loadPolkadotCrypto);
+    const tx = await craftEstimationTransaction(account.freshAddress, BigInt(1000));
 
     // When
-    await estimatedFees({
-      accountAddress: account.freshAddress,
-      amount: BigInt(transaction.amount.toString()),
-    });
+    await estimatedFees(tx);
 
     // Then
     // Test to comply with existing code. Should be 1 time only.
@@ -50,12 +47,10 @@ describe("estimatedFees", () => {
       class: "WHATEVER",
       partialFee,
     });
+    const tx = await craftEstimationTransaction(account.freshAddress, BigInt(1000));
 
     // When
-    const result = await estimatedFees({
-      accountAddress: account.freshAddress,
-      amount: BigInt(transaction.amount.toString()),
-    });
+    const result = await estimatedFees(tx);
 
     // Then
     expect(mockPaymentInfo).toHaveBeenCalledTimes(1);
