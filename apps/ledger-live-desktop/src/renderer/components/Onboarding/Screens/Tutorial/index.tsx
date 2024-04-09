@@ -52,6 +52,8 @@ import { useLocalizedUrl } from "~/renderer/hooks/useLocalizedUrls";
 import RecoveryWarning from "../../Help/RecoveryWarning";
 import { UseCase } from "../../index";
 import { urls } from "~/config/urls";
+import { getStoreValue } from "~/renderer/store";
+import { getUserId } from "~/helpers/user";
 
 const FlowStepperContainer = styled(Flex)`
   width: 100%;
@@ -700,7 +702,10 @@ export default function Tutorial({ useCase }: Props) {
     [history],
   );
 
-  const handleNextPin = useCallback(() => {
+  const recoverServices = useFeature("protectServicesDesktop");
+  const recoverStoreId = recoverServices?.params?.protectId ?? "";
+
+  const handleNextPin = useCallback(async () => {
     let targetPath: string | object = `${path}/${ScreenId.existingRecoveryPhrase}`;
 
     if (useCase === UseCase.recover && recoverRestorePath) {
@@ -710,7 +715,15 @@ export default function Tutorial({ useCase }: Props) {
         search: search ? `?${search}` : undefined,
         state: { deviceId: connectedDevice?.deviceId },
       };
-      dispatch(saveSettings({ hasCompletedOnboarding: true }));
+
+      const userId = getUserId();
+      const recoverOnboardingStatus = await getStoreValue(
+        `USER_RESTORE_ONBOARDING_STATUS-${userId}`,
+        recoverStoreId,
+      );
+      const hasCompletedOnboarding = recoverOnboardingStatus === "true";
+
+      dispatch(saveSettings({ hasCompletedOnboarding }));
     }
 
     if (useCase === UseCase.setupDevice) {
@@ -718,7 +731,15 @@ export default function Tutorial({ useCase }: Props) {
     }
 
     handleNextInDrawer(setHelpPinCode, targetPath);
-  }, [connectedDevice?.deviceId, dispatch, handleNextInDrawer, path, recoverRestorePath, useCase]);
+  }, [
+    connectedDevice?.deviceId,
+    dispatch,
+    handleNextInDrawer,
+    path,
+    recoverRestorePath,
+    recoverStoreId,
+    useCase,
+  ]);
 
   return (
     <>

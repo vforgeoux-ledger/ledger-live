@@ -35,6 +35,8 @@ import { setDrawer } from "~/renderer/drawers/Provider";
 import LockedDeviceDrawer from "./LockedDeviceDrawer";
 import { LockedDeviceError } from "@ledgerhq/errors";
 import { saveSettings } from "~/renderer/actions/settings";
+import { getStoreValue } from "~/renderer/store";
+import { getUserId } from "~/helpers/user";
 
 const READY_REDIRECT_DELAY_MS = 2000;
 const POLLING_PERIOD_MS = 1000;
@@ -479,12 +481,25 @@ const SyncOnboardingCompanion: React.FC<SyncOnboardingCompanionProps> = ({
     };
   }, [device, allowedError, handleDesyncTimerRunsOut, desyncTimeout]);
 
+  const recoverServices = useFeature("protectServicesDesktop");
+  const recoverStoreId = recoverServices?.params?.protectId ?? "";
+
+  const [recoverOnboardingStatus, setRecoverOnboardingStatus] = useState<boolean>();
+
+  const getRecoverOnboardingStatus = useCallback(async () => {
+    const userId = getUserId();
+    const status = getStoreValue(`USER_RESTORE_ONBOARDING_STATUS-${userId}`, recoverStoreId);
+    setRecoverOnboardingStatus(status === "true");
+  }, [recoverStoreId]);
+
   useEffect(() => {
     if (seedPathStatus === "recover_seed" && recoverRestoreStaxPath) {
+      getRecoverOnboardingStatus();
       const [pathname, search] = recoverRestoreStaxPath.split("?");
+
       dispatch(
         saveSettings({
-          hasCompletedOnboarding: true,
+          hasCompletedOnboarding: recoverOnboardingStatus,
         }),
       );
       history.push({
@@ -493,7 +508,14 @@ const SyncOnboardingCompanion: React.FC<SyncOnboardingCompanionProps> = ({
         state: { fromOnboarding: true },
       });
     }
-  }, [dispatch, history, recoverRestoreStaxPath, seedPathStatus]);
+  }, [
+    dispatch,
+    getRecoverOnboardingStatus,
+    history,
+    recoverOnboardingStatus,
+    recoverRestoreStaxPath,
+    seedPathStatus,
+  ]);
 
   return (
     <Flex width="100%" height="100%" flexDirection="column" justifyContent="flex-start">
