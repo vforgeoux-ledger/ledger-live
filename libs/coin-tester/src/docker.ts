@@ -10,17 +10,11 @@ const cwd = path.join(__dirname);
 
 const delay = (timing: number) => new Promise(resolve => setTimeout(resolve, timing));
 
-// type SemanticVersion = `${number}.${number}.${number}`;
-// type NanoAppEndpoint = `/${SemanticVersion}/${string}/app_${SemanticVersion}.elf`;
-
 export const spawnSigner = async (
   service: "speculos",
-  nanoAppEndpoint: string,
+  nanoAppEndpoint: `/${string}`,
 ): Promise<SpeculosTransportHttp> => {
   console.log(`Starting ${service}...`);
-  console.log(
-    `https://raw.githubusercontent.com/LedgerHQ/coin-apps/raw/master/nanox${nanoAppEndpoint}`,
-  );
   const { data: blob } = await axios({
     url: `https://raw.githubusercontent.com/LedgerHQ/coin-apps/master/nanox${nanoAppEndpoint}`,
     method: "GET",
