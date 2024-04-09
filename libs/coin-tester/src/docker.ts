@@ -62,8 +62,6 @@ export const spawnSigner = async (
 
 export const killSpeculos = async () => {
   await compose.down({ cwd });
-  // await compose.stop({ cwd, log: true });
-  // await compose.rm({ cwd, log: true });
 };
 
 ["exit", "SIGINT", "SIGUSR1", "SIGUSR2", "uncaughtException"].map(e =>

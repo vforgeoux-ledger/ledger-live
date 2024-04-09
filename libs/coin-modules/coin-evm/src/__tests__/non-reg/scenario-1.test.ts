@@ -241,6 +241,7 @@ jest.setTimeout(600_000); // 10 Min
 
 afterAll(done => {
   killSpeculos();
+  killAnvil();
   done();
 });
 

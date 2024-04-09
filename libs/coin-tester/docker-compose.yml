@@ -2,8 +2,7 @@ version: '2.4'
 
 services:
   speculos:
-    image: ghcr.io/ledgerhq/speculos:latest
-    platform: linux/amd64
+    image: speculos:latest
     volumes:
       - ./lib/tmp:/speculos/apps
     env_file:
