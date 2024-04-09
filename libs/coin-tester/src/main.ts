@@ -69,10 +69,10 @@ export async function executeScenario<T extends TransactionCommon>(scenario: Sce
       ...testTransaction,
     } as T);
 
-    // const status = await accountBridge.getTransactionStatus(scenarioAccount, transaction);
-    // if (Object.entries(status.errors).length) {
-    //   throw new Error(`Error in transaction status: ${JSON.stringify(status.errors, null, 3)}`);
-    // }
+    const status = await accountBridge.getTransactionStatus(scenarioAccount, transaction);
+    if (Object.entries(status.errors).length) {
+      throw new Error(`Error in transaction status: ${JSON.stringify(status.errors, null, 3)}`);
+    }
 
     const { signedOperation } = await firstValueFrom(
       accountBridge

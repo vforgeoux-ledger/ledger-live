@@ -247,7 +247,7 @@ global.console = require("console");
 
 try {
   describe("EVM Deterministic Tester", () => {
-    it("should send ETH & USDC on Ethereum", async () => {
+    it("scenario Ethereum", async () => {
       try {
         await executeScenario(scenarioEthereum);
       } catch (e) {
