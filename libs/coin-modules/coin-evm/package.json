@@ -95,6 +95,7 @@
     "lint:fix": "pnpm lint --fix",
     "typecheck": "tsc --noEmit",
     "test": "jest",
-    "unimported": "unimported"
+    "unimported": "unimported",
+    "coin-tester": "pnpm jest --runTestsByPath src/__tests__/coin-tester/*.test.ts"
   }
 }
