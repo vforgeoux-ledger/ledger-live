@@ -8,6 +8,8 @@
 
 ### Build the speculos image
 
+You only have to build speculos locally if you are on a Mac M1. Otherwise you can uncomment the image provided in the docker-compose.yml
+
 1. Clone speculos repo 
 2. git checkout df84117d2ac300cd277d58913a9f56e061b5fb2f
 3. docker build -f build.Dockerfile -t speculos-builder:latest .
