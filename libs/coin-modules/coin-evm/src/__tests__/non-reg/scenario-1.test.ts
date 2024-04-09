@@ -2,7 +2,7 @@ import Eth from "@ledgerhq/hw-app-eth";
 import { BigNumber } from "bignumber.js";
 import { ethers, providers } from "ethers";
 import { killSpeculos, spawnSigner } from "@ledgerhq/coin-tester/docker";
-import { executeScenario, Scenario } from "@ledgerhq/coin-tester/main";
+import { executeScenario, Scenario, ScenarioTransaction } from "@ledgerhq/coin-tester/main";
 import { getCryptoCurrencyById } from "@ledgerhq/cryptoassets/currencies";
 import { buildAccountBridge, buildCurrencyBridge } from "../../bridge/js";
 import { ethereum, ERC20Interface, USDC_ON_ETHEREUM, ERC721Interface } from "./helpers";
@@ -15,7 +15,10 @@ import { setCoinConfig } from "../../config";
 import { SignOperationEvent } from "@ledgerhq/types-live";
 import axios from "axios";
 
-const scenarioSendTransaction: EvmTransaction = {
+const nonce = 0;
+
+const scenarioSendTransaction: ScenarioTransaction<EvmTransaction> = {
+  name: "Send ethereum",
   amount: new BigNumber(100),
   useAllAmount: false,
   recipient: "0x6bfD74C0996F269Bcece59191EFf667b3dFD73b9",
@@ -24,11 +27,12 @@ const scenarioSendTransaction: EvmTransaction = {
   mode: "send",
   gasPrice: new BigNumber(0),
   gasLimit: new BigNumber(21000),
-  nonce: 0,
+  nonce,
   chainId: 1,
 };
 
-const scenarioERC721Transaction: EvmTransaction & EvmNftTransaction = {
+const scenarioERC721Transaction: ScenarioTransaction<EvmTransaction & EvmNftTransaction> = {
+  name: "Send NFT",
   amount: new BigNumber(1),
   useAllAmount: false,
   recipient: "0x6bfD74C0996F269Bcece59191EFf667b3dFD73b9",
@@ -43,7 +47,7 @@ const scenarioERC721Transaction: EvmTransaction & EvmNftTransaction = {
   },
   gasPrice: new BigNumber(0),
   gasLimit: new BigNumber(21000),
-  nonce: 0,
+  nonce: nonce + 1,
   chainId: 1,
 };
 
@@ -164,8 +168,9 @@ const scenarioEthereum: Scenario<EvmTransaction> = {
 
     return { currencyBridge, accountBridge, account: scenarioAccount, onSignerConfirmation };
   },
-
-  beforeAll: async () => {},
+  afterEach: () => {
+    clearExplorerAppendix();
+  },
   transactions: [scenarioSendTransaction, scenarioERC721Transaction],
   afterAll: async () => {
     console.log("Scenario test done ✓");
@@ -238,54 +243,27 @@ const scenarioPolygon: Scenario = {
 */
 
 jest.setTimeout(600_000); // 10 Min
+global.console = require("console");
 
-afterAll(done => {
-  killSpeculos();
-  killAnvil();
-  done();
-});
-
-describe("EVM Deterministic Tester", () => {
-  const jestConsole = console;
-
-  beforeEach(() => {
-    global.console = require("console");
-  });
-
-  afterEach(() => {
-    global.console = jestConsole;
-    clearExplorerAppendix();
-  });
-
-  // afterEach(async () => {
-  //   await killDocker();
-  // });
-
-  it("should send ETH & USDC on Ethereum", async () => {
-    try {
-      await executeScenario(scenarioEthereum);
-    } catch (e) {
-      if (e != "done") {
-        throw e;
-      }
-    }
-  });
-
-  /*
-  it("should send MATIC & USDC on Polygon", async () => {
+try {
+  describe("EVM Deterministic Tester", () => {
+    it("should send ETH & USDC on Ethereum", async () => {
       try {
-          await executeScenario(scenarioPolygon);
-        } catch (e) {
-            if (e != "done") {
-                throw e;
-            }
+        await executeScenario(scenarioEthereum);
+      } catch (e) {
+        if (e != "done") {
+          throw e;
         }
+      }
     });
-   */
-});
+  });
+} catch (e) {
+  console.error(e);
+  process.exit(1);
+}
 
-["exit", "SIGINT", "SIGUSR1", "SIGUSR2", "uncaughtException"].map(e =>
+["exit", "SIGINT", "SIGQUIT", "SIGTERM", "SIGUSR1", "SIGUSR2", "uncaughtException"].map(e =>
   process.on(e, async () => {
-    await killSpeculos();
+    await Promise.all([killSpeculos(), killAnvil()]);
   }),
 );

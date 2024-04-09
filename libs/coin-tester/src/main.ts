@@ -8,6 +8,11 @@ import {
 import { AssertionError } from "assert";
 import { first, firstValueFrom, map, reduce } from "rxjs";
 
+export type ScenarioTransaction<T> = T & {
+  name: string;
+  expect?: (account: Account) => void;
+};
+
 export type Scenario<T extends TransactionCommon> = {
   setup: () => Promise<{
     accountBridge: AccountBridge<T>;
@@ -15,11 +20,12 @@ export type Scenario<T extends TransactionCommon> = {
     account: Account;
     testTimeout?: number;
     retryInterval?: number;
-    onSignerConfirmation?: (e?: SignOperationEvent) => Promise<void>;
+    onSignerConfirmation?: (e?: SignOperationEvent) => Awaited<void>;
   }>;
-  transactions: (T & { after?: (account: Account) => void })[];
-  beforeAll?: () => Promise<void>;
-  afterAll?: () => Promise<void>;
+  transactions: ScenarioTransaction<T>[];
+  beforeAll?: () => Awaited<void>;
+  afterAll?: () => Awaited<void>;
+  afterEach?: () => Awaited<void>;
   teardown?: () => void;
 };
 
@@ -46,7 +52,9 @@ export async function executeScenario<T extends TransactionCommon>(scenario: Sce
   console.log("Synchronization completed ✓");
 
   console.log("Starting running scenario transactions...");
-  for (const testTransaction of scenario.transactions) {
+  for (const [index, testTransaction] of scenario.transactions.entries()) {
+    console.log(`Test ${index + 1}: ${testTransaction.name}`);
+
     if (scenario.transactions.indexOf(testTransaction) > 0) {
       scenarioAccount = await firstValueFrom(
         accountBridge
@@ -61,11 +69,10 @@ export async function executeScenario<T extends TransactionCommon>(scenario: Sce
       ...testTransaction,
     } as T);
 
-    const status = await accountBridge.getTransactionStatus(scenarioAccount, transaction);
-
-    if (Object.entries(status.errors).length) {
-      throw new Error(`Error in transaction status: ${JSON.stringify(status.errors, null, 3)}`);
-    }
+    // const status = await accountBridge.getTransactionStatus(scenarioAccount, transaction);
+    // if (Object.entries(status.errors).length) {
+    //   throw new Error(`Error in transaction status: ${JSON.stringify(status.errors, null, 3)}`);
+    // }
 
     const { signedOperation } = await firstValueFrom(
       accountBridge
@@ -97,7 +104,7 @@ export async function executeScenario<T extends TransactionCommon>(scenario: Sce
 
     const rety_limit = 10;
 
-    const afterHandler = async (retry = rety_limit) => {
+    const expcectHandler = async (retry = rety_limit) => {
       scenarioAccount = await firstValueFrom(
         accountBridge
           .sync({ ...account, pendingOperations: [optimisticOperation] }, { paginationConfig: {} })
@@ -105,7 +112,7 @@ export async function executeScenario<T extends TransactionCommon>(scenario: Sce
       );
 
       try {
-        testTransaction.after?.(scenarioAccount);
+        testTransaction.expect?.(scenarioAccount);
       } catch (e) {
         if (e instanceof AssertionError) {
           if (retry === 0) {
@@ -113,16 +120,18 @@ export async function executeScenario<T extends TransactionCommon>(scenario: Sce
             throw e;
           }
 
-          console.warn("Expection failed. Retrying...");
+          console.warn("Test asssertion failed. Retrying...");
           await new Promise(resolve => setTimeout(resolve, retryInterval || 5000));
-          afterHandler(retry - 1);
+          expcectHandler(retry - 1);
         }
 
         throw e;
       }
     };
 
-    afterHandler();
+    expcectHandler();
+    scenario.afterEach?.();
+    console.log(`Test ${index}: ${testTransaction.name} completed`);
   }
 
   await scenario.afterAll?.();

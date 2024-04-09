@@ -1,6 +1,5 @@
 import path from "path";
 import axios from "axios";
-import chalk from "chalk";
 import fs from "fs/promises";
 import { v2 as compose } from "docker-compose";
 import SpeculosTransportHttp from "@ledgerhq/hw-transport-node-speculos-http";
@@ -31,7 +30,6 @@ export const spawnSigner = async (
     },
   });
 
-  console.log(path.resolve(cwd, "tmp"));
   await fs.mkdir(path.resolve(cwd, "tmp"), { recursive: true });
   await fs.writeFile(path.resolve(cwd, "tmp/app.elf"), blob, "binary");
   await compose.upOne("speculos", {
@@ -46,7 +44,7 @@ export const spawnSigner = async (
     const { out } = await compose.logs("speculos", { cwd });
 
     if (out.includes("Running on all addresses (0.0.0.0)")) {
-      console.log(chalk.bgYellowBright(" -  SPECULOS READY ✅  - "));
+      console.log(" -  SPECULOS READY ✅  - ");
       return SpeculosTransportHttp.open({
         apiPort: API_PORT,
       });
