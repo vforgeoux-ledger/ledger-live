@@ -35,7 +35,7 @@ export const killAnvil = async (): Promise<void> => {
   await compose.down({ cwd });
 };
 
-["exit", "SIGINT", "SIGUSR1", "SIGUSR2", "uncaughtException"].map(e =>
+["exit", "SIGINT", "SIGQUIT", "SIGTERM", "SIGUSR1", "SIGUSR2", "uncaughtException"].map(e =>
   process.on(e, async () => {
     await killAnvil();
   }),

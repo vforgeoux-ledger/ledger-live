@@ -173,7 +173,7 @@ const scenarioEthereum: Scenario<EvmTransaction> = {
   },
   transactions: [scenarioSendTransaction, scenarioERC721Transaction],
   afterAll: async () => {
-    console.log("Scenario test done ✓");
+    console.log("All tests done ✓");
     await Promise.all([killSpeculos(), killAnvil()]);
   },
 };
