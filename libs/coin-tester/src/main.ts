@@ -135,4 +135,5 @@ export async function executeScenario<T extends TransactionCommon>(scenario: Sce
   }
 
   await scenario.afterAll?.();
+  await scenario.teardown?.();
 }

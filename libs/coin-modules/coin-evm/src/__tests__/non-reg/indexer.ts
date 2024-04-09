@@ -18,12 +18,12 @@ const TRANSFER_EVENTS_TOPICS = {
 };
 
 let fromBlock: number;
-export const setBlock = async () => {
+export const setBlock = async (): Promise<void> => {
   fromBlock = await provider.getBlockNumber();
 };
 
 const explorerAppendixByAddress: Record<string, Map<string, LedgerExplorerOperation>> = {};
-export const clearExplorerAppendix = () => {
+export const clearExplorerAppendix = (): void => {
   for (const address in explorerAppendixByAddress) {
     delete explorerAppendixByAddress[address];
   }
@@ -132,7 +132,7 @@ export const getLogs = async (): Promise<providers.Log[]> => {
   return logs;
 };
 
-export const indexBlocks = async () => {
+export const indexBlocks = async (): Promise<void> => {
   const toBlock = await provider.getBlockNumber();
 
   for (let blockNumber = fromBlock; blockNumber < toBlock; blockNumber++) {
